@@ -43,6 +43,9 @@ public class Board extends JPanel implements ActionListener {
     private int pacanimdir = 1;
     private int pacmananimpos = 0;
     private int nrofghosts = 6;
+    private int entryGhostX ;
+    private int entryGhostY ;
+    
     private int pacsleft, score;
     private int[] dx, dy;
     private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed;
@@ -54,24 +57,12 @@ public class Board extends JPanel implements ActionListener {
 
     private int pacmanx, pacmany, pacmandx, pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
+    private int entryPacmanX, entryPacmanY;
 
-    private final short leveldata[] = {
-        19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-        21, 0, 0, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        21, 0, 0, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        21, 0, 0, 0, 17, 16, 16, 24, 16, 16, 16, 16, 16, 16, 20,
-        17, 18, 18, 18, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 16, 24, 20,
-        25, 16, 16, 16, 24, 24, 28, 0, 25, 24, 24, 16, 20, 0, 21,
-        1, 17, 16, 20, 0, 0, 0, 0, 0, 0, 0, 17, 20, 0, 21,
-        1, 17, 16, 16, 18, 18, 22, 0, 19, 18, 18, 16, 20, 0, 21,
-        1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
-        1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
-        1, 17, 16, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20, 0, 21,
-        1, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0, 21,
-        1, 25, 24, 24, 24, 24, 24, 24, 24, 24, 16, 16, 16, 18, 20,
-        9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 25, 24, 24, 24, 28
-    };
+    
+    private int numlevel = 15;
+    private LoadMaze loader = new LoadMaze(numlevel);
+    private short leveldata[] = new short [nrofblocks*nrofblocks];
 
     private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
     private final int maxspeed = 6;
@@ -79,6 +70,12 @@ public class Board extends JPanel implements ActionListener {
     private int currentspeed = 3;
     private short[] screendata;
     private Timer timer;
+    
+    private Color orange = new Color(205, 100, 5);
+    private Color green = new Color(5, 100, 5);
+    
+    private int scorecapmin = 100 ;
+    private int scorecap = 100 ;
 
     public Board() {
 
@@ -96,7 +93,7 @@ public class Board extends JPanel implements ActionListener {
     private void initVariables() {
 
         screendata = new short[nrofblocks * nrofblocks];
-        mazecolor = new Color(5, 100, 5);
+        mazecolor = green;
         d = new Dimension(400, 400);
         ghostx = new int[maxghosts];
         ghostdx = new int[maxghosts];
@@ -194,7 +191,9 @@ public class Board extends JPanel implements ActionListener {
         if (finished) {
 
             score += 50;
+            numlevel ++ ;
 
+            /*
             if (nrofghosts < maxghosts) {
                 nrofghosts++;
             }
@@ -202,6 +201,7 @@ public class Board extends JPanel implements ActionListener {
             if (currentspeed < maxspeed) {
                 currentspeed++;
             }
+            */
 
             initLevel();
         }
@@ -315,6 +315,12 @@ public class Board extends JPanel implements ActionListener {
             if ((ch & 16) != 0) {
                 screendata[pos] = (short) (ch & 15);
                 score++;
+                
+                if (score >= scorecap ){ 
+                	addlife(); 
+                	scorecap = scorecap + scorecapmin ;
+                	System.out.println("new Life + new scorecap :" + scorecap);
+                }
             }
 
             if (reqdx != 0 || reqdy != 0) {
@@ -471,15 +477,27 @@ public class Board extends JPanel implements ActionListener {
         pacsleft = 3;
         score = 0;
         initLevel();
-        nrofghosts = 1;
+        nrofghosts = 0;
         currentspeed = 3;
     }
 
     private void initLevel() {
 
         int i;
+        
+        leveldata= loader.getLevelMaze(numlevel);
+        
         for (i = 0; i < nrofblocks * nrofblocks; i++) {
             screendata[i] = leveldata[i];
+            if((leveldata[i] & 32) != 0 ){
+            	entryPacmanX = i % nrofblocks ;
+            	entryPacmanY = i / nrofblocks ;
+            }
+            else if((leveldata[i] & 64) != 0 ){
+            	entryGhostX = i / nrofblocks ;
+            	entryGhostY = i % nrofblocks ;
+            }
+            
         }
 
         continueLevel();
@@ -493,8 +511,8 @@ public class Board extends JPanel implements ActionListener {
 
         for (i = 0; i < nrofghosts; i++) {
 
-            ghosty[i] = 4 * blocksize;
-            ghostx[i] = 4 * blocksize;
+            ghosty[i] = entryGhostX * blocksize;
+            ghostx[i] = entryGhostY * blocksize;
             ghostdy[i] = 0;
             ghostdx[i] = dx;
             dx = -dx;
@@ -507,8 +525,8 @@ public class Board extends JPanel implements ActionListener {
             ghostspeed[i] = validspeeds[random];
         }
 
-        pacmanx = 7 * blocksize;
-        pacmany = 11 * blocksize;
+        pacmanx = entryPacmanX * blocksize;
+        pacmany = entryPacmanY * blocksize;
         pacmandx = 0;
         pacmandy = 0;
         reqdx = 0;
@@ -620,5 +638,13 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         repaint();
+    }
+    
+    public void addlife(){
+    	pacsleft = pacsleft+1;	
+    	if (pacsleft>= 10){
+    		pacsleft = 10 ;
+    	}
+
     }
 }
