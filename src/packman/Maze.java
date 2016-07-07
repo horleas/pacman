@@ -1,10 +1,42 @@
 package packman;
 
-public class LoadMaze {
-	
+public class Maze {
 
-
+    private final int blocksize = 24;
+    private final int nrofblocks = 15;
 	
+	private int numlevel = 30;
+	private int nbrGhost = 30 ;
+	private String name = "Default";
+    private short map[] = new short [nrofblocks*nrofblocks];
+    
+	/* 1 = Left Border
+	 * 2 = Top Border
+	 * 4 = Right Border
+	 * 8 = Bottom Border
+	 * 16 = Point
+	 * 32 = EntreePoint for Player
+	 * 64 = EntreePoint for Ghost
+	 * 
+	 * 
+	 *  private final short base[] = {
+		        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
+		        17, 48, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,		// EntreePoint for Player [ 2 : 2 ]
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 80, 20,   // Ghost Entry in [14 : 14]
+		        9, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
+		    };
+	 */
 	
 	//Basic
 	 private final short leveldata1[] = {
@@ -43,8 +75,7 @@ public class LoadMaze {
 		        21,  0,  0, 21,  0,  0, 21,  0, 21,  0,  0, 21,  0,  0, 21,
 		        25, 26, 26, 24, 26, 26, 28,  0, 25, 26, 26, 24, 26, 26, 28
 		    };
-	 
-	 
+	  
 	 //Arena
 	 private final short leveldata3[] = {
 			     3, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,  6,
@@ -64,7 +95,7 @@ public class LoadMaze {
 		         9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 12
 		    };
 	 
-	 
+	//Maze1 
 	 private final short leveldata4[] = {
 			 	 3, 50, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,  6,
 		         5, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,  5,
@@ -81,6 +112,24 @@ public class LoadMaze {
 		         5, 16, 16, 16, 16, 16,  5, 16, 16, 16, 16, 11, 10, 10,  4,
 		         5, 16, 16, 16, 16, 16,  5, 16, 16, 16, 16, 16, 16, 84,  4,
 		         9, 10, 10, 10, 10, 10,  8, 10, 10, 10, 10, 10, 10, 10, 12
+		    };
+	 
+	 private final short leveldata5[] = {
+	         3,  2,  6,  7,  3,  2, 10,  2, 10,  2,  6,  7,  3,  2,  6,
+	         1, 16,  4,  1,  0,  4,  7,  5,  7,  1,  0,  4,  1, 16,  4,
+	         9,  0, 12,  5,  1,  4,  5, 29,  5,  1,  4,  5,  9,  0, 12,
+	        11,  8, 10, 12,  1,  4,  9, 10, 12,  1,  4,  9, 10,  8, 14,
+	         3, 10, 10, 10,  0,  0, 10,  2, 10,  0,  0, 10, 10, 10,  6,
+	         5, 27, 10,  6,  1,  4,  3,  0,  6,  1,  4,  3, 10, 30,  5,
+	         1, 10, 10,  4,  1,  4,  1,  0,  4,  1,  4,  1, 10, 10,  4,
+	         5, 27, 10,  4,  1,  4,  9, 72, 12,  1,  4,  1, 10, 30,  5,
+	         1, 10, 10,  4,  1,  4,  3, 50,  6,  1,  4,  1, 10, 10,  4,
+	         5, 27, 10, 12,  1,  4,  9,  0, 12,  1,  4,  9, 10, 30,  5,
+	         9, 10, 10, 10,  0,  0, 10,  8, 10,  0,  0, 10, 10, 10, 12,
+	        11,  2, 10,  6,  1,  4,  3, 10,  6,  1,  4,  3, 10,  2, 14,
+	         3,  0,  6,  5,  1,  4,  5, 23,  5,  1,  4,  5,  3,  0,  6,
+	         1, 16,  4,  1,  0,  4, 13,  5, 13,  1,  0,  4,  1, 16,  4,
+	         9,  8, 12, 13,  9,  8, 10,  8,  10,  8, 12, 13,  9,  8, 12
 		    };
 	 
 	 private final short test[] = {
@@ -101,28 +150,117 @@ public class LoadMaze {
 		        25, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
 		    };
 	 
-	    private final int blocksize = 24;
-	    private final int nrofblocks = 15;
-	    private final int scrsize = nrofblocks * blocksize;
+	 private final short test2[] = {
+		         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0, 48, 16, 16, 16,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
+		    };
 	
-	    
-	    public LoadMaze(int numlevel){
-	    	
-	    	
-	    	
-	    }
-	    
-	    public short[] getLevelMaze(int i){
-	    	switch(i){
-	    	case 1 : return leveldata1;
-	    	
-	    	case 2 : return leveldata2;
-	    	
-	    	case 3 : return leveldata3;
-	    	
-	    	case 4 : return leveldata4;
-	    	
-	    	default : return leveldata4;
-	    	}
-	    }
+	
+	public Maze(int pnumlevel){
+
+		this.numlevel = pnumlevel;
+		this.setMap(numlevel);		
+		System.out.println("Level "+ this.numlevel + " : " + this.name + "\t with "+ this .nbrGhost+" ghosts");
+		
+		
+	}
+
+	public int getNbrGhost() {
+		return this.nbrGhost;
+	}
+	
+
+	public short[] getMap() {
+		return this.map;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setMap(int pnumlevel) {
+    	switch(pnumlevel){
+    	case 1 : this.map = leveldata1;
+    	 		 this.name = "Level 1";
+    	 		 this.nbrGhost = 4;
+    			break ;		
+    	
+    	case 2 : this.map = leveldata2;
+    			 this.name = "Classic";
+    			 this.nbrGhost = 4;
+				break ;	
+    	
+    	case 3 : this.map = leveldata3;
+    			 this.name = "Arena";
+    			 this.nbrGhost = 2;
+				break ;	
+    	
+    	case 4 : this.map = leveldata4;
+    	 		 this.name = "Don't Fall";
+    	 		 this.nbrGhost = 0;
+				break ;	
+				
+    	case 5 : this.map = leveldata5;
+		 		 this.name = "The Box";
+		 		 this.nbrGhost = 4;
+		break ;			
+    	
+    	default : this.map = test;
+    	 		  this.name = "Test";
+    	 		 this.nbrGhost = 0;
+    	}
+	}
+
+/*
+	public void setName(int pnumlevel) {
+		int anumlevel = pnumlevel;
+    	switch(anumlevel){
+    	case 1 : this.name = "Level 1";
+    			break ;
+    	
+    	case 2 : this.name = "Classic";
+    			break ;
+    	
+    	case 3 : this.name = "Arena";
+    			break ;
+    	
+    	case 4 : this.name = "Don't Fall";
+    			break ;
+    	
+    	default : this.name = "Test";
+    	}
+	}
+	
+	public void setNbrGhost(int pnumlevel) {
+    	switch(pnumlevel){
+    	case 1 : this.nbrGhost = 4;
+				break ;	
+    	
+    	case 2 : this.nbrGhost = 4;
+				break ;	
+    	
+    	case 3 : this.nbrGhost = 2;
+				break ;	
+    	
+    	case 4 : this.nbrGhost = 0;
+				break ;	
+    	
+    	default :  this.nbrGhost = 0;
+    	}
+	}
+	*/
+	
 }

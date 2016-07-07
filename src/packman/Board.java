@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -60,9 +61,11 @@ public class Board extends JPanel implements ActionListener {
     private int entryPacmanX, entryPacmanY;
 
     
-    private int numlevel = 15;
-    private LoadMaze loader = new LoadMaze(numlevel);
+    private int numlevel;
+    //private LoadMaze loader = new LoadMaze(numlevel);
+    private Maze currentlevel ;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
+    private String namelevel;
 
     private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
     private final int maxspeed = 6;
@@ -76,6 +79,12 @@ public class Board extends JPanel implements ActionListener {
     
     private int scorecapmin = 100 ;
     private int scorecap = 100 ;
+    private boolean boodrawbon = false;
+    private boolean boobonusexist = false;
+    
+    private ArrayList<Bonus_score> bonuslist;
+    
+    private Bonus_score bonscore ;
 
     public Board() {
 
@@ -102,6 +111,9 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
+        numlevel = 5;
+        
+        bonuslist = new ArrayList<Bonus_score>();
         
         timer = new Timer(40, this);
         timer.start();
@@ -168,6 +180,9 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(new Color(96, 128, 255));
         s = "Score: " + score;
         g.drawString(s, scrsize / 2 + 96, scrsize + 16);
+        
+        s = "Level : " + namelevel;
+        g.drawString(s, (scrsize / 2) - 50,16);
 
         for (i = 0; i < pacsleft; i++) {
             g.drawImage(pacman3left, i * 28 + 8, scrsize + 1, this);
@@ -190,7 +205,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (finished) {
 
-            score += 50;
+            //score += 50;
             numlevel ++ ;
 
             /*
@@ -316,11 +331,38 @@ public class Board extends JPanel implements ActionListener {
                 screendata[pos] = (short) (ch & 15);
                 score++;
                 
+                if(boobonusexist){
+                	Bonus_score bon = new Bonus_score();
+                	boolean modif = false;
+                	for(Bonus_score bonus : bonuslist){
+                	
+                		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
+                			score +=20;
+                    	//bonuscap = bonuscap + bonuscapmin ;
+                			//boobonusexist = false ;
+                			//boodrawbon = false;
+                			bon = bonus;
+                			modif = true;
+                		}
+                    }
+                	
+                	if(modif)
+                		bonuslist.remove(bon);
+                	
+                }
+
+                
                 if (score >= scorecap ){ 
                 	addlife(); 
                 	scorecap = scorecap + scorecapmin ;
                 	System.out.println("new Life + new scorecap :" + scorecap);
                 }
+
+                if(score%60 == 0){
+                	boobonusexist = false;
+                	addBonus(); 
+                }
+                
             }
 
             if (reqdx != 0 || reqdy != 0) {
@@ -348,7 +390,9 @@ public class Board extends JPanel implements ActionListener {
         pacmany = pacmany + pacmanspeed * pacmandy;
     }
 
-    private void drawPacman(Graphics2D g2d) {
+
+
+	private void drawPacman(Graphics2D g2d) {
 
         if (viewdx == -1) {
             drawPacmanLeft(g2d);
@@ -471,13 +515,57 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
+    
+    private void drawBonus(Graphics2D g2d) {
+
+        //boolean boobonus = true;
+        //Image img = bonscore.getImg() ;
+ 
+        /*if(!boobonusexist){
+	        do{
+		        bonscore.setPosX((int) (Math.random()*nrofblocks));
+		        bonscore.setPosY((int) (Math.random()*nrofblocks));
+		        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
+
+		        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
+			        //System.out.println("le bonus est en "+ bonscore.getPosX()+" : " + bonscore.getPosY() + "screendata : " + screendata[bonscore.getPosX() + bonscore.getPosY()*nrofblocks-1]);
+		            boobonus = false ;
+		            boobonusexist = true;
+		        }
+	        }while(boobonus);
+        }
+        else{
+        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
+        }*/
+        
+        /*while(!boobonusexist){
+	
+		        bonscore.setPosX((int) (Math.random()*nrofblocks));
+		        bonscore.setPosY((int) (Math.random()*nrofblocks));
+		        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
+		        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
+		            boobonusexist = true;
+		            
+		        }
+        }*/
+        
+        /*if(boobonusexist)
+        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);*/
+        
+        
+        
+        for(Bonus_score bonus : bonuslist){
+        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
+        }
+        
+        
+    }
 
     private void initGame() {
 
-        pacsleft = 3;
+        pacsleft = 10;
         score = 0;
         initLevel();
-        nrofghosts = 0;
         currentspeed = 3;
     }
 
@@ -485,7 +573,16 @@ public class Board extends JPanel implements ActionListener {
 
         int i;
         
-        leveldata= loader.getLevelMaze(numlevel);
+        Maze currentlevel = new Maze(numlevel);
+        System.out.println(currentlevel.getName());
+        
+        leveldata = currentlevel.getMap();
+        nrofghosts = currentlevel.getNbrGhost();
+        namelevel = currentlevel.getName();
+        boobonusexist = false ;
+        bonuslist.removeAll(bonuslist);
+        
+       // leveldata= loader.getLevelMaze(numlevel);
         
         for (i = 0; i < nrofblocks * nrofblocks; i++) {
             screendata[i] = leveldata[i];
@@ -572,6 +669,9 @@ public class Board extends JPanel implements ActionListener {
         drawMaze(g2d);
         drawScore(g2d);
         doAnim();
+        if(boodrawbon){
+        	drawBonus(g2d);
+        }
 
         if (ingame) {
             playGame(g2d);
@@ -647,4 +747,20 @@ public class Board extends JPanel implements ActionListener {
     	}
 
     }
+    
+    private void addBonus() {
+		bonscore = new Bonus_score();
+		boodrawbon = true;
+		
+		while(!boobonusexist){
+			bonscore.setPosX((int) (Math.random()*nrofblocks));
+	        bonscore.setPosY((int) (Math.random()*nrofblocks));
+	        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
+	        	bonuslist.add(bonscore);	            
+				boobonusexist = true;
+        }
+}
+		//boobonusexist = true;
+		
+	}
 }
