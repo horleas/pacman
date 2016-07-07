@@ -3,7 +3,10 @@
 6 July : Create the Game from the Tutorial : 
 http://zetcode.com/tutorials/javagamestutorial/pacman/
 
-+  Add Loader map (+ Entry Point for Ghost & Player) + 2 maps + GainLife with 100 score 
++  Add Loader map 
++  Entry Point for Ghost & Player
++  2 maps 
++  GainLife with 100 score 
 
 
 
