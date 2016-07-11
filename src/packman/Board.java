@@ -63,7 +63,7 @@ public class Board extends JPanel implements ActionListener {
     
     private int numlevel;
     //private LoadMaze loader = new LoadMaze(numlevel);
-    private Maze currentlevel ;
+    //private Maze currentlevel ;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
     private String namelevel;
 
@@ -77,10 +77,16 @@ public class Board extends JPanel implements ActionListener {
     private Color orange = new Color(205, 100, 5);
     private Color green = new Color(5, 100, 5);
     
-    private int scorecapmin = 100 ;
-    private int scorecap = 100 ;
     private boolean boodrawbon = false;
     private boolean boobonusexist = false;
+    private boolean eatenbonuscore = false;
+    private int ptseatingbonus ;
+    private int ptseatinglife ;
+    
+	private int eateninX ;
+	private int eateninY ;
+	private Image eaten ;
+	private int eatendelay;
     
     private ArrayList<Bonus_score> bonuslist;
     
@@ -111,7 +117,7 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 5;
+        numlevel = 1;
         
         bonuslist = new ArrayList<Bonus_score>();
         
@@ -181,7 +187,7 @@ public class Board extends JPanel implements ActionListener {
         s = "Score: " + score;
         g.drawString(s, scrsize / 2 + 96, scrsize + 16);
         
-        s = "Level : " + namelevel;
+        s = "Level "+ numlevel +" : " + namelevel;
         g.drawString(s, (scrsize / 2) - 50,16);
 
         for (i = 0; i < pacsleft; i++) {
@@ -204,11 +210,16 @@ public class Board extends JPanel implements ActionListener {
         }
 
         if (finished) {
-
-            //score += 50;
             numlevel ++ ;
-
-            /*
+            initLevel();
+        	/*
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	
+            score += 50;
             if (nrofghosts < maxghosts) {
                 nrofghosts++;
             }
@@ -218,7 +229,6 @@ public class Board extends JPanel implements ActionListener {
             }
             */
 
-            initLevel();
         }
     }
 
@@ -330,6 +340,8 @@ public class Board extends JPanel implements ActionListener {
             if ((ch & 16) != 0) {
                 screendata[pos] = (short) (ch & 15);
                 score++;
+                ptseatingbonus ++ ;
+                ptseatinglife ++;
                 
                 if(boobonusexist){
                 	Bonus_score bon = new Bonus_score();
@@ -337,28 +349,28 @@ public class Board extends JPanel implements ActionListener {
                 	for(Bonus_score bonus : bonuslist){
                 	
                 		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
-                			score +=20;
-                    	//bonuscap = bonuscap + bonuscapmin ;
-                			//boobonusexist = false ;
-                			//boodrawbon = false;
+                			score += bonus.getBonus_score();
                 			bon = bonus;
                 			modif = true;
                 		}
                     }
                 	
                 	if(modif)
+                		eatenbonuscore = true;
+                	eateninX = bon.getPosX();
+                	eateninY = bon.getPosY();
+                	eaten = bon.getImgScore();
                 		bonuslist.remove(bon);
                 	
                 }
 
                 
-                if (score >= scorecap ){ 
+                if (ptseatinglife == 100 ){ 
                 	addlife(); 
-                	scorecap = scorecap + scorecapmin ;
-                	System.out.println("new Life + new scorecap :" + scorecap);
                 }
 
-                if(score%60 == 0){
+                if(ptseatingbonus == 5){		// 50 ingame but 5 for test
+                    ptseatingbonus = 0;
                 	boobonusexist = false;
                 	addBonus(); 
                 }
@@ -560,6 +572,22 @@ public class Board extends JPanel implements ActionListener {
         
         
     }
+    
+    
+    
+    private void drawBonuscore(Graphics2D g2d) {
+    	eatendelay++;
+    	
+    	if (eatendelay <= 15){
+	        	g2d.drawImage(eaten, eateninX*blocksize,  eateninY*blocksize - eatendelay, this);
+    	}else{
+    		eatendelay=0;
+    		eatenbonuscore = false ;
+    	}
+        
+    }
+    
+    
 
     private void initGame() {
 
@@ -572,7 +600,7 @@ public class Board extends JPanel implements ActionListener {
     private void initLevel() {
 
         int i;
-        
+        ptseatingbonus = 0;
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
         
@@ -635,7 +663,7 @@ public class Board extends JPanel implements ActionListener {
 
     private void loadImages() {
 
-        ghost = new ImageIcon("images/ghost.png").getImage();
+        ghost = new ImageIcon("images/floyd.png").getImage();
         pacman1 = new ImageIcon("images/pacman.png").getImage();
         pacman2up = new ImageIcon("images/up1.png").getImage();
         pacman3up = new ImageIcon("images/up2.png").getImage();
@@ -672,6 +700,10 @@ public class Board extends JPanel implements ActionListener {
         if(boodrawbon){
         	drawBonus(g2d);
         }
+        if(eatenbonuscore){
+        	drawBonuscore(g2d);
+        }
+        
 
         if (ingame) {
             playGame(g2d);
@@ -751,16 +783,38 @@ public class Board extends JPanel implements ActionListener {
     private void addBonus() {
 		bonscore = new Bonus_score();
 		boodrawbon = true;
+		boolean alreadybonusinplace = false;
+		int trytoplace=0;
 		
 		while(!boobonusexist){
+			
 			bonscore.setPosX((int) (Math.random()*nrofblocks));
 	        bonscore.setPosY((int) (Math.random()*nrofblocks));
-	        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
-	        	bonuslist.add(bonscore);	            
-				boobonusexist = true;
-        }
-}
-		//boobonusexist = true;
-		
+	        
+	        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0 ){
+	        	trytoplace++;
+	    		alreadybonusinplace = false;
+		        for(Bonus_score bonus : bonuslist){
+		        	if (bonus.getPosX() == bonscore.getPosX() && bonus.getPosY() == bonscore.getPosY() ) { 
+		        		alreadybonusinplace = true;
+		        		break; //if already a bonus, no need to check the rest of the list 
+		        	}
+		        }
+		        
+	        	if(alreadybonusinplace){
+	        		System.out.println("There is already a bonus on [" +bonscore.getPosX()+":" +bonscore.getPosY()+"] !!! try number : " + trytoplace );
+	        	}
+		        
+		        if(!alreadybonusinplace){
+		        	bonuslist.add(bonscore);
+					boobonusexist = true;
+		        }
+	        }
+	        if(trytoplace >=20){
+	        	System.out.println("No place left for a bonus" );
+	        	bonscore = null;
+	        	break;
+	        } 
+		}	
 	}
 }

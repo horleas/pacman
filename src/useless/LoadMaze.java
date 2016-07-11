@@ -1,4 +1,4 @@
-package packman;
+package useless;
 
 public class LoadMaze {
 	
