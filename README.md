@@ -8,6 +8,15 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 +  2 maps 
 +  GainLife with 100 score 
 
+  
+7 July :
+
++ Add 2 Map ( Don't Fall + The Box) 
++ Reforme Class MazeLoader into Maze ( with acces to number Ghost)
++ Add name of the map InGame
++ Add Eatable Bonus
+
+
 
 
 
