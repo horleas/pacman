@@ -117,7 +117,7 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 1;
+        numlevel = 15;
         
         bonuslist = new ArrayList<Bonus_score>();
         
@@ -350,6 +350,7 @@ public class Board extends JPanel implements ActionListener {
                 	
                 		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
                 			score += bonus.getBonus_score();
+                			if(bonus.getName()=="lifeup"){addlife();}
                 			bon = bonus;
                 			modif = true;
                 		}
@@ -591,7 +592,7 @@ public class Board extends JPanel implements ActionListener {
 
     private void initGame() {
 
-        pacsleft = 10;
+        pacsleft = 3;
         score = 0;
         initLevel();
         currentspeed = 3;
