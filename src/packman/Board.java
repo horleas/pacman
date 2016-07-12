@@ -59,6 +59,8 @@ public class Board extends JPanel implements ActionListener {
     private int pacmanx, pacmany, pacmandx, pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
     private int entryPacmanX, entryPacmanY;
+    private int jumpcount = 10;
+	private int lengthjump = 1;
 
     
     private int numlevel;
@@ -88,9 +90,9 @@ public class Board extends JPanel implements ActionListener {
 	private Image eaten ;
 	private int eatendelay;
     
-    private ArrayList<Bonus_score> bonuslist;
+    private ArrayList<BonusCreator> bonuslist;
     
-    private Bonus_score bonscore ;
+    private BonusCreator bonscore ;
 
     public Board() {
 
@@ -117,9 +119,9 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 15;
+        numlevel = 10;
         
-        bonuslist = new ArrayList<Bonus_score>();
+        bonuslist = new ArrayList<BonusCreator>();
         
         timer = new Timer(40, this);
         timer.start();
@@ -344,13 +346,23 @@ public class Board extends JPanel implements ActionListener {
                 ptseatinglife ++;
                 
                 if(boobonusexist){
-                	Bonus_score bon = new Bonus_score();
+                	BonusCreator bon = new BonusCreator();
                 	boolean modif = false;
-                	for(Bonus_score bonus : bonuslist){
+                	for(BonusCreator bonus : bonuslist){
                 	
                 		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
                 			score += bonus.getBonus_score();
-                			if(bonus.getName()=="lifeup"){addlife();}
+                			if(bonus.getName()=="lifeup"){
+                				addlife();
+                				}
+                			else if(bonus.getName()=="jumprefill"){
+                				System.out.println("+5 dash");
+                				jumpcount += 5;
+                				}
+                			else if(bonus.getName()=="jumpupgrade"){
+                				lengthjump += 1;
+                				System.out.println("Dash Upgraded");
+                				}
                 			bon = bonus;
                 			modif = true;
                 		}
@@ -373,6 +385,7 @@ public class Board extends JPanel implements ActionListener {
                 if(ptseatingbonus == 5){		// 50 ingame but 5 for test
                     ptseatingbonus = 0;
                 	boobonusexist = false;
+                	checkMaze();				//prevent blocking game if the number of pts to eat in the map is a multiple of the ptseatingbonus
                 	addBonus(); 
                 }
                 
@@ -567,7 +580,7 @@ public class Board extends JPanel implements ActionListener {
         
         
         
-        for(Bonus_score bonus : bonuslist){
+        for(BonusCreator bonus : bonuslist){
         	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
         }
         
@@ -737,7 +750,16 @@ public class Board extends JPanel implements ActionListener {
                 } else if (key == KeyEvent.VK_DOWN) {
                     reqdx = 0;
                     reqdy = 1;
-                } else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
+                } else if (key == KeyEvent.VK_SPACE) {
+                	if(jumpcount>0){
+                	if(reqdx<0){pacmanx = pacmanx - blocksize*lengthjump;}
+                	if(reqdx>0){pacmanx = pacmanx + blocksize*lengthjump;}
+                	if(reqdy<0){pacmany = pacmany - blocksize*lengthjump;}
+                	if(reqdy>0){pacmany = pacmany + blocksize*lengthjump;}
+                    jumpcount--;
+                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
+                	}
+                }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     ingame = false;
                 } else if (key == KeyEvent.VK_PAUSE) {
                     if (timer.isRunning()) {
@@ -782,7 +804,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     private void addBonus() {
-		bonscore = new Bonus_score();
+		bonscore = new BonusCreator();
 		boodrawbon = true;
 		boolean alreadybonusinplace = false;
 		int trytoplace=0;
@@ -795,7 +817,7 @@ public class Board extends JPanel implements ActionListener {
 	        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0 ){
 	        	trytoplace++;
 	    		alreadybonusinplace = false;
-		        for(Bonus_score bonus : bonuslist){
+		        for(BonusCreator bonus : bonuslist){
 		        	if (bonus.getPosX() == bonscore.getPosX() && bonus.getPosY() == bonscore.getPosY() ) { 
 		        		alreadybonusinplace = true;
 		        		break; //if already a bonus, no need to check the rest of the list 

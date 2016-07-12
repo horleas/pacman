@@ -167,6 +167,24 @@ public class Maze {
 		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
 		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 		    };
+	 
+	 private final short Jumptuto[] = {
+	         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0, 59, 10, 10, 10, 10, 10, 10, 10, 94,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
+	    };
 	
 	
 	public Maze(int pnumlevel){
@@ -216,11 +234,20 @@ public class Maze {
     	case 5 : this.map = leveldata5;
 		 		 this.name = "The Box";
 		 		 this.nbrGhost = 4;
-		break ;			
-    	
+		 		 break ;
+		 		 
+    	case 6 : this.map = Jumptuto;
+		 		 this.name = "Jump Tuto";
+		 		 this.nbrGhost = 1;
+		 		 break ;
+    	default : this.map = test;
+		 		  this.name = "Jump Tuto";
+		 		  this.nbrGhost = 0;
+		 		  break ;
+		/* 		 
     	default : this.map = test2;
     	 		  this.name = "Test";
-    	 		 this.nbrGhost = 0;
+    	 		 this.nbrGhost = 0; */
     	}
 	}
 

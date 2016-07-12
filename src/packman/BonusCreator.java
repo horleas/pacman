@@ -5,15 +5,16 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 
-public class Bonus_score {
+public class BonusCreator {
 	private Image img;
 	private Image imgscore;
 	private int bonus_score = 0;
 	private int PosX;
 	private int PosY;
 	private String name;
+	private static boolean upgradedashmax = false;	
 	
-	public Bonus_score(){
+	public BonusCreator(){
 		
 		setBonus();
 		
@@ -28,7 +29,9 @@ public class Bonus_score {
 	}
 
 	public void setBonus() {
-		int randombonus = (int) (Math.random()*5);
+		int randombonus = (int) (Math.random()*7);	
+
+		if(upgradedashmax && randombonus == 6){randombonus=5; }
 		
 		switch(randombonus){
 		case 1 :
@@ -54,6 +57,19 @@ public class Bonus_score {
 			 this.img = new ImageIcon("images/lifeup.png").getImage();
 			 this.imgscore = new ImageIcon("images/lifeupscore.png").getImage();
 			 this.setName("lifeup");
+			 break;
+			 
+		case 5 :
+			 this.img = new ImageIcon("images/dash.png").getImage();
+			 this.imgscore = new ImageIcon("images/dashstring.png").getImage();
+			 this.setName("jumprefill");
+			 break;
+			 
+		case 6 :
+			 this.img = new ImageIcon("images/dashupgrade.png").getImage();
+			 this.imgscore = new ImageIcon("images/upgradedashstring.png").getImage();
+			 this.setName("jumpupgrade");
+			 upgradedashmax = true;
 			 break;
 			 
 		default : 
