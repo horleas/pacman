@@ -16,8 +16,10 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add name of the map InGame
 + Add Eatable Bonus
 
-8 July :
+11 July :
 
++ Add 4 Bonus to eat to improve the Score 
++ Reforme the event of adding new Bonus
 + Add Animation after eating bonus
 + Correction of bug with pop of bonus
 
@@ -34,11 +36,12 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 
 TODO :
-+Add map(Warping puzzle etc)
-+Add Map All Tutorial
-+Add bonus ( to Eat ghost)
-+Add Score Serialization
-+Add Music, Add better sprite movement ghost
-+Add swap Color board 
-+Add Portail/Warper into map
++ Add map(Warping puzzle etc)
++ Add Map All Tutorial
++ Add bonus ( to Eat ghost)
++ Add Score Serialization
++ Add Music, Add better sprite movement ghost
++ Add swap Color board 
++ Add Portail/Warper into map
 + Mechanic to Place special Bonus at the beginning of the map
++ Make Compatible with Jar exportation
