@@ -32,11 +32,16 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add new eatable Bonus for refill the Dash counter
 + Add the possibility of going out of the screen on the left will make you come from the right and etc *
 + Add Map for the use of "Warping out" the map
+ 
+13 July : 
+
++ Ghost can pass from left to right of the map
+
 
 
 
 TODO :
-+ Add map(Warping puzzle etc)
++ Add Map(Warping puzzle etc)
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
 + Add Score Serialization
@@ -45,3 +50,14 @@ TODO :
 + Add Portail/Warper into map
 + Mechanic to Place special Bonus at the beginning of the map
 + Make Compatible with Jar exportation
++ Modify Comportement of Ghost
++ Add MultPop location of Ghost
++ Add Trap insta-kill
++ Add Moving Trap on a specific pattern
+
++ Create Different Ghost with different habilities :
++  Boss Ghost map Scrolling ?
++  Real Ghost passing Through wall
++  Ghost Chasing the player
++  Ghost Escaping the Player
++  Ghost Blocking escape route
