@@ -344,6 +344,7 @@ public class Board extends JPanel implements ActionListener {
                 score++;
                 ptseatingbonus ++ ;
                 ptseatinglife ++;
+                System.out.println("["+pacmanx +":"+ pacmany+"]");
                 
                 if(boobonusexist){
                 	BonusCreator bon = new BonusCreator();
@@ -413,7 +414,11 @@ public class Board extends JPanel implements ActionListener {
             }
         }
         pacmanx = pacmanx + pacmanspeed * pacmandx;
+		if(pacmanx<0){pacmanx = 14*blocksize;}
+		if(pacmanx>14*blocksize){pacmanx = 0*blocksize;}
         pacmany = pacmany + pacmanspeed * pacmandy;
+		if(pacmany<0){pacmany = 14*blocksize;}
+		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
     }
 
 
@@ -750,12 +755,24 @@ public class Board extends JPanel implements ActionListener {
                 } else if (key == KeyEvent.VK_DOWN) {
                     reqdx = 0;
                     reqdy = 1;
-                } else if (key == KeyEvent.VK_SPACE) {
+                } else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
                 	if(jumpcount>0){
-                	if(reqdx<0){pacmanx = pacmanx - blocksize*lengthjump;}
-                	if(reqdx>0){pacmanx = pacmanx + blocksize*lengthjump;}
-                	if(reqdy<0){pacmany = pacmany - blocksize*lengthjump;}
-                	if(reqdy>0){pacmany = pacmany + blocksize*lengthjump;}
+                	if(reqdx<0){
+                		pacmanx = pacmanx - blocksize*lengthjump;
+                		if(pacmanx<0){pacmanx = 14*blocksize;}
+                		}
+                	if(reqdx>0){
+                		pacmanx = pacmanx + blocksize*lengthjump;
+                		if(pacmanx>14*blocksize){pacmanx = 0;}
+                		}
+                	if(reqdy<0){
+                		pacmany = pacmany - blocksize*lengthjump;
+                		if(pacmany<0){pacmany = 14*blocksize;}
+                		}
+                	if(reqdy>0){
+                		pacmany = pacmany + blocksize*lengthjump;
+                		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
+                		}
                     jumpcount--;
                     System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
                 	}

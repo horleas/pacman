@@ -168,6 +168,24 @@ public class Maze {
 		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 		    };
 	 
+	 private final short TutoTroughMap[] = {
+	         3,  2,  2,  2,  2,  2,  6, 21,  3,  2,  2,  2,  2,  2,  6,
+	         1,  0,  0,  0,  0,  0,  4, 21,  1,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  4,  5,  1,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         9,  8,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  8,  8, 12,
+	        26, 26, 14,  1,  0, 48, 16, 16, 16, 16,  0,  0, 10, 26, 26,
+	         3,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  6,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  4,  5,  1,  0,  0,  0,  0,  0,  4,
+	         1,  0,  0,  0,  0,  0,  4, 21,  1,  0,  0,  0,  0,  0,  4,
+	         9,  8,  8,  8,  0,  8, 12, 21,  9,  8,  8,  8,  8,  8, 12
+	    };
+	 
 	 private final short Jumptuto[] = {
 	         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
 	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
@@ -237,11 +255,17 @@ public class Maze {
 		 		 break ;
 		 		 
     	case 6 : this.map = Jumptuto;
-		 		 this.name = "Jump Tuto";
+		 		 this.name = "Press Space to Dash";
 		 		 this.nbrGhost = 1;
 		 		 break ;
-    	default : this.map = test;
-		 		  this.name = "Jump Tuto";
+		 		 
+    	case 7 : this.map = TutoTroughMap;
+    			 this.name = "Through Map Tutorial";
+    			 this.nbrGhost = 0;
+    			 break ;
+    			 
+    	default : this.map = TutoTroughMap;
+		 		  this.name = "Press Space to Dash";
 		 		  this.nbrGhost = 0;
 		 		  break ;
 		/* 		 
