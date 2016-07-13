@@ -35,7 +35,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
  
 13 July : 
 
-+ Ghost can pass from left to right of the map
++ Ghost can pass from left to right of the map and etc*
 
 
 
@@ -55,9 +55,19 @@ TODO :
 + Add Trap insta-kill
 + Add Moving Trap on a specific pattern
 
-+ Create Different Ghost with different habilities :
+Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
 +  Real Ghost passing Through wall
 +  Ghost Chasing the player
 +  Ghost Escaping the Player
 +  Ghost Blocking escape route
+
+Add Menu Screen:
++ Select mode Normal (Score)
++ Mode Time Attack ( implement visuals Timer)
++ Tutorial Map access
+
+(2 Player ?) 
+
+
+
