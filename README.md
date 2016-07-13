@@ -1,4 +1,4 @@
-# pacman
+# Pacman
 
 6 July : Create the Game from the Tutorial : 
 http://zetcode.com/tutorials/javagamestutorial/pacman/
@@ -36,6 +36,8 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 13 July : 
 
 + Ghost can pass from left to right of the map and etc*
++ Add MultPop location of Ghost
++ Each Map add a number of Dash given to the player dependent of the necessity of the level
 
 
 
@@ -51,7 +53,6 @@ TODO :
 + Mechanic to Place special Bonus at the beginning of the map
 + Make Compatible with Jar exportation
 + Modify Comportement of Ghost
-+ Add MultPop location of Ghost
 + Add Trap insta-kill
 + Add Moving Trap on a specific pattern
 
