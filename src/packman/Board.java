@@ -44,12 +44,13 @@ public class Board extends JPanel implements ActionListener {
     private int pacanimdir = 1;
     private int pacmananimpos = 0;
     private int nrofghosts = 6;
-    private int entryGhostX ;
-    private int entryGhostY ;
+    private int entryGhostX[]=new int[10] ;
+    private int entryGhostY[]=new int[10] ;
     
     private int pacsleft, score;
     private int[] dx, dy;
     private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed;
+    int nbrpopghost;
 
     private Image ghost;
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
@@ -305,8 +306,14 @@ public class Board extends JPanel implements ActionListener {
 
             }
 
-            ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);
+            ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);	//Warping of the Ghost
+    		if(ghostx[i]<0){ghostx[i] = 14*blocksize;}
+    		if(ghostx[i]>14*blocksize){ghostx[i] = 0*blocksize;}
             ghosty[i] = ghosty[i] + (ghostdy[i] * ghostspeed[i]);
+    		if(ghosty[i]<0){ghosty[i] = 14*blocksize;}
+    		if(ghosty[i]>14*blocksize){ghosty[i] = 0*blocksize;}
+    		
+    		
             drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1);
 
             if (pacmanx > (ghostx[i] - 12) && pacmanx < (ghostx[i] + 12)
@@ -619,6 +626,7 @@ public class Board extends JPanel implements ActionListener {
     private void initLevel() {
 
         int i;
+        nbrpopghost = 0 ;
         ptseatingbonus = 0;
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
@@ -626,10 +634,10 @@ public class Board extends JPanel implements ActionListener {
         leveldata = currentlevel.getMap();
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
+        jumpcount += currentlevel.getDashlevel();
+        
         boobonusexist = false ;
         bonuslist.removeAll(bonuslist);
-        
-       // leveldata= loader.getLevelMaze(numlevel);
         
         for (i = 0; i < nrofblocks * nrofblocks; i++) {
             screendata[i] = leveldata[i];
@@ -637,13 +645,14 @@ public class Board extends JPanel implements ActionListener {
             	entryPacmanX = i % nrofblocks ;
             	entryPacmanY = i / nrofblocks ;
             }
-            else if((leveldata[i] & 64) != 0 ){
-            	entryGhostX = i / nrofblocks ;
-            	entryGhostY = i % nrofblocks ;
+            else if((leveldata[i] & 64) != 0 ){			// Get Every Location for poping Ghost and have the number of Poping
+            	entryGhostX[nbrpopghost] = i / nrofblocks ;
+            	entryGhostY[nbrpopghost] = i % nrofblocks ;
+            	nbrpopghost++;
             }
             
         }
-
+        System.out.println(nbrpopghost);
         continueLevel();
     }
 
@@ -652,14 +661,19 @@ public class Board extends JPanel implements ActionListener {
         short i;
         int dx = 1;
         int random;
+        int locpop = 0;
 
         for (i = 0; i < nrofghosts; i++) {
 
-            ghosty[i] = entryGhostX * blocksize;
-            ghostx[i] = entryGhostY * blocksize;
+            ghosty[i] = entryGhostX[locpop] * blocksize;
+            ghostx[i] = entryGhostY[locpop] * blocksize;				//put a ghost at each location and if all location has been use and there is still some ghost to place, remake the loop 
             ghostdy[i] = 0;
             ghostdx[i] = dx;
             dx = -dx;
+            locpop++;
+            
+            if(locpop>=nbrpopghost){ locpop = 0;} 
+            
             random = (int) (Math.random() * (currentspeed + 1));
 
             if (random > currentspeed) {
