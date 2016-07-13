@@ -67,6 +67,8 @@ Add Menu Screen:
 + Select mode Normal (Score)
 + Mode Time Attack ( implement visuals Timer)
 + Tutorial Map access
++ Add Score Panel
++ Add Rules Panel
 
 (2 Player ?) 
 
