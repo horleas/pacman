@@ -26,7 +26,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 12 July : 
 
 + Add new eatable Bonus which give +1 life
-+ Add new gameplay with possibility of Dashing ( avoid ennemies and pass throught wall) with limit of the number of use
++ Add new game mechanic with possibility of Dashing ( avoid ennemies and pass throught wall) with limit of the number of use
 + Add map Tuto to Learn how to use the Dash
 + Add new eatable Bonus for Upgrade the distance of the Dash ( limited by 1 for the moment)
 + Add new eatable Bonus for refill the Dash counter
@@ -43,6 +43,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 + Mechanic to place Bonus at the beginning of the map
 + Modify some map to place Bonus (Tuto Dash with bonus placed)
++ Clean Some code
 
 
 
