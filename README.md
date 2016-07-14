@@ -45,6 +45,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Modify some map to place Bonus (Tuto Dash with bonus placed)
 + Clean Some code
 + Add Restart Level on key 'R'
++ Add Swap Board Color on key 'C'
 
 
 
@@ -53,8 +54,9 @@ TODO :
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
 + Add Score Serialization
-+ Add Music, Add better sprite movement ghost
-+ Add swap Color board 
++ Add Music
++ Add better sprite movement ghost
++ Improve swap Color board (Menu)
 + Add Portail/Warper into map
 + Make Compatible with Jar exportation
 + Modify Comportement of Ghost
