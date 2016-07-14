@@ -49,12 +49,13 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Make Compatible with Jar exportation
 + Balance the difficulty of the game with bonus 
 + Add Iconeimage for the JFrame
++ Add "Bonus" Decrease Dash
 
 
 
 TODO :
 + Add Map(Warping puzzle etc)
-+ Add "Bonus" Decrease Dash
++ Possibility to have different size of Map
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
 + Add Score Serialization
