@@ -89,46 +89,46 @@ public class BonusCreator {
 		
 		switch(typebonus){
 		case 1 :
-			 this.img = new ImageIcon("images/bonus2.png").getImage();
-			 this.imgscore = new ImageIcon("images/bonuspts20.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/bonus2.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts20.png")).getImage();
 			 this.bonus_score = 20;	
 			 this.setName("bonus_score" + bonus_score);
 			 break;
 		case 2 :
-			 this.img = new ImageIcon("images/bonus3.png").getImage();
-			 this.imgscore = new ImageIcon("images/bonuspts50.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/bonus3.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts50.png")).getImage();
 			 this.bonus_score = 50;	
 			 this.setName("bonus_score" + bonus_score);
 			 break;
 		case 3 :
-			 this.img = new ImageIcon("images/bonus1.png").getImage();
-			 this.imgscore = new ImageIcon("images/bonuspts100.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/bonus1.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts100.png")).getImage();
 			 this.bonus_score = 100;
 			 this.setName("bonus_score" + bonus_score);
 			 break;
 			 
 		case 4 :
-			 this.img = new ImageIcon("images/lifeup.png").getImage();
-			 this.imgscore = new ImageIcon("images/lifeupscore.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/lifeup.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage();
 			 this.setName("lifeup");
 			 break;
 			 
 		case 5 :
-			 this.img = new ImageIcon("images/dash.png").getImage();
-			 this.imgscore = new ImageIcon("images/dashstring.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/dash.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage();
 			 this.setName("jumprefill");
 			 break;
 			 
 		case 6 :
-			 this.img = new ImageIcon("images/dashupgrade.png").getImage();
-			 this.imgscore = new ImageIcon("images/upgradedashstring.png").getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/dashupgrade.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/upgradedashstring.png")).getImage();
 			 this.setName("jumpupgrade");
 			 //upgradedashmax = true;
 			 break;
 			 
 		default : 
-			this.img = new ImageIcon("images/bonus4.png").getImage();
-			this.imgscore = new ImageIcon("images/bonuspts500.png").getImage();
+			this.img = new ImageIcon(this.getClass().getResource("/bonus4.png")).getImage();
+			this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts500.png")).getImage();
 			this.bonus_score = 500;	
 
 			 this.setName("bonus_score" + bonus_score);

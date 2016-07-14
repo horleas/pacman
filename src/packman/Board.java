@@ -61,7 +61,7 @@ public class Board extends JPanel implements ActionListener {
     private int pacmanx, pacmany, pacmandx, pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
     private int entryPacmanX, entryPacmanY;
-    private int jumpcount = 10;
+    private int jumpcount = 0;
 	private int lengthjump = 1;
 
     
@@ -126,7 +126,7 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 6;
+        numlevel = 1;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -752,7 +752,23 @@ public class Board extends JPanel implements ActionListener {
 
     private void loadImages() {
 
-        ghost = new ImageIcon("images/floyd.png").getImage();
+    	ghost = new ImageIcon(this.getClass().getResource("/floyd.png")).getImage();
+    	pacman1 = new ImageIcon(this.getClass().getResource("/pacman.png")).getImage();
+        pacman2up = new ImageIcon(this.getClass().getResource("/up1.png")).getImage();
+        pacman3up = new ImageIcon(this.getClass().getResource("/up2.png")).getImage();
+        pacman4up = new ImageIcon(this.getClass().getResource("/up3.png")).getImage();
+        pacman2down = new ImageIcon(this.getClass().getResource("/down1.png")).getImage();
+        pacman3down = new ImageIcon(this.getClass().getResource("/down2.png")).getImage();
+        pacman4down = new ImageIcon(this.getClass().getResource("/down3.png")).getImage();
+        pacman2left = new ImageIcon(this.getClass().getResource("/left1.png")).getImage();
+        pacman3left = new ImageIcon(this.getClass().getResource("/left2.png")).getImage();
+        pacman4left = new ImageIcon(this.getClass().getResource("/left3.png")).getImage();
+        pacman2right = new ImageIcon(this.getClass().getResource("/right1.png")).getImage();
+        pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
+        pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
+    	
+    	/*
+        //ghost = new ImageIcon("images/floyd.png").getImage();
         pacman1 = new ImageIcon("images/pacman.png").getImage();
         pacman2up = new ImageIcon("images/up1.png").getImage();
         pacman3up = new ImageIcon("images/up2.png").getImage();
@@ -766,6 +782,7 @@ public class Board extends JPanel implements ActionListener {
         pacman2right = new ImageIcon("images/right1.png").getImage();
         pacman3right = new ImageIcon("images/right2.png").getImage();
         pacman4right = new ImageIcon("images/right3.png").getImage();
+        */
 
     }
 
