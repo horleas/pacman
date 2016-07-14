@@ -45,7 +45,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Modify some map to place Bonus (Tuto Dash with bonus placed)
 + Clean Some code
 + Add Restart Level on key 'R'
-+ Add Swap Board Color on key 'C'
++ Add Swap Board Color on key 'C' (9 Color Available)
 
 
 
