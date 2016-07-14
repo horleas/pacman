@@ -55,6 +55,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 TODO :
 + Add Map(Warping puzzle etc)
++ Add finishing line (PacWoman ? )
 + Possibility to have different size of Map
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
