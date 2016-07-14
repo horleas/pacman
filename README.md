@@ -44,6 +44,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Mechanic to place Bonus at the beginning of the map
 + Modify some map to place Bonus (Tuto Dash with bonus placed)
 + Clean Some code
++ Add Restart Level on key 'R'
 
 
 
