@@ -200,13 +200,13 @@ public class Maze {
 	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,  5,  5,
 	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,
 	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,				// Must add a refill dash in 2nd case
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 79,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long ( Multi Ghsot Location)
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,  5,  5,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 29,  5,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
-	         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
+	         1,  0,  0,  0,  0,  0,  0,  3, 74,  6,  0,  0,  4, 79,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long
+	         1,  0,  0,  0,  0,  0,  0,  5, 15,  5,  0,  0,  4,  7,  5,
+	         1,  0,  8,  8,  8,  0,  0,  9, 10, 12,  0,  0,  4,  5,  5,
+	         1,  4,  3, 10,  6,  9, 12,  5,  7,  5,  9,  8, 12, 21,  5,
+	         1,  4, 69, 31,  5, 11, 10, 12,  5,  9, 10, 10, 10, 12,  5,
+	         1,  4,  9, 10, 12,  2,  2,  2,  0,  2,  2,  2,  2,  2,  4,
+	         9,  8, 10, 10, 10,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 	    };
 	
 	
@@ -266,8 +266,12 @@ public class Maze {
 		 		 
     	case 6 : this.map = Jumptuto;
 		 		 this.name = "Press Space to Dash";
-		 		 this.nbrGhost = 2;
+		 		 this.nbrGhost = 4;
 		 		 this.dashlevel=5;
+		 		 this.bonusfixelist.add(new BonusCreator(4,2,4));
+		 		 this.bonusfixelist.add(new BonusCreator(13,7,6));
+		 		 this.bonusfixelist.add(new BonusCreator(13,1,5));
+		 		 this.bonusfixelist.add(new BonusCreator(8,9,3));
 		 		 break ;
 		 		 
     	case 7 : this.map = TutoTroughMap;
@@ -276,12 +280,23 @@ public class Maze {
     			 this.dashlevel=0;
     			 break ;
     			 
-    	default : this.map = test2;
+    	default : this.map = Jumptuto;
+		 		  this.name = "Press Space to Dash";
+		 		  this.nbrGhost = 2;
+		 		  this.dashlevel=5;
+		 		  this.bonusfixelist.add(new BonusCreator(4,3,4));
+		 		  this.bonusfixelist.add(new BonusCreator(13,7,6));
+		 		  this.bonusfixelist.add(new BonusCreator(13,1,5));
+		 		  break ;
+    		
+    		
+    		
+    		/*this.map = test2;
 		 		  this.name = "Test";
 		 		  this.nbrGhost = 0;
 		 		  this.dashlevel=10;
 				  this.bonusfixelist.add(new BonusCreator(2,2,1));
-		 		  break ;
+		 		  break ;*/
     	}
 	}
 

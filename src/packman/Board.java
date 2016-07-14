@@ -78,8 +78,12 @@ public class Board extends JPanel implements ActionListener {
     private short[] screendata;
     private Timer timer;
     
+    private ArrayList<Color> swapColorList;			//Color ( Red/ Green/ Blue)
     private Color orange = new Color(205, 100, 5);
     private Color green = new Color(5, 100, 5);
+    private Color flashygreen = new Color(0, 255, 0);
+    private Color pink = new Color(255, 50, 50);
+    private int numcolor;
     
     private boolean boodrawbon = false;
     private boolean boobonusexist = false;
@@ -122,11 +126,13 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 10;
+        numlevel = 6;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
-
         bonuslist = new ArrayList<BonusCreator>();
+        
+        
+        initColorBoard();
         
         timer = new Timer(40, this);
         timer.start();
@@ -217,6 +223,9 @@ public class Board extends JPanel implements ActionListener {
         }
 
         if (finished) {
+        	lengthjump = 1;
+        	currentbonusfixelist.removeAll(currentbonusfixelist);
+        	bonuslist.removeAll(bonuslist);
             numlevel ++ ;
             initLevel();
         	/*        	
@@ -366,8 +375,11 @@ public class Board extends JPanel implements ActionListener {
                 				jumpcount += 5;
                 				}
                 			else if(bonus.getName()=="jumpupgrade"){
-                				lengthjump += 1;
-                				System.out.println("Dash Upgraded");
+                				lengthjump = lengthjump+1;
+                				if(lengthjump>2){
+                					lengthjump=2;
+                				}
+                				System.out.println("Dash Upgraded : "+ lengthjump);
                 				}
                 			bon = bonus;
                 			modif = true;
@@ -388,7 +400,7 @@ public class Board extends JPanel implements ActionListener {
                 	addlife(); 
                 }
 
-                if(ptseatingbonus == 5){		// 50 ingame but 5 for test
+                if(ptseatingbonus == 50){		// 50 ingame but 5 for test
                     ptseatingbonus = 0;
                 	boobonusexist = false;
                 	checkMaze();				//prevent blocking game if the number of pts to eat in the map is a multiple of the ptseatingbonus
@@ -434,8 +446,11 @@ public class Board extends JPanel implements ActionListener {
         				jumpcount += 5;
         				}
         			else if(bonus.getName()=="jumpupgrade"){
-        				lengthjump += 1;
-        				System.out.println("Dash Upgraded");
+        				lengthjump = lengthjump+1;
+        				if(lengthjump>2){
+        					lengthjump=2;
+        				}
+        				System.out.println("Dash Upgraded : "+ lengthjump);
         				}
         			bon = bonus;
         			modif = true;
@@ -670,12 +685,12 @@ public class Board extends JPanel implements ActionListener {
         ptseatingbonus = 0;
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
-        
+        lengthjump = 1;
         leveldata = currentlevel.getMap();
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
         jumpcount += currentlevel.getDashlevel();
-        currentbonusfixelist = currentlevel.getBonusfixelist();        
+        currentbonusfixelist = currentlevel.getBonusfixelist();    
         
         boobonusexist = false ;
         bonuslist.removeAll(bonuslist);
@@ -813,7 +828,20 @@ public class Board extends JPanel implements ActionListener {
                 } else if (key == KeyEvent.VK_DOWN) {
                     reqdx = 0;
                     reqdy = 1;
-                } else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
+                } else if (key == KeyEvent.VK_C) {							// Swap Board Color
+                   numcolor += 1; 
+                   if(numcolor>swapColorList.size()-1){
+                	   numcolor=0;
+                   }
+                	mazecolor=swapColorList.get(numcolor);
+                	
+                }else if (key == KeyEvent.VK_R) {							//Restart Level
+                	System.out.println("Restart Level : score = 0");
+                	score = 0;
+                    initLevel();
+                } 
+                
+                else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
                 	if(jumpcount>0){
                 	if(reqdx<0){
                 		pacmanx = pacmanx - blocksize*lengthjump;
@@ -895,7 +923,7 @@ public class Board extends JPanel implements ActionListener {
 		        for(BonusCreator bonus : bonuslist){
 		        	if (bonus.getPosX() == bonscore.getPosX() && bonus.getPosY() == bonscore.getPosY() ) { 
 		        		alreadybonusinplace = true;
-		        		break; //if already a bonus, no need to check the rest of the list 
+		        		break; //if already a bonus at this place, no need to check the rest of the list 
 		        	}
 		        }
 		        
@@ -915,4 +943,23 @@ public class Board extends JPanel implements ActionListener {
 	        } 
 		}	
 	}
+    
+    
+    private void initColorBoard(){
+        swapColorList = new ArrayList<Color>();
+        swapColorList.add(green);
+        swapColorList.add(orange);
+        swapColorList.add(flashygreen);
+        
+        swapColorList.add(Color.cyan);
+        swapColorList.add(Color.PINK);
+        swapColorList.add(Color.BLUE);
+        swapColorList.add(Color.GREEN);
+        swapColorList.add(Color.MAGENTA);
+        swapColorList.add(Color.YELLOW);
+
+        
+        numcolor=0;
+    }
+    
 }
