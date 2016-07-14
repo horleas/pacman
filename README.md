@@ -46,6 +46,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Clean Some code
 + Add Restart Level on key 'R'
 + Add Swap Board Color on key 'C' (9 Color Available)
++ Make Compatible with Jar exportation
 
 
 
@@ -58,7 +59,6 @@ TODO :
 + Add better sprite movement ghost
 + Improve swap Color board (Menu)
 + Add Portail/Warper into map
-+ Make Compatible with Jar exportation
 + Modify Comportement of Ghost
 + Add Trap insta-kill
 + Add Moving Trap on a specific pattern
