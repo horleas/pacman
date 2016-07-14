@@ -40,6 +40,7 @@ public class Board extends JPanel implements ActionListener {
     private final int maxghosts = 12;
     private final int pacmanspeed = 6;
 
+
     private int pacanimcount = pacanimdelay;
     private int pacanimdir = 1;
     private int pacmananimpos = 0;
@@ -92,6 +93,7 @@ public class Board extends JPanel implements ActionListener {
 	private int eatendelay;
     
     private ArrayList<BonusCreator> bonuslist;
+	private ArrayList<BonusCreator> currentbonusfixelist;
     
     private BonusCreator bonscore ;
 
@@ -122,6 +124,8 @@ public class Board extends JPanel implements ActionListener {
         dy = new int[4];
         numlevel = 10;
         
+        currentbonusfixelist = new ArrayList<BonusCreator>();
+
         bonuslist = new ArrayList<BonusCreator>();
         
         timer = new Timer(40, this);
@@ -215,13 +219,7 @@ public class Board extends JPanel implements ActionListener {
         if (finished) {
             numlevel ++ ;
             initLevel();
-        	/*
-        	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-        	
+        	/*        	
             score += 50;
             if (nrofghosts < maxghosts) {
                 nrofghosts++;
@@ -420,7 +418,41 @@ public class Board extends JPanel implements ActionListener {
                 pacmandy = 0;
             }
         }
-        pacmanx = pacmanx + pacmanspeed * pacmandx;
+        
+        if(!currentbonusfixelist.isEmpty()){					// Eat Fix Bonus
+        	BonusCreator bon = new BonusCreator();
+        	boolean modif = false;
+        	for(BonusCreator bonus : currentbonusfixelist){
+        	
+        		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
+        			score += bonus.getBonus_score();
+        			if(bonus.getName()=="lifeup"){
+        				addlife();
+        				}
+        			else if(bonus.getName()=="jumprefill"){
+        				System.out.println("+5 dash");
+        				jumpcount += 5;
+        				}
+        			else if(bonus.getName()=="jumpupgrade"){
+        				lengthjump += 1;
+        				System.out.println("Dash Upgraded");
+        				}
+        			bon = bonus;
+        			modif = true;
+        		}
+            }
+        	
+        	if(modif)
+        		eatenbonuscore = true;
+	        	eateninX = bon.getPosX();
+	        	eateninY = bon.getPosY();
+	        	eaten = bon.getImgScore();
+	        	currentbonusfixelist.remove(bon);
+        	
+        }
+        	
+        
+        pacmanx = pacmanx + pacmanspeed * pacmandx;				//Move throw map
 		if(pacmanx<0){pacmanx = 14*blocksize;}
 		if(pacmanx>14*blocksize){pacmanx = 0*blocksize;}
         pacmany = pacmany + pacmanspeed * pacmandy;
@@ -599,6 +631,14 @@ public class Board extends JPanel implements ActionListener {
         
     }
     
+    private void drawBonusFixe(Graphics2D g2d) {
+    	
+    	for(BonusCreator bonus : currentbonusfixelist){
+        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
+        }
+
+    }
+    
     
     
     private void drawBonuscore(Graphics2D g2d) {
@@ -635,6 +675,7 @@ public class Board extends JPanel implements ActionListener {
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
         jumpcount += currentlevel.getDashlevel();
+        currentbonusfixelist = currentlevel.getBonusfixelist();        
         
         boobonusexist = false ;
         bonuslist.removeAll(bonuslist);
@@ -729,6 +770,9 @@ public class Board extends JPanel implements ActionListener {
 
         drawMaze(g2d);
         drawScore(g2d);
+        if(!currentbonusfixelist.isEmpty()){
+        	drawBonusFixe(g2d);
+        }
         doAnim();
         if(boodrawbon){
         	drawBonus(g2d);

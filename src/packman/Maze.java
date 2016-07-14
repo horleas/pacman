@@ -1,5 +1,7 @@
 package packman;
 
+import java.util.ArrayList;
+
 public class Maze {
 
     private final int blocksize = 24;
@@ -10,6 +12,8 @@ public class Maze {
 	private String name = "Default";
     private short map[] = new short [nrofblocks*nrofblocks];
     private int dashlevel = 0;
+	private ArrayList<BonusCreator> bonusfixelist = new ArrayList<BonusCreator>() ;
+	private BonusCreator bonus;
     
 	/* 1 = Left Border
 	 * 2 = Top Border
@@ -272,15 +276,12 @@ public class Maze {
     			 this.dashlevel=0;
     			 break ;
     			 
-    	default : this.map = Jumptuto;
-		 		  this.name = "Press Space to Dash";
-		 		  this.nbrGhost = 4;
-		 		  this.dashlevel=10;
-		 		  break ;
-		/* 		 
     	default : this.map = test2;
-    	 		  this.name = "Test";
-    	 		 this.nbrGhost = 0; */
+		 		  this.name = "Test";
+		 		  this.nbrGhost = 0;
+		 		  this.dashlevel=10;
+				  this.bonusfixelist.add(new BonusCreator(2,2,1));
+		 		  break ;
     	}
 	}
 
@@ -291,44 +292,13 @@ public class Maze {
 	public void setDashlevel(int dashlevel) {
 		this.dashlevel = dashlevel;
 	}
-
-/*
-	public void setName(int pnumlevel) {
-		int anumlevel = pnumlevel;
-    	switch(anumlevel){
-    	case 1 : this.name = "Level 1";
-    			break ;
-    	
-    	case 2 : this.name = "Classic";
-    			break ;
-    	
-    	case 3 : this.name = "Arena";
-    			break ;
-    	
-    	case 4 : this.name = "Don't Fall";
-    			break ;
-    	
-    	default : this.name = "Test";
-    	}
-	}
 	
-	public void setNbrGhost(int pnumlevel) {
-    	switch(pnumlevel){
-    	case 1 : this.nbrGhost = 4;
-				break ;	
-    	
-    	case 2 : this.nbrGhost = 4;
-				break ;	
-    	
-    	case 3 : this.nbrGhost = 2;
-				break ;	
-    	
-    	case 4 : this.nbrGhost = 0;
-				break ;	
-    	
-    	default :  this.nbrGhost = 0;
-    	}
+	public ArrayList<BonusCreator> getBonusfixelist() {
+		return bonusfixelist;
 	}
-	*/
+
+	public void setBonusfixelist(ArrayList<BonusCreator> bonusfixelist) {
+		this.bonusfixelist = bonusfixelist;
+	}
 	
 }
