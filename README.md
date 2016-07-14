@@ -48,12 +48,12 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add Swap Board Color on key 'C' (9 Color Available)
 + Make Compatible with Jar exportation
 + Balance the difficulty of the game with bonus 
++ Add Iconeimage for the JFrame
 
 
 
 TODO :
 + Add Map(Warping puzzle etc)
-+ Add Iconeimage
 + Add "Bonus" Decrease Dash
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
