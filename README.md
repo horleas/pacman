@@ -26,7 +26,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 12 July : 
 
 + Add new eatable Bonus which give +1 life
-+ Add new gameplay with possibility of Dashing ( avoid ennemies and pass throught wall) with limit of the number of use
++ Add new game mechanic with possibility of Dashing ( avoid ennemies and pass throught wall) with limit of the number of use
 + Add map Tuto to Learn how to use the Dash
 + Add new eatable Bonus for Upgrade the distance of the Dash ( limited by 1 for the moment)
 + Add new eatable Bonus for refill the Dash counter
@@ -39,6 +39,13 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add MultPop location of Ghost
 + Each Map add a number of Dash given to the player dependent of the necessity of the level
 
+14 July : 
+
++ Mechanic to place Bonus at the beginning of the map
++ Modify some map to place Bonus (Tuto Dash with bonus placed)
++ Clean Some code
++ Add Restart Level on key 'R'
++ Add Swap Board Color on key 'C' (9 Color Available)
 
 
 
@@ -47,10 +54,10 @@ TODO :
 + Add Map All Tutorial
 + Add bonus ( to Eat ghost)
 + Add Score Serialization
-+ Add Music, Add better sprite movement ghost
-+ Add swap Color board 
++ Add Music
++ Add better sprite movement ghost
++ Improve swap Color board (Menu)
 + Add Portail/Warper into map
-+ Mechanic to Place special Bonus at the beginning of the map
 + Make Compatible with Jar exportation
 + Modify Comportement of Ghost
 + Add Trap insta-kill
