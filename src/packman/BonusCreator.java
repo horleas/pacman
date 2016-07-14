@@ -1,8 +1,6 @@
 package packman;
 
 import java.awt.Image;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
 
@@ -13,7 +11,6 @@ public class BonusCreator {
 	private int PosX;
 	private int PosY;
 	private String name;
-	private static boolean upgradedashmax = false;	
 	private int type;
 	
 	
@@ -38,7 +35,7 @@ public class BonusCreator {
 	}
 
 	public void setBonus() {
-		int randombonus = (int) (Math.random()*7);	
+		int randombonus = (int) (Math.random()*6);	
 		this.setType(randombonus);
 	}	
 		
@@ -86,7 +83,6 @@ public class BonusCreator {
 
 	public void setType(int typebonus) {
 		//if(upgradedashmax && typebonus == 6){typebonus=5; }
-		
 		switch(typebonus){
 		case 1 :
 			 this.img = new ImageIcon(this.getClass().getResource("/bonus2.png")).getImage();
@@ -119,12 +115,18 @@ public class BonusCreator {
 			 this.setName("jumprefill");
 			 break;
 			 
-		case 6 :
+		case 7 :
+			 this.img = new ImageIcon(this.getClass().getResource("/dashdecrease.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/decreasedashstring.png")).getImage();
+			 this.setName("jumpdowngrade");
+			 break;
+			 
+		case 8 :
 			 this.img = new ImageIcon(this.getClass().getResource("/dashupgrade.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/upgradedashstring.png")).getImage();
 			 this.setName("jumpupgrade");
-			 //upgradedashmax = true;
 			 break;
+			
 			 
 		default : 
 			this.img = new ImageIcon(this.getClass().getResource("/bonus4.png")).getImage();

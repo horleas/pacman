@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Maze {
 
-    private final int blocksize = 24;
+    //private final int blocksize = 24;
     private final int nrofblocks = 15;
 	
 	private int numlevel = 30;
@@ -13,7 +13,6 @@ public class Maze {
     private short map[] = new short [nrofblocks*nrofblocks];
     private int dashlevel = 0;
 	private ArrayList<BonusCreator> bonusfixelist = new ArrayList<BonusCreator>() ;
-	private BonusCreator bonus;
     
 	/* 1 = Left Border
 	 * 2 = Top Border
@@ -155,7 +154,8 @@ public class Maze {
 		        25, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
 		    };
 	 
-	 private final short test2[] = {
+	 @SuppressWarnings("unused")
+	private final short test2[] = {
 		         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
 		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
 		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
@@ -195,14 +195,14 @@ public class Maze {
 	         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,  3,  2,  6,
 	         1,  0,  0,  8,  8,  8,  8,  8,  8,  8,  8, 12,  1,  0,  4,
 	         1,  0,  4, 59, 10, 10, 10, 10, 10, 10, 10, 78,  1, 16,  4,
-	         1,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  6,  9,  0, 12,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  6,  5,  7,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,  5,  5,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,
-	         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,				// Must add a refill dash in 2nd case
-	         1,  0,  0,  0,  0,  0,  0,  3, 74,  6,  0,  0,  4, 79,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long
-	         1,  0,  0,  0,  0,  0,  0,  5, 15,  5,  0,  0,  4,  7,  5,
-	         1,  0,  8,  8,  8,  0,  0,  9, 10, 12,  0,  0,  4,  5,  5,
+	         1,  8,  8, 10,  2,  2,  2,  2,  2,  2,  2,  6,  9,  0, 12,
+	         5,  3, 10,  6,  1,  0,  0,  0,  0,  0,  0,  0,  6,  5,  7,
+	         5, 69, 31,  5,  1,  0,  0,  0,  0,  0,  0,  0,  4,  5,  5,
+	         5,  9, 10, 12,  1,  0,  0,  0,  0,  0,  0,  0,  4, 13,  5,
+	         1,  2,  6,  7,  1,  0,  0,  8,  8,  8,  0,  0,  4, 13,  5,				// Must add a refill dash in 2nd case
+	         1,  0,  4,  5,  1,  0,  4,  3, 90,  6,  1,  0,  4, 79,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long
+	         1,  0,  4,  5,  1,  0,  4,  5, 15,  5,  1,  0,  4,  7,  5,
+	         1,  0, 12, 13,  9,  0,  4,  9, 10, 12,  1,  0,  4,  5,  5,
 	         1,  4,  3, 10,  6,  9, 12,  5,  7,  5,  9,  8, 12,  5,  5,
 	         1,  4, 69, 31,  5, 11, 10, 12,  5,  9, 10, 10, 10, 28,  5,
 	         1,  4,  9, 10, 12,  2,  2,  2,  0,  2,  2,  2,  2,  2,  4,
@@ -266,12 +266,14 @@ public class Maze {
 		 		 
     	case 6 : this.map = Jumptuto;
 		 		 this.name = "Press Space to Dash";
-		 		 this.nbrGhost = 4;
+		 		 this.nbrGhost = 5;
 		 		 this.dashlevel=5;
 		 		 this.bonusfixelist.add(new BonusCreator(4,2,4));
-		 		 this.bonusfixelist.add(new BonusCreator(13,7,6));
+		 		 this.bonusfixelist.add(new BonusCreator(13,7,8));
 		 		 this.bonusfixelist.add(new BonusCreator(13,1,5));
 		 		 this.bonusfixelist.add(new BonusCreator(8,9,3));
+		 		 this.bonusfixelist.add(new BonusCreator(1,5,7));
+			 	 this.bonusfixelist.add(new BonusCreator(2,4,5));
 		 		 break ;
 		 		 
     	case 7 : this.map = TutoTroughMap;

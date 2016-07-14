@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+@SuppressWarnings("serial")
 public class Board extends JPanel implements ActionListener {
 
     private Dimension d;
@@ -63,26 +64,22 @@ public class Board extends JPanel implements ActionListener {
     private int entryPacmanX, entryPacmanY;
     private int jumpcount = 0;
 	private int lengthjump = 1;
-
     
     private int numlevel;
-    //private LoadMaze loader = new LoadMaze(numlevel);
-    //private Maze currentlevel ;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
     private String namelevel;
 
     private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
-    private final int maxspeed = 6;
+    //private final int maxspeed = 6;
 
     private int currentspeed = 3;
     private short[] screendata;
     private Timer timer;
     
-    private ArrayList<Color> swapColorList;			//Color ( Red/ Green/ Blue)
+    private ArrayList<Color> swapColorList;			//Color(Red,Green,Blue)
     private Color orange = new Color(205, 100, 5);
     private Color green = new Color(5, 100, 5);
     private Color flashygreen = new Color(0, 255, 0);
-    private Color pink = new Color(255, 50, 50);
     private int numcolor;
     
     private boolean boodrawbon = false;
@@ -100,6 +97,7 @@ public class Board extends JPanel implements ActionListener {
 	private ArrayList<BonusCreator> currentbonusfixelist;
     
     private BonusCreator bonscore ;
+	private BonusCreator bon;
 
     public Board() {
 
@@ -130,8 +128,7 @@ public class Board extends JPanel implements ActionListener {
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
-        
-        
+        bon = new BonusCreator();
         initColorBoard();
         
         timer = new Timer(40, this);
@@ -358,10 +355,10 @@ public class Board extends JPanel implements ActionListener {
                 score++;
                 ptseatingbonus ++ ;
                 ptseatinglife ++;
-                System.out.println("["+pacmanx +":"+ pacmany+"]");
+               // System.out.println("["+pacmanx +":"+ pacmany+"]");
                 
                 if(boobonusexist){
-                	BonusCreator bon = new BonusCreator();
+
                 	boolean modif = false;
                 	for(BonusCreator bonus : bonuslist){
                 	
@@ -370,17 +367,28 @@ public class Board extends JPanel implements ActionListener {
                 			if(bonus.getName()=="lifeup"){
                 				addlife();
                 				}
+                			
                 			else if(bonus.getName()=="jumprefill"){
                 				System.out.println("+5 dash");
                 				jumpcount += 5;
                 				}
+                			
                 			else if(bonus.getName()=="jumpupgrade"){
                 				lengthjump = lengthjump+1;
-                				if(lengthjump>2){
-                					lengthjump=2;
-                				}
+	                				if(lengthjump>=2){
+	                					lengthjump=2;
+	                				}
                 				System.out.println("Dash Upgraded : "+ lengthjump);
                 				}
+                			
+                			else if(bonus.getName()=="jumpdowngrade"){
+                				lengthjump = lengthjump-1;
+	                				if(lengthjump<=1){
+	                					lengthjump=1;
+	                				}
+                				System.out.println("Dash Downgraded : "+ lengthjump);
+                				}
+                			
                 			bon = bonus;
                 			modif = true;
                 		}
@@ -432,7 +440,7 @@ public class Board extends JPanel implements ActionListener {
         }
         
         if(!currentbonusfixelist.isEmpty()){					// Eat Fix Bonus
-        	BonusCreator bon = new BonusCreator();
+        	//BonusCreator bon = new BonusCreator();
         	boolean modif = false;
         	for(BonusCreator bonus : currentbonusfixelist){
         	
@@ -451,6 +459,13 @@ public class Board extends JPanel implements ActionListener {
         					lengthjump=2;
         				}
         				System.out.println("Dash Upgraded : "+ lengthjump);
+        				}
+        			else if(bonus.getName()=="jumpdowngrade"){
+        				lengthjump = lengthjump-1;
+            				if(lengthjump<1){
+            					lengthjump=1;
+            				}
+        				System.out.println("Dash Downgraded : "+ lengthjump);
         				}
         			bon = bonus;
         			modif = true;
@@ -690,7 +705,7 @@ public class Board extends JPanel implements ActionListener {
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
         jumpcount += currentlevel.getDashlevel();
-        currentbonusfixelist = currentlevel.getBonusfixelist();    
+        currentbonusfixelist = currentlevel.getBonusfixelist();
         
         boobonusexist = false ;
         bonuslist.removeAll(bonuslist);
@@ -855,6 +870,7 @@ public class Board extends JPanel implements ActionListener {
                 }else if (key == KeyEvent.VK_R) {							//Restart Level
                 	System.out.println("Restart Level : score = 0");
                 	score = 0;
+                	pacsleft = 3 ;
                     initLevel();
                 } 
                 
