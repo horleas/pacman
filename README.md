@@ -39,6 +39,10 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add MultPop location of Ghost
 + Each Map add a number of Dash given to the player dependent of the necessity of the level
 
+14 July : 
+
++ Mechanic to place Bonus at the beginning of the map
++ Modify some map to place Bonus (Tuto Dash with bonus placed)
 
 
 
@@ -50,7 +54,6 @@ TODO :
 + Add Music, Add better sprite movement ghost
 + Add swap Color board 
 + Add Portail/Warper into map
-+ Mechanic to Place special Bonus at the beginning of the map
 + Make Compatible with Jar exportation
 + Modify Comportement of Ghost
 + Add Trap insta-kill
