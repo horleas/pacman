@@ -53,8 +53,13 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 15 July :
 + Add better sprite movement ghost ( Color + looking in the direction they follow)
-+ Add Dead and Weak state for ghost but not killable for the moment
++ Add Dead and Weak state for ghost
 + Add Map LineRunner
++ Add Bonus to eat the ghost. When bonus "Ghost busters" is eaten, all ghost will be in weak mode so you can eat them
++ Add "delay" to go back to life for the ghost ( Weak and Dead)
++ Modify some map to add the Bonus Ghost Busters
++ Add point for eating ghost ( proportionaly)
++ Add some hotKey to help to test the game (T is to change the ghoststate, Y is for add life + 10 dash, P is to pause the game)
 
 
 
@@ -63,7 +68,6 @@ TODO :
 + Add finishing line (PacWoman ? )
 + Possibility to have different size of Map
 + Add Map All Tutorial
-+ Add bonus ( to Eat ghost)
 + Add Score Serialization
 + Add Music
 + Improve swap Color board (Menu)
@@ -71,6 +75,8 @@ TODO :
 + Modify Comportement of Ghost
 + Add Trap insta-kill
 + Add Moving Trap on a specific pattern
++ Slow Motion hotkey to aid the player
++ Add some Gauge for the dashcounter (and Slowmotion counter )
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
@@ -87,6 +93,6 @@ Add Menu Screen:
 + Add Rules Panel
 
 (2 Player ?) 
-
+(implement Controler XBOX360 ?)
 
 
