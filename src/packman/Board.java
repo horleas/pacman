@@ -48,6 +48,7 @@ public class Board extends JPanel implements ActionListener {
     private int nrofghosts = 6;
     private int entryGhostX[]=new int[nrofblocks] ;
     private int entryGhostY[]=new int[nrofblocks] ;
+    private int tmpstateghost;
     
     private int pacsleft, score;
     private int[] dx, dy;
@@ -55,6 +56,7 @@ public class Board extends JPanel implements ActionListener {
     private int nbrpopghost;
     private int delayghost;
     private int ghostpos;
+    private String[] ghoststate;
 
     private Image ghost;
     private Image ghostred , ghostredup1, ghostredup2, ghostreddown1, ghostreddown2, ghostredright1, ghostredright2, ghostredleft1, ghostredleft2;
@@ -134,6 +136,8 @@ public class Board extends JPanel implements ActionListener {
         ghostdy = new int[maxghosts];
         ghostspeed = new int[maxghosts];
         ghosttype = new int[maxghosts];
+        ghoststate = new String[maxghosts];
+        tmpstateghost = 0 ;
         dx = new int[4];
         dy = new int[4];
         numlevel = 1;
@@ -342,246 +346,277 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void drawGhost(Graphics2D g2d, int x, int y, int numghost , int type) {
-    	//(TODO)
+    	//(TODO) to improve ( reduce/clean code)
     	delayghost ++;
     	if(delayghost%6==0){ghostpos ++;}
     	
-    	switch(type){
     	
-    	case 0: // RED HOTCHILIPEPPER
-	    	// Load Left
-	    	if(ghostdx[numghost]<0){ 
+    	if(ghoststate[numghost]=="alive"){    		//ALIVE STATE	
+	    	switch(type){    	
+	    	case 0: // RED HOTCHILIPEPPER
+		    	// Load Left
+		    	if(ghostdx[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostredleft1;
+		    			break;
+		    		default :
+		    			ghost = ghostredleft2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Right
+		    	if(ghostdx[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostredright1;
+		    			break;
+		    		default :
+		    			ghost = ghostredright2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load up
+		    	if(ghostdy[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostredup1;
+		    			break;
+		    		default :
+		    			ghost = ghostredup2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Down
+		    	if(ghostdy[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostreddown1;
+		    			break;
+		    		default :
+		    			ghost = ghostreddown2;
+		    			break;   		
+		    		}	
+		    	}
+		    	break;
+		    	
+	    	case 1: // PINK FLOYD
+		    	// Load Left
+		    	if(ghostdx[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostpinkleft1;
+		    			break;
+		    		default :
+		    			ghost = ghostpinkleft2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Right
+		    	if(ghostdx[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostpinkright1;
+		    			break;
+		    		default :
+		    			ghost = ghostpinkright2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load up
+		    	if(ghostdy[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostpinkup1;
+		    			break;
+		    		default :
+		    			ghost = ghostpinkup2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Down
+		    	if(ghostdy[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostpinkdown1;
+		    			break;
+		    		default :
+		    			ghost = ghostpinkdown2;
+		    			break;   		
+		    		}	
+		    	}
+		    	break;
+		    	
+	    	case 2: // TURQUOISE DAYS GREYSKIES
+		    	// Load Left
+		    	if(ghostdx[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostturquoiseleft1;
+		    			break;
+		    		default :
+		    			ghost = ghostturquoiseleft2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Right
+		    	if(ghostdx[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostturquoiseright1;
+		    			break;
+		    		default :
+		    			ghost = ghostturquoiseright2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load up
+		    	if(ghostdy[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostturquoiseup1;
+		    			break;
+		    		default :
+		    			ghost = ghostturquoiseup2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Down
+		    	if(ghostdy[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostturquoisedown1;
+		    			break;
+		    		default :
+		    			ghost = ghostturquoisedown2;
+		    			break;   		
+		    		}	
+		    	}
+		    	break;
+		    	
+	    	case 3: // YELLOW SUBMARINE
+		    	// Load Left
+		    	if(ghostdx[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowleft1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowleft2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Right
+		    	if(ghostdx[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowright1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowright2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load up
+		    	if(ghostdy[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowup1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowup2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Down
+		    	if(ghostdy[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowdown1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowdown2;
+		    			break;   		
+		    		}	
+		    	}
+		    	break;
+		    	
+	    	default: // DEFAULT
+		    	// Load Left
+		    	if(ghostdx[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowleft1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowleft2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Right
+		    	if(ghostdx[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowright1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowright2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load up
+		    	if(ghostdy[numghost]<0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowup1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowup2;
+		    			break;   		
+		    		}	
+		    	}
+		    	// Load Down
+		    	if(ghostdy[numghost]>0){ 
+		    		switch(ghostpos%2){
+		    		case 0 :
+		    			ghost = ghostyellowdown1;
+		    			break;
+		    		default :
+		    			ghost = ghostyellowdown2;
+		    			break;   		
+		    		}	
+		    	}
+		    	break;
+	    	}
+    	}
+    	
+    	// WEAK STATE
+    	if(ghoststate[numghost]=="weak"){
 	    		switch(ghostpos%2){
 	    		case 0 :
-	    			ghost = ghostredleft1;
+	    			ghost = ghostweakblue1;
 	    			break;
 	    		default :
-	    			ghost = ghostredleft2;
+	    			ghost = ghostweakwhite1;
 	    			break;   		
 	    		}	
+    	}
+    	
+    	
+    	//DEAD STATE
+    	if(ghoststate[numghost]=="dead"){
+    		if(ghostdx[numghost]<0){ 
+	    		ghost = ghostdeadleft;
 	    	}
-	    	// Load Right
-	    	if(ghostdx[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostredright1;
-	    			break;
-	    		default :
-	    			ghost = ghostredright2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load up
-	    	if(ghostdy[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostredup1;
-	    			break;
-	    		default :
-	    			ghost = ghostredup2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Down
-	    	if(ghostdy[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostreddown1;
-	    			break;
-	    		default :
-	    			ghost = ghostreddown2;
-	    			break;   		
-	    		}	
-	    	}
-	    	break;
-	    	
-    	case 1: // PINK FLOYD
-	    	// Load Left
-	    	if(ghostdx[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostpinkleft1;
-	    			break;
-	    		default :
-	    			ghost = ghostpinkleft2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Right
-	    	if(ghostdx[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostpinkright1;
-	    			break;
-	    		default :
-	    			ghost = ghostpinkright2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load up
-	    	if(ghostdy[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostpinkup1;
-	    			break;
-	    		default :
-	    			ghost = ghostpinkup2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Down
-	    	if(ghostdy[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostpinkdown1;
-	    			break;
-	    		default :
-	    			ghost = ghostpinkdown2;
-	    			break;   		
-	    		}	
-	    	}
-	    	break;
-	    	
-    	case 2: // TURQUOISE DAYS GREYSKIES
-	    	// Load Left
-	    	if(ghostdx[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostturquoiseleft1;
-	    			break;
-	    		default :
-	    			ghost = ghostturquoiseleft2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Right
-	    	if(ghostdx[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostturquoiseright1;
-	    			break;
-	    		default :
-	    			ghost = ghostturquoiseright2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load up
-	    	if(ghostdy[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostturquoiseup1;
-	    			break;
-	    		default :
-	    			ghost = ghostturquoiseup2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Down
-	    	if(ghostdy[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostturquoisedown1;
-	    			break;
-	    		default :
-	    			ghost = ghostturquoisedown2;
-	    			break;   		
-	    		}	
-	    	}
-	    	break;
-	    	
-    	case 3: // YELLOW SUBMARINE
-	    	// Load Left
-	    	if(ghostdx[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowleft1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowleft2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Right
-	    	if(ghostdx[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowright1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowright2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load up
-	    	if(ghostdy[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowup1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowup2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Down
-	    	if(ghostdy[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowdown1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowdown2;
-	    			break;   		
-	    		}	
-	    	}
-	    	break;
-	    	
-    	default: // DEFAULT
-	    	// Load Left
-	    	if(ghostdx[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowleft1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowleft2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Right
-	    	if(ghostdx[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowright1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowright2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load up
-	    	if(ghostdy[numghost]<0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowup1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowup2;
-	    			break;   		
-	    		}	
-	    	}
-	    	// Load Down
-	    	if(ghostdy[numghost]>0){ 
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostyellowdown1;
-	    			break;
-	    		default :
-	    			ghost = ghostyellowdown2;
-	    			break;   		
-	    		}	
-	    	}
-	    	break;
+    		if(ghostdx[numghost]>0){ 
+    			ghost = ghostdeadright;
+    		}
+    		if(ghostdy[numghost]<0){ 
+    			ghost = ghostdeadup;
+    		}
+    		if(ghostdy[numghost]>0){ 
+    			ghost = ghostdeaddown;
+    		}
     	}
     	
         g2d.drawImage(ghost, x, y, this);
@@ -996,6 +1031,7 @@ public class Board extends JPanel implements ActionListener {
             ghostdy[i] = 0;
             ghostdx[i] = dx;
             ghosttype[i]= type;
+            ghoststate[i] = "alive";
             dx = -dx;
             locpop++;
             type ++;
@@ -1164,6 +1200,35 @@ public class Board extends JPanel implements ActionListener {
                 } else if (key == KeyEvent.VK_DOWN) {
                     reqdx = 0;
                     reqdy = 1;
+                } else if (key == KeyEvent.VK_T) {
+                	//(TODO)
+                	tmpstateghost ++ ;
+                	switch(tmpstateghost){
+
+                            
+                		case 1 :
+                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
+                            	ghoststate[nbr]= "weak";
+                            }
+                            break;
+                            
+                		case 2 :
+                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
+                            	ghoststate[nbr]= "dead";
+                            }
+                            break;
+                		case 3 :
+                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
+                            	ghoststate[nbr]= "alive";
+                            }
+                            tmpstateghost = 0;
+                            break;
+                            
+                        default : 
+                            tmpstateghost = 0;
+                            break;
+                	}
+                	
                 } else if (key == KeyEvent.VK_C) {							// Swap Board Color
                    numcolor += 1; 
                    if(numcolor>swapColorList.size()-1){

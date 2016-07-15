@@ -253,7 +253,7 @@ public class Maze {
 	public void setMap(int pnumlevel) {
     	switch(pnumlevel){
     	case 1 : this.map = leveldata1;
-    	 		 this.name = "Level 1";
+    	 		 this.name = "From tutorial";
     	 		 this.nbrGhost = 4;
     	 		 this.dashlevel=0;
     			break ;		
