@@ -38,7 +38,7 @@ public class Board extends JPanel implements ActionListener {
     private final int scrsize = nrofblocks * blocksize;
     private final int pacanimdelay = 2;
     private final int pacmananimcount = 4;
-    private final int maxghosts = 12;
+    private final int maxghosts = 15;
     private final int pacmanspeed = 6;
 
 
@@ -46,8 +46,8 @@ public class Board extends JPanel implements ActionListener {
     private int pacanimdir = 1;
     private int pacmananimpos = 0;
     private int nrofghosts = 6;
-    private int entryGhostX[]=new int[10] ;
-    private int entryGhostY[]=new int[10] ;
+    private int entryGhostX[]=new int[nrofblocks] ;
+    private int entryGhostY[]=new int[nrofblocks] ;
     
     private int pacsleft, score;
     private int[] dx, dy;
@@ -124,7 +124,7 @@ public class Board extends JPanel implements ActionListener {
         ghostspeed = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 1;
+        numlevel = 8;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();

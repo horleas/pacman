@@ -114,7 +114,7 @@ public class Maze {
 		         5, 16, 16,  5, 16, 16, 16, 16, 16,  5, 16, 11, 10, 10,  4,
 		         5, 16, 16, 13, 16, 16,  7, 16, 16, 13, 16, 16, 16, 16,  5,
 		         5, 16, 16, 16, 16, 16,  5, 16, 16, 16, 16, 11, 10, 10,  4,
-		         5, 16, 16, 16, 16, 16,  5, 16, 16, 16, 16, 16, 16, 84,  4,
+		         5, 16, 16, 16, 16, 16,  5, 16, 16, 16, 16, 16, 16, 84,  5,
 		         9, 10, 10, 10, 10, 10,  8, 10, 10, 10, 10, 10, 10, 10, 12
 		    };
 	 
@@ -208,6 +208,24 @@ public class Maze {
 	         1,  4,  9, 10, 12,  2,  2,  2,  0,  2,  2,  2,  2,  2,  4,
 	         9,  8, 10, 10, 10,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 	    };
+	 
+		private final short Linerunner[] = {
+		        71, 87, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 87, 71,
+		         5,  5,  5,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5,  5, 21,
+		         5,  5, 21,  5,  5,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5,
+		        21,  5,  5, 21,  5,  5, 21,  5,  5,  5,  5,  5,  5,  5,  5,
+		         5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5, 21,  5,  5,
+		         5,  5,  5,  5, 21,  5,  5,  5, 21,  5, 21,  5,  5,  5,  5,
+		         5, 21,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5,  5,  5, 21,
+		         5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
+		         5,  5,  5,  5,  5, 21,  5,  5,  5, 21,  5,  5,  5, 21,  5,
+		         5,  5,  5, 21,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
+		         5, 21,  5,  5,  5,  5, 21,  5,  5,  5,  5, 21,  5,  5,  5,
+		         5,  5,  5,  5,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5, 21,
+		         5,  5, 21,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
+		         5,  5,  5,  5,  5, 21,  5,  5,  5, 21,  5,  5, 21,  5,  5,
+		        13, 13, 13, 29, 13, 13, 13, 13, 61, 13, 29, 13, 13, 13, 13,
+		    };
 	
 	
 	public Maze(int pnumlevel){
@@ -274,6 +292,7 @@ public class Maze {
 		 		 this.bonusfixelist.add(new BonusCreator(8,9,3));
 		 		 this.bonusfixelist.add(new BonusCreator(1,5,7));
 			 	 this.bonusfixelist.add(new BonusCreator(2,4,5));
+			 	 this.bonusfixelist.add(new BonusCreator(12,2,5));
 		 		 break ;
 		 		 
     	case 7 : this.map = TutoTroughMap;
@@ -281,6 +300,15 @@ public class Maze {
     			 this.nbrGhost = 0;
     			 this.dashlevel=0;
     			 break ;
+    			 
+    	case 8 : this.map = Linerunner;
+		 		 this.name = "Line Runner";
+		 		 this.nbrGhost = nrofblocks;
+		 		 this.dashlevel=3;
+		 		 for(int bo=0;bo<nrofblocks;bo++){
+		 			 this.bonusfixelist.add(new BonusCreator(bo,14,5));
+		 		 }
+ 		 		 break ;		 
     			 
     	default : this.map = test;
 		 		  this.name = "Test";
