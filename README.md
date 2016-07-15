@@ -53,6 +53,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 15 July :
 + Add better sprite movement ghost ( Color + looking in the direction they follow)
++ Add Dead and Weak state for ghost but not killable for the moment
 + Add Map LineRunner
 
 
