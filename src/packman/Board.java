@@ -56,6 +56,7 @@ public class Board extends JPanel implements ActionListener {
     private int nbrpopghost;
     private int delayghost;
     private int ghostpos;
+    private int ghostwaittobealive[];
     private String[] ghoststate;
 
     private Image ghost;
@@ -66,7 +67,8 @@ public class Board extends JPanel implements ActionListener {
     private Image ghostdeadup, ghostdeadleft, ghostdeaddown, ghostdeadright;
     private Image ghostweakblue1,ghostweakblue2,ghostweakwhite1,ghostweakwhite2;
     
-    
+    private Image ghosteat200, ghosteat400, ghosteat800, ghosteat1600;
+    private int nbreaten ;
     
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
@@ -136,8 +138,10 @@ public class Board extends JPanel implements ActionListener {
         ghostdy = new int[maxghosts];
         ghostspeed = new int[maxghosts];
         ghosttype = new int[maxghosts];
+        ghostwaittobealive = new int[maxghosts];
         ghoststate = new String[maxghosts];
         tmpstateghost = 0 ;
+        nbreaten = 0;
         dx = new int[4];
         dy = new int[4];
         numlevel = 1;
@@ -325,8 +329,10 @@ public class Board extends JPanel implements ActionListener {
                 }
 
             }
-
-            ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);	//Warping of the Ghost
+            //check for Nowhere to go TODO
+            
+            //Warping of the Ghost
+            ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);	
     		if(ghostx[i]<0){ghostx[i] = 14*blocksize;}
     		if(ghostx[i]>14*blocksize){ghostx[i] = 0*blocksize;}
             ghosty[i] = ghosty[i] + (ghostdy[i] * ghostspeed[i]);
@@ -335,12 +341,66 @@ public class Board extends JPanel implements ActionListener {
     		
     		
             drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1, i, ghosttype[i]);
+            
 
+            //Revive Ghost
+            if(ghoststate[i]=="weak"){
+            	ghostwaittobealive[i] ++ ;
+            	if(ghostwaittobealive[i]%200 == 0){
+            		ghoststate[i]="alive";
+            		nbreaten = 0 ;
+            	}
+            }
+            
+            if(ghoststate[i]=="dead"){
+            	ghostwaittobealive[i] ++ ;
+            	if(ghostwaittobealive[i]%1000 == 0)
+            		ghoststate[i]="alive";
+            }
+            
+
+            //Check Collision with Pacman
             if (pacmanx > (ghostx[i] - 12) && pacmanx < (ghostx[i] + 12)
                     && pacmany > (ghosty[i] - 12) && pacmany < (ghosty[i] + 12)
                     && ingame) {
-
-                dying = true;
+            	
+            	if(ghoststate[i]=="alive"){
+            		dying = true;
+            	}
+            	
+            	if(ghoststate[i]=="weak"){
+            		ghoststate[i]="dead";
+            		nbreaten += 1  ;
+            		System.out.println(nbreaten);
+            		switch(nbreaten){
+            		case 1 :
+                		eaten = ghosteat200;
+                		score += 200; 
+                		break;
+            		case 2 :
+                		eaten = ghosteat400;
+                		score += 400;
+                		break;
+            		case 3 :
+                		eaten = ghosteat800;
+                		score += 800;
+                		break;
+            		case 4 :
+                		eaten = ghosteat1600;
+                		score += 1600;
+                		nbreaten = 0;
+                		break;            		
+            		default :
+            			nbreaten = 0;
+            			break;            		
+            		}
+            		eateninX=ghostx[i]/blocksize;
+            		eateninY=ghosty[i]/blocksize;
+            		drawBonuscore(g2d);
+            	}
+            	
+            	
+            	if(ghoststate[i]=="dead"){   	}
             }
         }
     }
@@ -676,6 +736,14 @@ public class Board extends JPanel implements ActionListener {
 	                				}
                 				System.out.println("Dash Downgraded : "+ lengthjump);
                 				}
+                			else if(bonus.getName()=="ghosteater"){
+	                				System.out.println("you can eat ghost");
+	                                for(int nbr = 0; nbr <nrofghosts ;nbr++){ 
+	                                	if(ghoststate[nbr] == "alive"){
+	                                		ghoststate[nbr]= "weak";
+	                                	}
+	                                }
+                				}
                 			
                 			bon = bonus;
                 			modif = true;
@@ -755,6 +823,14 @@ public class Board extends JPanel implements ActionListener {
             				}
         				System.out.println("Dash Downgraded : "+ lengthjump);
         				}
+        			else if(bonus.getName()=="ghosteater"){
+        				System.out.println("you can eat ghost");
+                        for(int nbr = 0; nbr <nrofghosts ;nbr++){ 
+                        	if(ghoststate[nbr] == "alive"){
+                        		ghoststate[nbr]= "weak";
+                        	}
+                        }
+    				}
         			bon = bonus;
         			modif = true;
         		}
@@ -905,48 +981,9 @@ public class Board extends JPanel implements ActionListener {
     }
     
     private void drawBonus(Graphics2D g2d) {
-
-        //boolean boobonus = true;
-        //Image img = bonscore.getImg() ;
- 
-        /*if(!boobonusexist){
-	        do{
-		        bonscore.setPosX((int) (Math.random()*nrofblocks));
-		        bonscore.setPosY((int) (Math.random()*nrofblocks));
-		        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
-
-		        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
-			        //System.out.println("le bonus est en "+ bonscore.getPosX()+" : " + bonscore.getPosY() + "screendata : " + screendata[bonscore.getPosX() + bonscore.getPosY()*nrofblocks-1]);
-		            boobonus = false ;
-		            boobonusexist = true;
-		        }
-	        }while(boobonus);
-        }
-        else{
-        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
-        }*/
-        
-        /*while(!boobonusexist){
-	
-		        bonscore.setPosX((int) (Math.random()*nrofblocks));
-		        bonscore.setPosY((int) (Math.random()*nrofblocks));
-		        if ((screendata[bonscore.getPosX() +nrofblocks * bonscore.getPosY()] & 16) != 0) { 
-		        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);
-		            boobonusexist = true;
-		            
-		        }
-        }*/
-        
-        /*if(boobonusexist)
-        	g2d.drawImage(img, bonscore.getPosX()*blocksize, bonscore.getPosY()*blocksize, this);*/
-        
-        
-        
         for(BonusCreator bonus : bonuslist){
         	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
         }
-        
-        
     }
     
     private void drawBonusFixe(Graphics2D g2d) {
@@ -987,6 +1024,7 @@ public class Board extends JPanel implements ActionListener {
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
         delayghost = 0;
+
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
         lengthjump = 1;
@@ -1032,6 +1070,7 @@ public class Board extends JPanel implements ActionListener {
             ghostdx[i] = dx;
             ghosttype[i]= type;
             ghoststate[i] = "alive";
+            ghostwaittobealive[i] = 0;
             dx = -dx;
             locpop++;
             type ++;
@@ -1136,7 +1175,14 @@ public class Board extends JPanel implements ActionListener {
         pacman2right = new ImageIcon(this.getClass().getResource("/right1.png")).getImage();
         pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
         pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
+        
+        //LOAD GHOST EAT POINT
     	
+    	ghosteat200 = new ImageIcon(this.getClass().getResource("/ghosteat200.png")).getImage();
+    	ghosteat400 = new ImageIcon(this.getClass().getResource("/ghosteat400.png")).getImage();
+    	ghosteat800 = new ImageIcon(this.getClass().getResource("/ghosteat800.png")).getImage();
+    	ghosteat1600 = new ImageIcon(this.getClass().getResource("/ghosteat1600.png")).getImage();
+        
         // LOAD PACWOMAN (TODO)
 
     }
@@ -1201,7 +1247,6 @@ public class Board extends JPanel implements ActionListener {
                     reqdx = 0;
                     reqdy = 1;
                 } else if (key == KeyEvent.VK_T) {
-                	//(TODO)
                 	tmpstateghost ++ ;
                 	switch(tmpstateghost){
 
@@ -1242,6 +1287,14 @@ public class Board extends JPanel implements ActionListener {
                 	pacsleft = 3 ;
                     initLevel();
                 } 
+                else if (key == KeyEvent.VK_DOLLAR ) {							//Next Level Cheat
+                	numlevel++;
+                    initLevel();
+                }
+                else if (key == KeyEvent.VK_Y ) {							//Next Level Cheat
+                	addlife();
+                	jumpcount = jumpcount+ 10;
+                } 
                 
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
                 	if(jumpcount>0){
@@ -1266,7 +1319,7 @@ public class Board extends JPanel implements ActionListener {
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     ingame = false;
-                } else if (key == KeyEvent.VK_PAUSE) {
+                } else if (key == KeyEvent.VK_P) {
                     if (timer.isRunning()) {
                         timer.stop();
                     } else {
