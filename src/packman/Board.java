@@ -51,10 +51,21 @@ public class Board extends JPanel implements ActionListener {
     
     private int pacsleft, score;
     private int[] dx, dy;
-    private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed;
-    int nbrpopghost;
+    private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed, ghosttype;
+    private int nbrpopghost;
+    private int delayghost;
+    private int ghostpos;
 
     private Image ghost;
+    private Image ghostred , ghostredup1, ghostredup2, ghostreddown1, ghostreddown2, ghostredright1, ghostredright2, ghostredleft1, ghostredleft2;
+    private Image ghostpink , ghostpinkup1, ghostpinkup2, ghostpinkdown1, ghostpinkdown2, ghostpinkright1, ghostpinkright2, ghostpinkleft1, ghostpinkleft2;
+    private Image ghostturquoise , ghostturquoiseup1, ghostturquoiseup2, ghostturquoisedown1, ghostturquoisedown2, ghostturquoiseright1, ghostturquoiseright2, ghostturquoiseleft1, ghostturquoiseleft2;
+    private Image ghostyellow , ghostyellowup1, ghostyellowup2, ghostyellowdown1, ghostyellowdown2, ghostyellowright1, ghostyellowright2, ghostyellowleft1, ghostyellowleft2;
+    private Image ghostdeadup, ghostdeadleft, ghostdeaddown, ghostdeadright;
+    private Image ghostweakblue1,ghostweakblue2,ghostweakwhite1,ghostweakwhite2;
+    
+    
+    
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
@@ -122,9 +133,10 @@ public class Board extends JPanel implements ActionListener {
         ghosty = new int[maxghosts];
         ghostdy = new int[maxghosts];
         ghostspeed = new int[maxghosts];
+        ghosttype = new int[maxghosts];
         dx = new int[4];
         dy = new int[4];
-        numlevel = 8;
+        numlevel = 1;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -318,7 +330,7 @@ public class Board extends JPanel implements ActionListener {
     		if(ghosty[i]>14*blocksize){ghosty[i] = 0*blocksize;}
     		
     		
-            drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1);
+            drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1, i, ghosttype[i]);
 
             if (pacmanx > (ghostx[i] - 12) && pacmanx < (ghostx[i] + 12)
                     && pacmany > (ghosty[i] - 12) && pacmany < (ghosty[i] + 12)
@@ -329,8 +341,249 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    private void drawGhost(Graphics2D g2d, int x, int y) {
-
+    private void drawGhost(Graphics2D g2d, int x, int y, int numghost , int type) {
+    	//(TODO)
+    	delayghost ++;
+    	if(delayghost%6==0){ghostpos ++;}
+    	
+    	switch(type){
+    	
+    	case 0: // RED HOTCHILIPEPPER
+	    	// Load Left
+	    	if(ghostdx[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostredleft1;
+	    			break;
+	    		default :
+	    			ghost = ghostredleft2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Right
+	    	if(ghostdx[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostredright1;
+	    			break;
+	    		default :
+	    			ghost = ghostredright2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load up
+	    	if(ghostdy[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostredup1;
+	    			break;
+	    		default :
+	    			ghost = ghostredup2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Down
+	    	if(ghostdy[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostreddown1;
+	    			break;
+	    		default :
+	    			ghost = ghostreddown2;
+	    			break;   		
+	    		}	
+	    	}
+	    	break;
+	    	
+    	case 1: // PINK FLOYD
+	    	// Load Left
+	    	if(ghostdx[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostpinkleft1;
+	    			break;
+	    		default :
+	    			ghost = ghostpinkleft2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Right
+	    	if(ghostdx[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostpinkright1;
+	    			break;
+	    		default :
+	    			ghost = ghostpinkright2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load up
+	    	if(ghostdy[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostpinkup1;
+	    			break;
+	    		default :
+	    			ghost = ghostpinkup2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Down
+	    	if(ghostdy[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostpinkdown1;
+	    			break;
+	    		default :
+	    			ghost = ghostpinkdown2;
+	    			break;   		
+	    		}	
+	    	}
+	    	break;
+	    	
+    	case 2: // TURQUOISE DAYS GREYSKIES
+	    	// Load Left
+	    	if(ghostdx[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostturquoiseleft1;
+	    			break;
+	    		default :
+	    			ghost = ghostturquoiseleft2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Right
+	    	if(ghostdx[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostturquoiseright1;
+	    			break;
+	    		default :
+	    			ghost = ghostturquoiseright2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load up
+	    	if(ghostdy[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostturquoiseup1;
+	    			break;
+	    		default :
+	    			ghost = ghostturquoiseup2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Down
+	    	if(ghostdy[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostturquoisedown1;
+	    			break;
+	    		default :
+	    			ghost = ghostturquoisedown2;
+	    			break;   		
+	    		}	
+	    	}
+	    	break;
+	    	
+    	case 3: // YELLOW SUBMARINE
+	    	// Load Left
+	    	if(ghostdx[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowleft1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowleft2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Right
+	    	if(ghostdx[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowright1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowright2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load up
+	    	if(ghostdy[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowup1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowup2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Down
+	    	if(ghostdy[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowdown1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowdown2;
+	    			break;   		
+	    		}	
+	    	}
+	    	break;
+	    	
+    	default: // DEFAULT
+	    	// Load Left
+	    	if(ghostdx[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowleft1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowleft2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Right
+	    	if(ghostdx[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowright1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowright2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load up
+	    	if(ghostdy[numghost]<0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowup1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowup2;
+	    			break;   		
+	    		}	
+	    	}
+	    	// Load Down
+	    	if(ghostdy[numghost]>0){ 
+	    		switch(ghostpos%2){
+	    		case 0 :
+	    			ghost = ghostyellowdown1;
+	    			break;
+	    		default :
+	    			ghost = ghostyellowdown2;
+	    			break;   		
+	    		}	
+	    	}
+	    	break;
+    	}
+    	
         g2d.drawImage(ghost, x, y, this);
     }
 
@@ -698,6 +951,7 @@ public class Board extends JPanel implements ActionListener {
         int i;
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
+        delayghost = 0;
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
         lengthjump = 1;
@@ -733,6 +987,7 @@ public class Board extends JPanel implements ActionListener {
         int dx = 1;
         int random;
         int locpop = 0;
+        int type = 0 ;
 
         for (i = 0; i < nrofghosts; i++) {
 
@@ -740,9 +995,12 @@ public class Board extends JPanel implements ActionListener {
             ghostx[i] = entryGhostY[locpop] * blocksize;				//put a ghost at each location and if all location has been use and there is still some ghost to place, remake the loop 
             ghostdy[i] = 0;
             ghostdx[i] = dx;
+            ghosttype[i]= type;
             dx = -dx;
             locpop++;
+            type ++;
             
+            if(type >= 4){ type = 0;}
             if(locpop>=nbrpopghost){ locpop = 0;} 
             
             random = (int) (Math.random() * (currentspeed + 1));
@@ -767,7 +1025,68 @@ public class Board extends JPanel implements ActionListener {
 
     private void loadImages() {
 
-    	ghost = new ImageIcon(this.getClass().getResource("/floyd.png")).getImage();
+    	// LOAD RED GHOST SPRITE
+    	ghostred = new ImageIcon(this.getClass().getResource("/hotchilipepper.png")).getImage();
+    	ghostredup1 = new ImageIcon(this.getClass().getResource("/redup1.png")).getImage();
+    	ghostredup2 = new ImageIcon(this.getClass().getResource("/redup2.png")).getImage();
+    	ghostreddown1 = new ImageIcon(this.getClass().getResource("/reddown1.png")).getImage();
+    	ghostreddown2 = new ImageIcon(this.getClass().getResource("/reddown2.png")).getImage();
+    	ghostredright1 = new ImageIcon(this.getClass().getResource("/redright1.png")).getImage();
+    	ghostredright2 = new ImageIcon(this.getClass().getResource("/redright2.png")).getImage();
+    	ghostredleft1 = new ImageIcon(this.getClass().getResource("/redleft1.png")).getImage();
+    	ghostredleft2 = new ImageIcon(this.getClass().getResource("/redleft2.png")).getImage();
+    	
+    	
+    	// LOAD PINK GHOST SPRITE
+    	ghostpink = new ImageIcon(this.getClass().getResource("/floyd.png")).getImage();
+    	ghostpinkup1 = new ImageIcon(this.getClass().getResource("/pinkup1.png")).getImage();
+    	ghostpinkup2 = new ImageIcon(this.getClass().getResource("/pinkup2.png")).getImage();
+    	ghostpinkdown1 = new ImageIcon(this.getClass().getResource("/pinkdown1.png")).getImage();
+    	ghostpinkdown2 = new ImageIcon(this.getClass().getResource("/pinkdown2.png")).getImage();
+    	ghostpinkright1 = new ImageIcon(this.getClass().getResource("/pinkright1.png")).getImage();
+    	ghostpinkright2 = new ImageIcon(this.getClass().getResource("/pinkright2.png")).getImage();
+    	ghostpinkleft1 = new ImageIcon(this.getClass().getResource("/pinkleft1.png")).getImage();
+    	ghostpinkleft2 = new ImageIcon(this.getClass().getResource("/pinkleft2.png")).getImage();
+    	
+    	
+    	// LOAD TURQUOISE GHOST SPRITE
+    	ghostturquoise = new ImageIcon(this.getClass().getResource("/Greyskies.png")).getImage();
+    	ghostturquoiseup1 = new ImageIcon(this.getClass().getResource("/turquoiseup1.png")).getImage();
+    	ghostturquoiseup2 = new ImageIcon(this.getClass().getResource("/turquoiseup2.png")).getImage();
+    	ghostturquoisedown1 = new ImageIcon(this.getClass().getResource("/turquoisedown1.png")).getImage();
+    	ghostturquoisedown2 = new ImageIcon(this.getClass().getResource("/turquoisedown2.png")).getImage();
+    	ghostturquoiseright1 = new ImageIcon(this.getClass().getResource("/turquoiseright1.png")).getImage();
+    	ghostturquoiseright2 = new ImageIcon(this.getClass().getResource("/turquoiseright2.png")).getImage();
+    	ghostturquoiseleft1 = new ImageIcon(this.getClass().getResource("/turquoiseleft1.png")).getImage();
+    	ghostturquoiseleft2 = new ImageIcon(this.getClass().getResource("/turquoiseleft2.png")).getImage();
+    	
+    	
+    	// LOAD YELLOW GHOST SPRITE
+    	ghostyellow = new ImageIcon(this.getClass().getResource("/submarine.png")).getImage();
+    	ghostyellowup1 = new ImageIcon(this.getClass().getResource("/yellowup1.png")).getImage();
+    	ghostyellowup2 = new ImageIcon(this.getClass().getResource("/yellowup2.png")).getImage();
+    	ghostyellowdown1 = new ImageIcon(this.getClass().getResource("/yellowdown1.png")).getImage();
+    	ghostyellowdown2 = new ImageIcon(this.getClass().getResource("/yellowdown2.png")).getImage();
+    	ghostyellowright1 = new ImageIcon(this.getClass().getResource("/yellowright1.png")).getImage();
+    	ghostyellowright2 = new ImageIcon(this.getClass().getResource("/yellowright2.png")).getImage();
+    	ghostyellowleft1 = new ImageIcon(this.getClass().getResource("/yellowleft1.png")).getImage();
+    	ghostyellowleft2 = new ImageIcon(this.getClass().getResource("/yellowleft2.png")).getImage();
+    	
+    	//LOAD DEADGHOST
+    	ghostdeadup = new ImageIcon(this.getClass().getResource("/deadup.png")).getImage();
+    	ghostdeaddown = new ImageIcon(this.getClass().getResource("/deaddown.png")).getImage();
+    	ghostdeadleft = new ImageIcon(this.getClass().getResource("/deadleft.png")).getImage();
+    	ghostdeadright = new ImageIcon(this.getClass().getResource("/deadright.png")).getImage();
+    	
+    	//LOAD WEAKGHOST 
+    	ghostweakblue1 = new ImageIcon(this.getClass().getResource("/weakblue1.png")).getImage();
+    	ghostweakblue2 = new ImageIcon(this.getClass().getResource("/weakblue2.png")).getImage();
+    	ghostweakwhite1 = new ImageIcon(this.getClass().getResource("/weakwhite1.png")).getImage();
+    	ghostweakwhite2 = new ImageIcon(this.getClass().getResource("/weakwhite2.png")).getImage();
+    	
+    	
+    	
+    	// LOAD PACMAN BOY
     	pacman1 = new ImageIcon(this.getClass().getResource("/pacman.png")).getImage();
         pacman2up = new ImageIcon(this.getClass().getResource("/up1.png")).getImage();
         pacman3up = new ImageIcon(this.getClass().getResource("/up2.png")).getImage();
@@ -782,22 +1101,7 @@ public class Board extends JPanel implements ActionListener {
         pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
         pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
     	
-    	/*
-        //ghost = new ImageIcon("images/floyd.png").getImage();
-        pacman1 = new ImageIcon("images/pacman.png").getImage();
-        pacman2up = new ImageIcon("images/up1.png").getImage();
-        pacman3up = new ImageIcon("images/up2.png").getImage();
-        pacman4up = new ImageIcon("images/up3.png").getImage();
-        pacman2down = new ImageIcon("images/down1.png").getImage();
-        pacman3down = new ImageIcon("images/down2.png").getImage();
-        pacman4down = new ImageIcon("images/down3.png").getImage();
-        pacman2left = new ImageIcon("images/left1.png").getImage();
-        pacman3left = new ImageIcon("images/left2.png").getImage();
-        pacman4left = new ImageIcon("images/left3.png").getImage();
-        pacman2right = new ImageIcon("images/right1.png").getImage();
-        pacman3right = new ImageIcon("images/right2.png").getImage();
-        pacman4right = new ImageIcon("images/right3.png").getImage();
-        */
+        // LOAD PACWOMAN (TODO)
 
     }
 
