@@ -51,6 +51,10 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add Iconeimage for the JFrame
 + Add "Bonus" Decrease Dash
 
+15 July :
++ Add better sprite movement ghost ( Color + looking in the direction they follow)
++ Add Map LineRunner
+
 
 
 TODO :
@@ -61,7 +65,6 @@ TODO :
 + Add bonus ( to Eat ghost)
 + Add Score Serialization
 + Add Music
-+ Add better sprite movement ghost
 + Improve swap Color board (Menu)
 + Add Portail/Warper into map
 + Modify Comportement of Ghost
