@@ -114,7 +114,8 @@ public class BonusCreator {
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage();
 			 this.setName("jumprefill");
 			 break;
-			 
+		
+			 //(TODO) Verify there is ghost in the level for random pop
 		case 6 :
 			 this.img = new ImageIcon(this.getClass().getResource("/ghostbusters.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/ghosteater.png")).getImage();

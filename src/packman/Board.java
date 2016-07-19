@@ -33,8 +33,8 @@ public class Board extends JPanel implements ActionListener {
     private boolean ingame = false;
     private boolean dying = false;
 
-    private final int blocksize = 24;
-    private final int nrofblocks = 15;
+    private final static int blocksize = 24;
+    private final static int nrofblocks = 15;
     private final int scrsize = nrofblocks * blocksize;
     private final int pacanimdelay = 2;
     private final int pacmananimcount = 4;
@@ -52,6 +52,11 @@ public class Board extends JPanel implements ActionListener {
     
     private int pacsleft, score;
     private int[] dx, dy;
+    
+    
+    // TODO new ghost class
+    private ArrayList<Ghost> ghostlist;
+    
     private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed, ghosttype;
     private int nbrpopghost;
     private int delayghost;
@@ -88,7 +93,7 @@ public class Board extends JPanel implements ActionListener {
     //private final int maxspeed = 6;
 
     private int currentspeed = 3;
-    private short[] screendata;
+    private static short[] screendata;
     private Timer timer;
     
     private ArrayList<Color> swapColorList;			//Color(Red,Green,Blue)
@@ -132,6 +137,9 @@ public class Board extends JPanel implements ActionListener {
         screendata = new short[nrofblocks * nrofblocks];
         mazecolor = green;
         d = new Dimension(400, 400);
+        ghostlist = new ArrayList<Ghost>();
+        
+        
         ghostx = new int[maxghosts];
         ghostdx = new int[maxghosts];
         ghosty = new int[maxghosts];
@@ -144,7 +152,7 @@ public class Board extends JPanel implements ActionListener {
         nbreaten = 0;
         dx = new int[4];
         dy = new int[4];
-        numlevel = 1;
+        numlevel = 15;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -242,6 +250,7 @@ public class Board extends JPanel implements ActionListener {
         if (finished) {
         	lengthjump = 1;
         	currentbonusfixelist.removeAll(currentbonusfixelist);
+        	ghostlist.removeAll(ghostlist);
         	bonuslist.removeAll(bonuslist);
             numlevel ++ ;
             initLevel();
@@ -275,6 +284,13 @@ public class Board extends JPanel implements ActionListener {
         short i;
         int pos;
         int count;
+        
+        
+        //TODO en cours
+        for(Ghost currentghost : ghostlist){
+        	currentghost.movement();
+        	drawGhost(g2d,currentghost.getPosX()+1,currentghost.getPosY(),0,currentghost.getType());
+        }
 
         for (i = 0; i < nrofghosts; i++) {
             if (ghostx[i] % blocksize == 0 && ghosty[i] % blocksize == 0) {
@@ -329,8 +345,7 @@ public class Board extends JPanel implements ActionListener {
                 }
 
             }
-            //check for Nowhere to go TODO
-            
+ 
             //Warping of the Ghost
             ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);	
     		if(ghostx[i]<0){ghostx[i] = 14*blocksize;}
@@ -1024,10 +1039,12 @@ public class Board extends JPanel implements ActionListener {
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
         delayghost = 0;
+        ghostlist.removeAll(ghostlist);
 
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
         lengthjump = 1;
+        nbreaten = 0;
         leveldata = currentlevel.getMap();
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
@@ -1047,10 +1064,8 @@ public class Board extends JPanel implements ActionListener {
             	entryGhostX[nbrpopghost] = i / nrofblocks ;
             	entryGhostY[nbrpopghost] = i % nrofblocks ;
             	nbrpopghost++;
-            }
-            
+            }            
         }
-        System.out.println(nbrpopghost);
         continueLevel();
     }
 
@@ -1061,6 +1076,11 @@ public class Board extends JPanel implements ActionListener {
         int random;
         int locpop = 0;
         int type = 0 ;
+        
+    	
+    	//TODO en cours
+    	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize));
+
 
         for (i = 0; i < nrofghosts; i++) {
 
@@ -1282,10 +1302,7 @@ public class Board extends JPanel implements ActionListener {
                 	mazecolor=swapColorList.get(numcolor);
                 	
                 }else if (key == KeyEvent.VK_R) {							//Restart Level
-                	System.out.println("Restart Level : score = 0");
-                	score = 0;
-                	pacsleft = 3 ;
-                    initLevel();
+                	initGame();
                 } 
                 else if (key == KeyEvent.VK_DOLLAR ) {							//Next Level Cheat
                 	numlevel++;
@@ -1399,9 +1416,20 @@ public class Board extends JPanel implements ActionListener {
 		}	
 	}
     
+    static int gettileinfo(int x, int y){    
+    	
+        int pos = x / blocksize + nrofblocks * (int) (y / blocksize);        
+    	return screendata[pos];
+    }
+    
+    static int getBlockSize(){
+    	return blocksize;
+    }
+    
     
     private void initColorBoard(){
         swapColorList = new ArrayList<Color>();
+        
         swapColorList.add(green);
         swapColorList.add(orange);
         swapColorList.add(flashygreen);
