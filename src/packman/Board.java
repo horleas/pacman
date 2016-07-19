@@ -50,25 +50,15 @@ public class Board extends JPanel implements ActionListener {
     private int entryGhostY[]=new int[nrofblocks] ;
     private int tmpstateghost;
     
-    private int pacsleft, score;
-    private int[] dx, dy;
-    
+    private int pacsleft, score; 
     private ArrayList<Ghost> ghostlist;
-    
-    private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed, ghosttype;
     private int nbrpopghost;
-    private int delayghost;
-    private int ghostpos;
-    private int ghostwaittobealive[];
     private String[] ghoststate;
 
     
     private Image ghostimage[][][] ;
-    private Image ghost;
-    private Image ghostred , ghostredup1, ghostredup2, ghostreddown1, ghostreddown2, ghostredright1, ghostredright2, ghostredleft1, ghostredleft2;
-    private Image ghostpink , ghostpinkup1, ghostpinkup2, ghostpinkdown1, ghostpinkdown2, ghostpinkright1, ghostpinkright2, ghostpinkleft1, ghostpinkleft2;
-    private Image ghostturquoise , ghostturquoiseup1, ghostturquoiseup2, ghostturquoisedown1, ghostturquoisedown2, ghostturquoiseright1, ghostturquoiseright2, ghostturquoiseleft1, ghostturquoiseleft2;
-    private Image ghostyellow , ghostyellowup1, ghostyellowup2, ghostyellowdown1, ghostyellowdown2, ghostyellowright1, ghostyellowright2, ghostyellowleft1, ghostyellowleft2;
+    @SuppressWarnings("unused")
+	private Image ghost , ghostred , ghostpink, ghostturquoise, ghostyellow;
     private Image ghostdeadup, ghostdeadleft, ghostdeaddown, ghostdeadright;
     private Image ghostweakblue1,ghostweakblue2,ghostweakwhite1,ghostweakwhite2;
     
@@ -92,10 +82,8 @@ public class Board extends JPanel implements ActionListener {
     private short leveldata[] = new short [nrofblocks*nrofblocks];
     private String namelevel;
 
-    private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
-    //private final int maxspeed = 6;
-
-    private int currentspeed = 3;
+    @SuppressWarnings("unused")
+	private int currentspeed = 3;
     private static short[] screendata;
     private Timer timer;
     
@@ -141,21 +129,11 @@ public class Board extends JPanel implements ActionListener {
         mazecolor = green;
         d = new Dimension(400, 400);
         ghostlist = new ArrayList<Ghost>();
-        
-        
-        ghostx = new int[maxghosts];
-        ghostdx = new int[maxghosts];
-        ghosty = new int[maxghosts];
-        ghostdy = new int[maxghosts];
-        ghostspeed = new int[maxghosts];
-        ghosttype = new int[maxghosts];
-        ghostwaittobealive = new int[maxghosts];
+              
         ghoststate = new String[maxghosts];
         tmpstateghost = 0 ;
         nbreaten = 0;
-        dx = new int[4];
-        dy = new int[4];
-        numlevel = 15;
+        numlevel = 1;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -284,11 +262,6 @@ public class Board extends JPanel implements ActionListener {
 
     private void moveGhosts(Graphics2D g2d) {
 
-        short i;
-        int pos;
-        int count;
-           
-
         for(Ghost currentghost : ghostlist){
         	currentghost.movement();
 
@@ -336,7 +309,6 @@ public class Board extends JPanel implements ActionListener {
             	if(currentghost.getState()=="dead"){   	}
             }
             
-            //TODO en cours
             if(currentghost.getState()=="alive"){
             	currentghost.setImg(ghostimage[currentghost.getType()][currentghost.getDirection()][currentghost.getPosframe()%2]);
             }
@@ -371,137 +343,11 @@ public class Board extends JPanel implements ActionListener {
             		if(currentghost.getGhostdy()>0){ 
             			currentghost.setImg(ghostdeaddown);
             		}
+            		else{currentghost.setImg(ghostdeaddown);}
             	}
             
             
         	drawGhost2(g2d,currentghost.getPosX()+1,currentghost.getPosY(),currentghost.getImg(),currentghost.getType());
-        }
-
-        for (i = 0; i < nrofghosts; i++) {
-            if (ghostx[i] % blocksize == 0 && ghosty[i] % blocksize == 0) {
-                pos = ghostx[i] / blocksize + nrofblocks * (int) (ghosty[i] / blocksize);
-
-                count = 0;
-
-                if ((screendata[pos] & 1) == 0 && ghostdx[i] != 1) {
-                    dx[count] = -1;
-                    dy[count] = 0;
-                    count++;
-                }
-
-                if ((screendata[pos] & 2) == 0 && ghostdy[i] != 1) {
-                    dx[count] = 0;
-                    dy[count] = -1;
-                    count++;
-                }
-
-                if ((screendata[pos] & 4) == 0 && ghostdx[i] != -1) {
-                    dx[count] = 1;
-                    dy[count] = 0;
-                    count++;
-                }
-
-                if ((screendata[pos] & 8) == 0 && ghostdy[i] != -1) {
-                    dx[count] = 0;
-                    dy[count] = 1;
-                    count++;
-                }
-
-                if (count == 0) {
-
-                    if ((screendata[pos] & 15) == 15) {
-                        ghostdx[i] = 0;
-                        ghostdy[i] = 0;
-                    } else {
-                        ghostdx[i] = -ghostdx[i];
-                        ghostdy[i] = -ghostdy[i];
-                    }
-
-                } else {
-
-                    count = (int) (Math.random() * count);
-
-                    if (count > 3) {
-                        count = 3;
-                    }
-
-                    ghostdx[i] = dx[count];
-                    ghostdy[i] = dy[count];
-                }
-
-            }
- 
-            //Warping of the Ghost
-            ghostx[i] = ghostx[i] + (ghostdx[i] * ghostspeed[i]);	
-    		if(ghostx[i]<0){ghostx[i] = 14*blocksize;}
-    		if(ghostx[i]>14*blocksize){ghostx[i] = 0*blocksize;}
-            ghosty[i] = ghosty[i] + (ghostdy[i] * ghostspeed[i]);
-    		if(ghosty[i]<0){ghosty[i] = 14*blocksize;}
-    		if(ghosty[i]>14*blocksize){ghosty[i] = 0*blocksize;}
-    		
-    		
-            drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1, i, ghosttype[i]);
-            
-
-            //Revive Ghost
-            if(ghoststate[i]=="weak"){
-            	ghostwaittobealive[i] ++ ;
-            	if(ghostwaittobealive[i]%200 == 0){
-            		ghoststate[i]="alive";
-            		nbreaten = 0 ;
-            	}
-            }
-            
-            if(ghoststate[i]=="dead"){
-            	ghostwaittobealive[i] ++ ;
-            	if(ghostwaittobealive[i]%1000 == 0)
-            		ghoststate[i]="alive";
-            }
-            
-
-            //Check Collision with Pacman
-            if (pacmanx > (ghostx[i] - 12) && pacmanx < (ghostx[i] + 12)
-                    && pacmany > (ghosty[i] - 12) && pacmany < (ghosty[i] + 12)
-                    && ingame) {
-            	
-            	if(ghoststate[i]=="alive"){
-            		dying = true;
-            	}
-            	
-            	if(ghoststate[i]=="weak"){
-            		ghoststate[i]="dead";
-            		nbreaten += 1  ;
-            		System.out.println(nbreaten);
-            		switch(nbreaten){
-            		case 1 :
-                		eaten = ghosteat200;
-                		score += 200; 
-                		break;
-            		case 2 :
-                		eaten = ghosteat400;
-                		score += 400;
-                		break;
-            		case 3 :
-                		eaten = ghosteat800;
-                		score += 800;
-                		break;
-            		case 4 :
-                		eaten = ghosteat1600;
-                		score += 1600;
-                		nbreaten = 0;
-                		break;            		
-            		default :
-            			nbreaten = 0;
-            			break;            		
-            		}
-            		eateninX=ghostx[i]/blocksize;
-            		eateninY=ghosty[i]/blocksize;
-            		drawBonuscore(g2d);
-            	}
-            	
-            	
-            	if(ghoststate[i]=="dead"){   	}
-            }
         }
     }
 
@@ -509,286 +355,6 @@ public class Board extends JPanel implements ActionListener {
         g2d.drawImage(ghost, x, y, this);
     }
     
-    private void drawGhost(Graphics2D g2d, int x, int y, int numghost , int type) {
-    	//(TODO) to improve ( reduce/clean code)
-    	delayghost ++;
-    	if(delayghost%6==0){ghostpos ++;}
-    	
-    	
-    	if(ghoststate[numghost]=="alive"){    		//ALIVE STATE	
-	    	switch(type){    	
-	    	case 0: // RED HOTCHILIPEPPER
-		    	// Load Left
-		    	if(ghostdx[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostredleft1;
-		    			break;
-		    		default :
-		    			ghost = ghostredleft2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Right
-		    	if(ghostdx[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostredright1;
-		    			break;
-		    		default :
-		    			ghost = ghostredright2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load up
-		    	if(ghostdy[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostredup1;
-		    			break;
-		    		default :
-		    			ghost = ghostredup2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Down
-		    	if(ghostdy[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostreddown1;
-		    			break;
-		    		default :
-		    			ghost = ghostreddown2;
-		    			break;   		
-		    		}	
-		    	}
-		    	break;
-		    	
-	    	case 1: // PINK FLOYD
-		    	// Load Left
-		    	if(ghostdx[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostpinkleft1;
-		    			break;
-		    		default :
-		    			ghost = ghostpinkleft2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Right
-		    	if(ghostdx[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostpinkright1;
-		    			break;
-		    		default :
-		    			ghost = ghostpinkright2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load up
-		    	if(ghostdy[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostpinkup1;
-		    			break;
-		    		default :
-		    			ghost = ghostpinkup2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Down
-		    	if(ghostdy[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostpinkdown1;
-		    			break;
-		    		default :
-		    			ghost = ghostpinkdown2;
-		    			break;   		
-		    		}	
-		    	}
-		    	break;
-		    	
-	    	case 2: // TURQUOISE DAYS GREYSKIES
-		    	// Load Left
-		    	if(ghostdx[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostturquoiseleft1;
-		    			break;
-		    		default :
-		    			ghost = ghostturquoiseleft2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Right
-		    	if(ghostdx[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostturquoiseright1;
-		    			break;
-		    		default :
-		    			ghost = ghostturquoiseright2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load up
-		    	if(ghostdy[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostturquoiseup1;
-		    			break;
-		    		default :
-		    			ghost = ghostturquoiseup2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Down
-		    	if(ghostdy[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostturquoisedown1;
-		    			break;
-		    		default :
-		    			ghost = ghostturquoisedown2;
-		    			break;   		
-		    		}	
-		    	}
-		    	break;
-		    	
-	    	case 3: // YELLOW SUBMARINE
-		    	// Load Left
-		    	if(ghostdx[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowleft1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowleft2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Right
-		    	if(ghostdx[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowright1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowright2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load up
-		    	if(ghostdy[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowup1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowup2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Down
-		    	if(ghostdy[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowdown1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowdown2;
-		    			break;   		
-		    		}	
-		    	}
-		    	break;
-		    	
-	    	default: // DEFAULT
-		    	// Load Left
-		    	if(ghostdx[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowleft1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowleft2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Right
-		    	if(ghostdx[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowright1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowright2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load up
-		    	if(ghostdy[numghost]<0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowup1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowup2;
-		    			break;   		
-		    		}	
-		    	}
-		    	// Load Down
-		    	if(ghostdy[numghost]>0){ 
-		    		switch(ghostpos%2){
-		    		case 0 :
-		    			ghost = ghostyellowdown1;
-		    			break;
-		    		default :
-		    			ghost = ghostyellowdown2;
-		    			break;   		
-		    		}	
-		    	}
-		    	break;
-	    	}
-    	}
-    	
-    	
-
-    	
-    	// WEAK STATE
-    	if(ghoststate[numghost]=="weak"){
-	    		switch(ghostpos%2){
-	    		case 0 :
-	    			ghost = ghostweakblue1;
-	    			break;
-	    		default :
-	    			ghost = ghostweakwhite1;
-	    			break;   		
-	    		}	
-    	}
-    	
-    	
-    	//DEAD STATE
-    	if(ghoststate[numghost]=="dead"){
-    		if(ghostdx[numghost]<0){ 
-	    		ghost = ghostdeadleft;
-	    	}
-    		if(ghostdx[numghost]>0){ 
-    			ghost = ghostdeadright;
-    		}
-    		if(ghostdy[numghost]<0){ 
-    			ghost = ghostdeadup;
-    		}
-    		if(ghostdy[numghost]>0){ 
-    			ghost = ghostdeaddown;
-    		}
-    	}
-    	
-        g2d.drawImage(ghost, x, y, this);
-    }
-
     private void movePacman() {
 
         int pos;
@@ -1111,8 +677,6 @@ public class Board extends JPanel implements ActionListener {
 
     }
     
-    
-    
     private void drawBonuscore(Graphics2D g2d) {
     	eatendelay++;
     	
@@ -1140,8 +704,6 @@ public class Board extends JPanel implements ActionListener {
         int i;
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
-        delayghost = 0;
-
 
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
@@ -1163,8 +725,8 @@ public class Board extends JPanel implements ActionListener {
             	entryPacmanY = i / nrofblocks ;
             }
             else if((leveldata[i] & 64) != 0 ){			// Get Every Location for poping Ghost and have the number of Poping
-            	entryGhostX[nbrpopghost] = i / nrofblocks ;
-            	entryGhostY[nbrpopghost] = i % nrofblocks ;
+            	entryGhostX[nbrpopghost] = i % nrofblocks ;
+            	entryGhostY[nbrpopghost] = i / nrofblocks ;
             	nbrpopghost++;
             }            
         }
@@ -1174,38 +736,22 @@ public class Board extends JPanel implements ActionListener {
     private void continueLevel() {
 
         short i;
-        int dx = 1;
-        int random;
         int locpop = 0;
         int type = 0 ;
         
+        // Pop the Ghost
         ghostlist.removeAll(ghostlist);
-    	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize));
-
-
         for (i = 0; i < nrofghosts; i++) {
-
-            ghosty[i] = entryGhostX[locpop] * blocksize;
-            ghostx[i] = entryGhostY[locpop] * blocksize;				//put a ghost at each location and if all location has been use and there is still some ghost to place, remake the loop 
-            ghostdy[i] = 0;
-            ghostdx[i] = dx;
-            ghosttype[i]= type;
-            ghoststate[i] = "alive";
-            ghostwaittobealive[i] = 0;
-            dx = -dx;
-            locpop++;
+       	
+        	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        	//System.out.println("Pop address : ["+ entryGhostX[locpop] +" : "+ entryGhostY[locpop] +"]  "+ locpop);
+        	
+            locpop ++;
             type ++;
-            
+        	
             if(type >= 4){ type = 0;}
             if(locpop>=nbrpopghost){ locpop = 0;} 
-            
-            random = (int) (Math.random() * (currentspeed + 1));
-
-            if (random > currentspeed) {
-                random = currentspeed;
-            }
-
-            ghostspeed[i] = validspeeds[random];
+                       
         }
 
         pacmanx = entryPacmanX * blocksize;
@@ -1225,15 +771,6 @@ public class Board extends JPanel implements ActionListener {
 
     	// LOAD RED GHOST SPRITE
     	ghostred = new ImageIcon(this.getClass().getResource("/hotchilipepper.png")).getImage();
-    	ghostredup1 = new ImageIcon(this.getClass().getResource("/redup1.png")).getImage();
-
-    	ghostredup2 = new ImageIcon(this.getClass().getResource("/redup2.png")).getImage();
-    	ghostreddown1 = new ImageIcon(this.getClass().getResource("/reddown1.png")).getImage();
-    	ghostreddown2 = new ImageIcon(this.getClass().getResource("/reddown2.png")).getImage();
-    	ghostredright1 = new ImageIcon(this.getClass().getResource("/redright1.png")).getImage();
-    	ghostredright2 = new ImageIcon(this.getClass().getResource("/redright2.png")).getImage();
-    	ghostredleft1 = new ImageIcon(this.getClass().getResource("/redleft1.png")).getImage();
-    	ghostredleft2 = new ImageIcon(this.getClass().getResource("/redleft2.png")).getImage();
     	
     	ghostimage[0][0][0]=new ImageIcon(this.getClass().getResource("/redup1.png")).getImage();
     	ghostimage[0][0][1]=new ImageIcon(this.getClass().getResource("/redup2.png")).getImage();
@@ -1248,14 +785,6 @@ public class Board extends JPanel implements ActionListener {
     	
     	// LOAD PINK GHOST SPRITE
     	ghostpink = new ImageIcon(this.getClass().getResource("/floyd.png")).getImage();
-    	ghostpinkup1 = new ImageIcon(this.getClass().getResource("/pinkup1.png")).getImage();
-    	ghostpinkup2 = new ImageIcon(this.getClass().getResource("/pinkup2.png")).getImage();
-    	ghostpinkdown1 = new ImageIcon(this.getClass().getResource("/pinkdown1.png")).getImage();
-    	ghostpinkdown2 = new ImageIcon(this.getClass().getResource("/pinkdown2.png")).getImage();
-    	ghostpinkright1 = new ImageIcon(this.getClass().getResource("/pinkright1.png")).getImage();
-    	ghostpinkright2 = new ImageIcon(this.getClass().getResource("/pinkright2.png")).getImage();
-    	ghostpinkleft1 = new ImageIcon(this.getClass().getResource("/pinkleft1.png")).getImage();
-    	ghostpinkleft2 = new ImageIcon(this.getClass().getResource("/pinkleft2.png")).getImage();
     	
     	ghostimage[1][0][0]=new ImageIcon(this.getClass().getResource("/pinkup1.png")).getImage();
     	ghostimage[1][0][1]=new ImageIcon(this.getClass().getResource("/pinkup2.png")).getImage();
@@ -1269,14 +798,6 @@ public class Board extends JPanel implements ActionListener {
     	
     	// LOAD TURQUOISE GHOST SPRITE
     	ghostturquoise = new ImageIcon(this.getClass().getResource("/Greyskies.png")).getImage();
-    	ghostturquoiseup1 = new ImageIcon(this.getClass().getResource("/turquoiseup1.png")).getImage();
-    	ghostturquoiseup2 = new ImageIcon(this.getClass().getResource("/turquoiseup2.png")).getImage();
-    	ghostturquoisedown1 = new ImageIcon(this.getClass().getResource("/turquoisedown1.png")).getImage();
-    	ghostturquoisedown2 = new ImageIcon(this.getClass().getResource("/turquoisedown2.png")).getImage();
-    	ghostturquoiseright1 = new ImageIcon(this.getClass().getResource("/turquoiseright1.png")).getImage();
-    	ghostturquoiseright2 = new ImageIcon(this.getClass().getResource("/turquoiseright2.png")).getImage();
-    	ghostturquoiseleft1 = new ImageIcon(this.getClass().getResource("/turquoiseleft1.png")).getImage();
-    	ghostturquoiseleft2 = new ImageIcon(this.getClass().getResource("/turquoiseleft2.png")).getImage();
     	
     	ghostimage[2][0][0]=new ImageIcon(this.getClass().getResource("/turquoiseup1.png")).getImage();
     	ghostimage[2][0][1]=new ImageIcon(this.getClass().getResource("/turquoiseup2.png")).getImage();
@@ -1289,17 +810,7 @@ public class Board extends JPanel implements ActionListener {
     	
     	
     	// LOAD YELLOW GHOST SPRITE
-    	ghostyellow = new ImageIcon(this.getClass().getResource("/submarine.png")).getImage();
-    	ghostyellowup1 = new ImageIcon(this.getClass().getResource("/yellowup1.png")).getImage();
-    	ghostyellowup2 = new ImageIcon(this.getClass().getResource("/yellowup2.png")).getImage();
-    	ghostyellowdown1 = new ImageIcon(this.getClass().getResource("/yellowdown1.png")).getImage();
-    	ghostyellowdown2 = new ImageIcon(this.getClass().getResource("/yellowdown2.png")).getImage();
-    	ghostyellowright1 = new ImageIcon(this.getClass().getResource("/yellowright1.png")).getImage();
-    	ghostyellowright2 = new ImageIcon(this.getClass().getResource("/yellowright2.png")).getImage();
-    	ghostyellowleft1 = new ImageIcon(this.getClass().getResource("/yellowleft1.png")).getImage();
-    	ghostyellowleft2 = new ImageIcon(this.getClass().getResource("/yellowleft2.png")).getImage();
-    	
-    	
+    	ghostyellow = new ImageIcon(this.getClass().getResource("/submarine.png")).getImage(); 	
     	
     	ghostimage[3][0][0]=new ImageIcon(this.getClass().getResource("/yellowup1.png")).getImage();
     	ghostimage[3][0][1]=new ImageIcon(this.getClass().getResource("/yellowup2.png")).getImage();
@@ -1321,8 +832,7 @@ public class Board extends JPanel implements ActionListener {
     	ghostweakblue2 = new ImageIcon(this.getClass().getResource("/weakblue2.png")).getImage();
     	ghostweakwhite1 = new ImageIcon(this.getClass().getResource("/weakwhite1.png")).getImage();
     	ghostweakwhite2 = new ImageIcon(this.getClass().getResource("/weakwhite2.png")).getImage();
-    	
-    	
+    	  	
     	
     	// LOAD PACMAN BOY
     	pacman1 = new ImageIcon(this.getClass().getResource("/pacman.png")).getImage();

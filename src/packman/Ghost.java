@@ -20,10 +20,12 @@ public class Ghost {
  
 	
 	
-	public Ghost(int pposX, int pposY){
+	public Ghost(int pposX, int pposY, int type){
 		
 		setPosX(pposX);
 		setPosY(pposY);
+		
+		setType(type);
 		
 		setGhostdx(0);
 		setGhostdy(0);
@@ -154,6 +156,7 @@ public class Ghost {
 		else if(getGhostdy()==1){return 1 ;}
 		else if(getGhostdx()==1){return 2 ;}
 		else if(getGhostdx()==-1){return 3 ;}
+		else if(getGhostdx()==0 && getGhostdy()==0 ){return 1 ;}
 		else{System.out.println("probleme with direction");
 		return 5;}
 		
