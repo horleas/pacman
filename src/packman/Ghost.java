@@ -15,6 +15,8 @@ public class Ghost {
  private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
  private int random;
  private int blocksize;
+ private int ghostwaittobealive;
+ private int tmp = 0;
  
 	
 	
@@ -25,6 +27,8 @@ public class Ghost {
 		
 		setGhostdx(0);
 		setGhostdy(0);
+		
+		ghostwaittobealive=0;
 		
 		blocksize = Board.getBlockSize();
 		
@@ -43,10 +47,19 @@ public class Ghost {
 	public void movement(){
 		possibleMovement();
 		moveGhost();
-		//check collision()
-		//check revive()
+		checkRevive();
+		updateframe();
 		
 	}
+
+
+	private void updateframe() {
+		tmp++;
+		if(tmp%8==0){
+			setPosframe(getPosframe()+1);
+			}	
+	}
+
 
 
 	private void possibleMovement(){		
@@ -118,13 +131,35 @@ public class Ghost {
 		
 	}
 
-
-	private void checkCollision(){
-		
+	
+	public void checkRevive(){
+    //Revive Ghost
+	    if(getState()=="weak"){
+	    	ghostwaittobealive ++ ;
+	    	if(ghostwaittobealive%200 == 0){
+	    		setState("alive");
+	    	}
+	    }
+	    
+	    if(getState()=="dead"){
+	    	ghostwaittobealive ++ ;
+	    	if(ghostwaittobealive%1000 == 0)
+	    		setState("alive");
+	    }
 	}
 	
-	
+	public int getDirection(){
+		
+		if(getGhostdy()==-1){return 0 ;}
+		else if(getGhostdy()==1){return 1 ;}
+		else if(getGhostdx()==1){return 2 ;}
+		else if(getGhostdx()==-1){return 3 ;}
+		else{System.out.println("probleme with direction");
+		return 5;}
+		
+	}
 
+	
 	public int getPosY() {
 		return posY;
 	}

@@ -53,8 +53,6 @@ public class Board extends JPanel implements ActionListener {
     private int pacsleft, score;
     private int[] dx, dy;
     
-    
-    // TODO new ghost class
     private ArrayList<Ghost> ghostlist;
     
     private int[] ghostx, ghosty, ghostdx, ghostdy, ghostspeed, ghosttype;
@@ -64,6 +62,8 @@ public class Board extends JPanel implements ActionListener {
     private int ghostwaittobealive[];
     private String[] ghoststate;
 
+    
+    private Image ghostimage[][][] ;
     private Image ghost;
     private Image ghostred , ghostredup1, ghostredup2, ghostreddown1, ghostreddown2, ghostredright1, ghostredright2, ghostredleft1, ghostredleft2;
     private Image ghostpink , ghostpinkup1, ghostpinkup2, ghostpinkdown1, ghostpinkdown2, ghostpinkright1, ghostpinkright2, ghostpinkleft1, ghostpinkleft2;
@@ -79,7 +79,10 @@ public class Board extends JPanel implements ActionListener {
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
 
-    private int pacmanx, pacmany, pacmandx, pacmandy;
+    private static int pacmanx;
+	private static int pacmany;
+	private int pacmandx;
+	private int pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
     private int entryPacmanX, entryPacmanY;
     private int jumpcount = 0;
@@ -284,12 +287,94 @@ public class Board extends JPanel implements ActionListener {
         short i;
         int pos;
         int count;
-        
-        
-        //TODO en cours
+           
+
         for(Ghost currentghost : ghostlist){
         	currentghost.movement();
-        	drawGhost(g2d,currentghost.getPosX()+1,currentghost.getPosY(),0,currentghost.getType());
+
+        	//Check Collision
+            if (pacmanx > (currentghost.getPosX()- 12) && pacmanx < (currentghost.getPosX() + 12)
+                    && pacmany > (currentghost.getPosY() - 12) && pacmany < (currentghost.getPosY() + 12)
+                    && ingame) {
+            	
+            	if(currentghost.getState()=="alive"){
+            		dying = true;
+            	}
+            	
+            	if(currentghost.getState()=="weak"){
+            		currentghost.setState("dead");
+            		nbreaten += 1  ;
+            		System.out.println(nbreaten);
+            		switch(nbreaten){
+            		case 1 :
+                		eaten = ghosteat200;
+                		score += 200; 
+                		break;
+            		case 2 :
+                		eaten = ghosteat400;
+                		score += 400;
+                		break;
+            		case 3 :
+                		eaten = ghosteat800;
+                		score += 800;
+                		break;
+            		case 4 :
+                		eaten = ghosteat1600;
+                		score += 1600;
+                		nbreaten = 0;
+                		break;            		
+            		default :
+            			nbreaten = 0;
+            			break;            		
+            		}
+            		eateninX=currentghost.getPosX()/blocksize;
+            		eateninY=currentghost.getPosY()/blocksize;
+            		drawBonuscore(g2d);
+            	}
+            	
+            	
+            	if(currentghost.getState()=="dead"){   	}
+            }
+            
+            //TODO en cours
+            if(currentghost.getState()=="alive"){
+            	currentghost.setImg(ghostimage[currentghost.getType()][currentghost.getDirection()][currentghost.getPosframe()%2]);
+            }
+            
+            else if(currentghost.getState()=="weak"){
+	    		switch(currentghost.getPosframe()%4){
+	    		case 0 :
+	    			currentghost.setImg(ghostweakblue1);
+	    			break;
+	    		case 1 :
+	    			currentghost.setImg(ghostweakblue2);
+	    			break;
+	    		case 2 :	
+	    			currentghost.setImg(ghostweakwhite1);
+	    			break;
+	    		default :
+	    			currentghost.setImg(ghostweakwhite2);
+	    			break;   		
+	    		}
+            }
+            
+            else if(currentghost.getState()=="dead"){
+            		if(currentghost.getGhostdx()<0){ 
+        	    		currentghost.setImg(ghostdeadleft);
+        	    	}
+            		if(currentghost.getGhostdx()>0){ 
+            			currentghost.setImg(ghostdeadright);
+            		}
+            		if(currentghost.getGhostdy()<0){ 
+            			currentghost.setImg(ghostdeadup);
+            		}
+            		if(currentghost.getGhostdy()>0){ 
+            			currentghost.setImg(ghostdeaddown);
+            		}
+            	}
+            
+            
+        	drawGhost2(g2d,currentghost.getPosX()+1,currentghost.getPosY(),currentghost.getImg(),currentghost.getType());
         }
 
         for (i = 0; i < nrofghosts; i++) {
@@ -420,6 +505,10 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    private void drawGhost2(Graphics2D g2d, int x, int y, Image ghost , int type) {
+        g2d.drawImage(ghost, x, y, this);
+    }
+    
     private void drawGhost(Graphics2D g2d, int x, int y, int numghost , int type) {
     	//(TODO) to improve ( reduce/clean code)
     	delayghost ++;
@@ -665,6 +754,9 @@ public class Board extends JPanel implements ActionListener {
 	    	}
     	}
     	
+    	
+
+    	
     	// WEAK STATE
     	if(ghoststate[numghost]=="weak"){
 	    		switch(ghostpos%2){
@@ -758,6 +850,11 @@ public class Board extends JPanel implements ActionListener {
 	                                		ghoststate[nbr]= "weak";
 	                                	}
 	                                }
+	                                for(Ghost currentghost : ghostlist){
+	                                	if(currentghost.getState()=="alive"){
+	                                		currentghost.setState("weak");
+	                                	}
+	                                }
                 				}
                 			
                 			bon = bonus;
@@ -843,6 +940,11 @@ public class Board extends JPanel implements ActionListener {
                         for(int nbr = 0; nbr <nrofghosts ;nbr++){ 
                         	if(ghoststate[nbr] == "alive"){
                         		ghoststate[nbr]= "weak";
+                        	}
+                        }
+                        for(Ghost currentghost : ghostlist){
+                        	if(currentghost.getState()=="alive"){
+                        		currentghost.setState("weak");
                         	}
                         }
     				}
@@ -1039,7 +1141,7 @@ public class Board extends JPanel implements ActionListener {
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
         delayghost = 0;
-        ghostlist.removeAll(ghostlist);
+
 
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
@@ -1077,8 +1179,7 @@ public class Board extends JPanel implements ActionListener {
         int locpop = 0;
         int type = 0 ;
         
-    	
-    	//TODO en cours
+        ghostlist.removeAll(ghostlist);
     	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize));
 
 
@@ -1119,10 +1220,13 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void loadImages() {
+    	
+    	ghostimage=new Image [4][4][2];
 
     	// LOAD RED GHOST SPRITE
     	ghostred = new ImageIcon(this.getClass().getResource("/hotchilipepper.png")).getImage();
     	ghostredup1 = new ImageIcon(this.getClass().getResource("/redup1.png")).getImage();
+
     	ghostredup2 = new ImageIcon(this.getClass().getResource("/redup2.png")).getImage();
     	ghostreddown1 = new ImageIcon(this.getClass().getResource("/reddown1.png")).getImage();
     	ghostreddown2 = new ImageIcon(this.getClass().getResource("/reddown2.png")).getImage();
@@ -1130,6 +1234,16 @@ public class Board extends JPanel implements ActionListener {
     	ghostredright2 = new ImageIcon(this.getClass().getResource("/redright2.png")).getImage();
     	ghostredleft1 = new ImageIcon(this.getClass().getResource("/redleft1.png")).getImage();
     	ghostredleft2 = new ImageIcon(this.getClass().getResource("/redleft2.png")).getImage();
+    	
+    	ghostimage[0][0][0]=new ImageIcon(this.getClass().getResource("/redup1.png")).getImage();
+    	ghostimage[0][0][1]=new ImageIcon(this.getClass().getResource("/redup2.png")).getImage();
+    	ghostimage[0][1][0]=new ImageIcon(this.getClass().getResource("/reddown1.png")).getImage();
+    	ghostimage[0][1][1]=new ImageIcon(this.getClass().getResource("/reddown2.png")).getImage();
+    	ghostimage[0][2][0]= new ImageIcon(this.getClass().getResource("/redright1.png")).getImage();
+    	ghostimage[0][2][1]= new ImageIcon(this.getClass().getResource("/redright2.png")).getImage();
+    	ghostimage[0][3][0] = new ImageIcon(this.getClass().getResource("/redleft1.png")).getImage();
+    	ghostimage[0][3][1] = new ImageIcon(this.getClass().getResource("/redleft2.png")).getImage();
+    	
     	
     	
     	// LOAD PINK GHOST SPRITE
@@ -1143,6 +1257,15 @@ public class Board extends JPanel implements ActionListener {
     	ghostpinkleft1 = new ImageIcon(this.getClass().getResource("/pinkleft1.png")).getImage();
     	ghostpinkleft2 = new ImageIcon(this.getClass().getResource("/pinkleft2.png")).getImage();
     	
+    	ghostimage[1][0][0]=new ImageIcon(this.getClass().getResource("/pinkup1.png")).getImage();
+    	ghostimage[1][0][1]=new ImageIcon(this.getClass().getResource("/pinkup2.png")).getImage();
+    	ghostimage[1][1][0]=new ImageIcon(this.getClass().getResource("/pinkdown1.png")).getImage();
+    	ghostimage[1][1][1]=new ImageIcon(this.getClass().getResource("/pinkdown2.png")).getImage();
+    	ghostimage[1][2][0]= new ImageIcon(this.getClass().getResource("/pinkright1.png")).getImage();
+    	ghostimage[1][2][1]= new ImageIcon(this.getClass().getResource("/pinkright2.png")).getImage();
+    	ghostimage[1][3][0] = new ImageIcon(this.getClass().getResource("/pinkleft1.png")).getImage();
+    	ghostimage[1][3][1] = new ImageIcon(this.getClass().getResource("/pinkleft2.png")).getImage();
+    	
     	
     	// LOAD TURQUOISE GHOST SPRITE
     	ghostturquoise = new ImageIcon(this.getClass().getResource("/Greyskies.png")).getImage();
@@ -1155,6 +1278,15 @@ public class Board extends JPanel implements ActionListener {
     	ghostturquoiseleft1 = new ImageIcon(this.getClass().getResource("/turquoiseleft1.png")).getImage();
     	ghostturquoiseleft2 = new ImageIcon(this.getClass().getResource("/turquoiseleft2.png")).getImage();
     	
+    	ghostimage[2][0][0]=new ImageIcon(this.getClass().getResource("/turquoiseup1.png")).getImage();
+    	ghostimage[2][0][1]=new ImageIcon(this.getClass().getResource("/turquoiseup2.png")).getImage();
+    	ghostimage[2][1][0]=new ImageIcon(this.getClass().getResource("/turquoisedown1.png")).getImage();
+    	ghostimage[2][1][1]=new ImageIcon(this.getClass().getResource("/turquoisedown2.png")).getImage();
+    	ghostimage[2][2][0]= new ImageIcon(this.getClass().getResource("/turquoiseright1.png")).getImage();
+    	ghostimage[2][2][1]= new ImageIcon(this.getClass().getResource("/turquoiseright2.png")).getImage();
+    	ghostimage[2][3][0] = new ImageIcon(this.getClass().getResource("/turquoiseleft1.png")).getImage();
+    	ghostimage[2][3][1] = new ImageIcon(this.getClass().getResource("/turquoiseleft2.png")).getImage();
+    	
     	
     	// LOAD YELLOW GHOST SPRITE
     	ghostyellow = new ImageIcon(this.getClass().getResource("/submarine.png")).getImage();
@@ -1166,6 +1298,17 @@ public class Board extends JPanel implements ActionListener {
     	ghostyellowright2 = new ImageIcon(this.getClass().getResource("/yellowright2.png")).getImage();
     	ghostyellowleft1 = new ImageIcon(this.getClass().getResource("/yellowleft1.png")).getImage();
     	ghostyellowleft2 = new ImageIcon(this.getClass().getResource("/yellowleft2.png")).getImage();
+    	
+    	
+    	
+    	ghostimage[3][0][0]=new ImageIcon(this.getClass().getResource("/yellowup1.png")).getImage();
+    	ghostimage[3][0][1]=new ImageIcon(this.getClass().getResource("/yellowup2.png")).getImage();
+    	ghostimage[3][1][0]=new ImageIcon(this.getClass().getResource("/yellowdown1.png")).getImage();
+    	ghostimage[3][1][1]=new ImageIcon(this.getClass().getResource("/yellowdown2.png")).getImage();
+    	ghostimage[3][2][0]= new ImageIcon(this.getClass().getResource("/yellowright1.png")).getImage();
+    	ghostimage[3][2][1]= new ImageIcon(this.getClass().getResource("/yellowright2.png")).getImage();
+    	ghostimage[3][3][0] = new ImageIcon(this.getClass().getResource("/yellowleft1.png")).getImage();
+    	ghostimage[3][3][1] = new ImageIcon(this.getClass().getResource("/yellowleft2.png")).getImage();
     	
     	//LOAD DEADGHOST
     	ghostdeadup = new ImageIcon(this.getClass().getResource("/deadup.png")).getImage();
@@ -1275,16 +1418,25 @@ public class Board extends JPanel implements ActionListener {
                             for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
                             	ghoststate[nbr]= "weak";
                             }
+                            for(Ghost currentghost : ghostlist){
+                            		currentghost.setState("weak");
+                            }
                             break;
                             
                 		case 2 :
                             for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
                             	ghoststate[nbr]= "dead";
                             }
+                            for(Ghost currentghost : ghostlist){
+                            		currentghost.setState("dead");
+                            }
                             break;
                 		case 3 :
                             for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
                             	ghoststate[nbr]= "alive";
+                            }
+                            for(Ghost currentghost : ghostlist){
+                            		currentghost.setState("alive");
                             }
                             tmpstateghost = 0;
                             break;
@@ -1424,6 +1576,14 @@ public class Board extends JPanel implements ActionListener {
     
     static int getBlockSize(){
     	return blocksize;
+    }
+    
+    static int getPacmanx(){
+    	return pacmanx;
+    }
+    
+    static int getPacmany(){
+    	return pacmany;
     }
     
     
