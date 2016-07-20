@@ -66,6 +66,9 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Clean a lot of code (~600 lines)
 + Correct some visual artefact with ghost
 + prepare to add comportement to ghost
+ 
+20 July : 
+Add PhaseGhost Class ( extends Ghost) which this ghost can pass through wall
 
 TODO :
 + Add Map(Warping puzzle etc)
@@ -84,7 +87,6 @@ TODO :
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
-+  Real Ghost passing Through wall
 +  Ghost Chasing the player
 +  Ghost Escaping the Player
 +  Ghost Blocking escape route
