@@ -347,11 +347,11 @@ public class Board extends JPanel implements ActionListener {
             	}
             
             
-        	drawGhost2(g2d,currentghost.getPosX()+1,currentghost.getPosY(),currentghost.getImg(),currentghost.getType());
+        	drawGhost2(g2d,currentghost.getPosX()+1,currentghost.getPosY(),currentghost.getImg());
         }
     }
 
-    private void drawGhost2(Graphics2D g2d, int x, int y, Image ghost , int type) {
+    private void drawGhost2(Graphics2D g2d, int x, int y, Image ghost) {
         g2d.drawImage(ghost, x, y, this);
     }
     
@@ -474,7 +474,6 @@ public class Board extends JPanel implements ActionListener {
         }
         
         if(!currentbonusfixelist.isEmpty()){					// Eat Fix Bonus
-        	//BonusCreator bon = new BonusCreator();
         	boolean modif = false;
         	for(BonusCreator bonus : currentbonusfixelist){
         	
@@ -744,7 +743,6 @@ public class Board extends JPanel implements ActionListener {
         for (i = 0; i < nrofghosts; i++) {
        	
         	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
-        	//System.out.println("Pop address : ["+ entryGhostX[locpop] +" : "+ entryGhostY[locpop] +"]  "+ locpop);
         	
             locpop ++;
             type ++;
@@ -753,6 +751,7 @@ public class Board extends JPanel implements ActionListener {
             if(locpop>=nbrpopghost){ locpop = 0;} 
                        
         }
+        ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
 
         pacmanx = entryPacmanX * blocksize;
         pacmany = entryPacmanY * blocksize;

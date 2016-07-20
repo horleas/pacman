@@ -4,19 +4,19 @@ import java.awt.Image;
 
 public class Ghost {
 	
- private int posX,posY;
- private Image img ;
- private String state = "alive";
- private int type = 3;
- private int posframe = 0;
- private int ghostspeed ;
- private int ghostdx , ghostdy ;
- private int currentspeed = 3;
- private final int validspeeds[] = {1, 2, 3, 4, 6, 8};
- private int random;
- private int blocksize;
- private int ghostwaittobealive;
- private int tmp = 0;
+ protected int posX,posY;
+ protected Image img ;
+ protected String state = "alive";
+ protected int type = 3;
+ protected int posframe = 0;
+ protected int ghostspeed ;
+ protected int ghostdx , ghostdy ;
+ protected int currentspeed = 3;
+ protected final int validspeeds[] = {1, 2, 3, 4, 6, 8};
+ protected int random;
+ protected int blocksize;
+ protected int ghostwaittobealive;
+ protected int tmp = 0;
  
 	
 	
@@ -55,7 +55,7 @@ public class Ghost {
 	}
 
 
-	private void updateframe() {
+	protected void updateframe() {
 		tmp++;
 		if(tmp%8==0){
 			setPosframe(getPosframe()+1);
@@ -64,7 +64,7 @@ public class Ghost {
 
 
 
-	private void possibleMovement(){		
+	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
 		int possibilityx[] = new int [4] ;
@@ -122,7 +122,7 @@ public class Ghost {
 		
 	}
 	
-	private void moveGhost() {
+	protected void moveGhost() {
 
         setPosX(getPosX() + (getGhostdx() * getGhostspeed()) );	
 		if(getPosX()<0){setPosX( 14*blocksize);}
