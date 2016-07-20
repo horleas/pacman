@@ -74,6 +74,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add BlockGhost Class ( extends Ghost) which try to be in the path of the player ( V1 : basic implementation )
 
 TODO :
++ Add Pathfinding depending of the map for special Ghost
 + Add Map(Warping puzzle etc)
 + Add finishing line (PacWoman ? )
 + Possibility to have different size of Map
