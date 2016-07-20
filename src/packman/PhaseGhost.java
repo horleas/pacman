@@ -19,9 +19,6 @@ public class PhaseGhost extends Ghost {
 		super(pposX, pposY, type);
 		
 		 ghostspeed = validspeeds[0];
-		
-		
-
 	}
 	
 	protected void possibleMovement(){		
