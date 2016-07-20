@@ -318,7 +318,7 @@ public class Maze {
     			 
     	default : this.map = test;
 		 		  this.name = "Test";
-		 		  this.nbrGhost = 1;
+		 		  this.nbrGhost = 0;
 		 		  this.dashlevel=5;
 				  this.bonusfixelist.add(new BonusCreator(5,5,6));
 		 		  break ;

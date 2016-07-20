@@ -38,7 +38,6 @@ public class Board extends JPanel implements ActionListener {
     private final int scrsize = nrofblocks * blocksize;
     private final int pacanimdelay = 2;
     private final int pacmananimcount = 4;
-    private final int maxghosts = 15;
     private final int pacmanspeed = 6;
 
 
@@ -53,7 +52,6 @@ public class Board extends JPanel implements ActionListener {
     private int pacsleft, score; 
     private ArrayList<Ghost> ghostlist;
     private int nbrpopghost;
-    private String[] ghoststate;
 
     
     private Image ghostimage[][][] ;
@@ -71,8 +69,8 @@ public class Board extends JPanel implements ActionListener {
 
     private static int pacmanx;
 	private static int pacmany;
-	private int pacmandx;
-	private int pacmandy;
+	private static int pacmandx;
+	private static int pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
     private int entryPacmanX, entryPacmanY;
     private int jumpcount = 0;
@@ -130,10 +128,9 @@ public class Board extends JPanel implements ActionListener {
         d = new Dimension(400, 400);
         ghostlist = new ArrayList<Ghost>();
               
-        ghoststate = new String[maxghosts];
         tmpstateghost = 0 ;
         nbreaten = 0;
-        numlevel = 1;
+        numlevel = 15;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -411,11 +408,6 @@ public class Board extends JPanel implements ActionListener {
                 				}
                 			else if(bonus.getName()=="ghosteater"){
 	                				System.out.println("you can eat ghost");
-	                                for(int nbr = 0; nbr <nrofghosts ;nbr++){ 
-	                                	if(ghoststate[nbr] == "alive"){
-	                                		ghoststate[nbr]= "weak";
-	                                	}
-	                                }
 	                                for(Ghost currentghost : ghostlist){
 	                                	if(currentghost.getState()=="alive"){
 	                                		currentghost.setState("weak");
@@ -502,11 +494,6 @@ public class Board extends JPanel implements ActionListener {
         				}
         			else if(bonus.getName()=="ghosteater"){
         				System.out.println("you can eat ghost");
-                        for(int nbr = 0; nbr <nrofghosts ;nbr++){ 
-                        	if(ghoststate[nbr] == "alive"){
-                        		ghoststate[nbr]= "weak";
-                        	}
-                        }
                         for(Ghost currentghost : ghostlist){
                         	if(currentghost.getState()=="alive"){
                         		currentghost.setState("weak");
@@ -751,8 +738,11 @@ public class Board extends JPanel implements ActionListener {
             if(locpop>=nbrpopghost){ locpop = 0;} 
                        
         }
+        // TODO new Ghost
         //ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
-        ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        ghostlist.add(new BlockGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
 
         pacmanx = entryPacmanX * blocksize;
         pacmany = entryPacmanY * blocksize;
@@ -925,26 +915,17 @@ public class Board extends JPanel implements ActionListener {
 
                             
                 		case 1 :
-                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
-                            	ghoststate[nbr]= "weak";
-                            }
                             for(Ghost currentghost : ghostlist){
                             		currentghost.setState("weak");
                             }
                             break;
                             
                 		case 2 :
-                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
-                            	ghoststate[nbr]= "dead";
-                            }
                             for(Ghost currentghost : ghostlist){
                             		currentghost.setState("dead");
                             }
                             break;
                 		case 3 :
-                            for(int nbr = 0; nbr <nrofghosts ;nbr++){                    	
-                            	ghoststate[nbr]= "alive";
-                            }
                             for(Ghost currentghost : ghostlist){
                             		currentghost.setState("alive");
                             }
@@ -1095,6 +1076,16 @@ public class Board extends JPanel implements ActionListener {
     static int getPacmany(){
     	return pacmany;
     }
+    
+    static int getPacmandx(){
+    	return pacmandx;
+    }
+    
+    static int getPacmandy(){
+    	return pacmandy;
+    }
+    
+    
     
     
     private void initColorBoard(){
