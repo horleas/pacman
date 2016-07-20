@@ -61,7 +61,11 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add point for eating ghost ( proportionaly)
 + Add some hotKey to help to test the game (T is to change the ghoststate, Y is for add life + 10 dash, P is to pause the game)
 
-
+19 July : 
++ Create a new Class Ghost and rework entirely the Ghost Movement and DrawGhost
++ Clean a lot of code (~600 lines)
++ Correct some visual artefact with ghost
++ prepare to add comportement to ghost
 
 TODO :
 + Add Map(Warping puzzle etc)
