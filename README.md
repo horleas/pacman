@@ -68,7 +68,8 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + prepare to add comportement to ghost
  
 20 July : 
-Add PhaseGhost Class ( extends Ghost) which this ghost can pass through wall
++ Add PhaseGhost Class ( extends Ghost) which this ghost can pass through wall
++ Add ChaserGhost Class ( extends Ghost) which pursue the player ( V1 : basic implementation )
 
 TODO :
 + Add Map(Warping puzzle etc)
@@ -87,7 +88,6 @@ TODO :
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
-+  Ghost Chasing the player
 +  Ghost Escaping the Player
 +  Ghost Blocking escape route
 
