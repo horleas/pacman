@@ -90,6 +90,7 @@ TODO :
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
 +  Ghost Blocking escape route
++  Ghost Mimic player ( 5 tile delay ? )
 
 Add Menu Screen:
 + Select mode Normal (Score)
