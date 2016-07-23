@@ -73,6 +73,11 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add EscapeGhost Class ( extends Ghost) which run away from the player ( V1 : basic implementation )
 + Add BlockGhost Class ( extends Ghost) which try to be in the path of the player ( V1 : basic implementation )
 
+21 July : 
++ Add PhaseChaserGhost Class ( extends Ghost) which this ghost chase the player through wall
++ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall ( bug )
++ Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall
+
 TODO :
 + Add Pathfinding depending of the map for special Ghost
 + Add Map(Warping puzzle etc)
