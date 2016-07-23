@@ -79,7 +79,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall
 
 TODO :
-+ Add Pathfinding depending of the map for special Ghost
++ Add Pathfinding depending on the map for special Ghost
 + Add Map(Warping puzzle etc)
 + Add finishing line (PacWoman ? )
 + Possibility to have different size of Map
