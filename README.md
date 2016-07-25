@@ -84,11 +84,11 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + (Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall)
 + Add Reward depending on the Ghost eated
 + Add finishing line "PacWoman"
++ Add Map ( Finishing line) map tuto finishing line
 
 TODO :
 + Add Pathfinding depending on the map for special Ghost
 + Add Map(Warping puzzle etc)
-
 + Possibility to have different size of Map
 + Add Map All Tutorial
 + Add Score Serialization
