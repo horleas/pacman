@@ -75,8 +75,14 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 21 July : 
 + Add PhaseChaserGhost Class ( extends Ghost) which this ghost chase the player through wall
-+ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall
-+ Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall
++ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall ( bug)
+ 
+25 July :
++ Add Hotkey to go to previous level on I
++ Modify Hotkey to go to next level on O
++ Correct bug with deplacement of PhaseEscape Ghost
++ (Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall)
++ Add Reward depending on the Ghost eated
 
 TODO :
 + Add Pathfinding depending on the map for special Ghost
@@ -88,7 +94,6 @@ TODO :
 + Add Music
 + Improve swap Color board (Menu)
 + Add Portail/Warper into map
-+ Modify Comportement of Ghost
 + Add Trap insta-kill
 + Add Moving Trap on a specific pattern
 + Slow Motion hotkey to aid the player
