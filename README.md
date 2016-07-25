@@ -85,7 +85,10 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add Reward depending on the Ghost eated
 + Add finishing line "PacWoman"
 + Add Map ( Finishing line) map tuto finishing line
-+ Add Trap (Lava) who kill pacman
++ Add Trap (Lava) who kill pacman ( Tile Mapping)
++ Add better Lava Sprite
++ Modify Entree point for map (remove from tile mapping to map param)
++ Add Class Sound ( Play Background music loop (pacman intro) and add soundplayer for sound ( death)
 
 TODO :
 + Add Pathfinding depending on the map for special Ghost
@@ -93,13 +96,20 @@ TODO :
 + Possibility to have different size of Map
 + Add Map All Tutorial
 + Add Score Serialization
-+ Add Music
 + Add Portail/Warper into map
 + Add Moving Trap on a specific pattern
 + Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
 + Add Death Animation
-+ Add better Lava Sprite
+ 
+Add Sound :
++ Gain life
++ End level
++ eat a point
++ eat a bonus
++ eat a ghost ( + special ghost)
++ use dash
++ while ghost are weak
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
