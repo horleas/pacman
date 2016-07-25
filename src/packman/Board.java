@@ -77,6 +77,7 @@ public class Board extends JPanel implements ActionListener {
     
     private int numlevel;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
+    private Image lava = new ImageIcon(this.getClass().getResource("/Lava.png")).getImage(); ;
     private String namelevel;
 
     @SuppressWarnings("unused")
@@ -106,6 +107,8 @@ public class Board extends JPanel implements ActionListener {
     
     private BonusCreator bonscore ;
 	private BonusCreator bon;
+	
+	private Sound backsound;
 
     public Board() {
 
@@ -122,6 +125,8 @@ public class Board extends JPanel implements ActionListener {
 
     private void initVariables() {
 
+    	backsound = new Sound("pacmanintro.wav");
+    	
         screendata = new short[nrofblocks * nrofblocks];
         mazecolor = green;
         d = new Dimension(400, 400);
@@ -163,10 +168,10 @@ public class Board extends JPanel implements ActionListener {
     private void playGame(Graphics2D g2d) {
 
         if (dying) {
-
             death();
 
         } else {
+
 
             movePacman();
             drawPacman(g2d);
@@ -241,13 +246,12 @@ public class Board extends JPanel implements ActionListener {
 
         pacsleft--;
         
-        //timer.stop();
-       // drawBonuscore(g2d);
+        Sound.play("pacmandeath.wav");
 
         if (pacsleft == 0) {
             ingame = false;
         }
-
+        
         continueLevel();
     }
 
@@ -631,8 +635,12 @@ public class Board extends JPanel implements ActionListener {
                 }
                 
                 if ((screendata[i] & 32) != 0) { 
+                	
+                	g2d.drawImage(lava, x, y, this);
+                	/*
                     g2d.setColor(trapcolor);
                     g2d.fillRect(x , y ,  blocksize ,  blocksize );
+                    */
                 }
 
                 i++;
@@ -669,7 +677,8 @@ public class Board extends JPanel implements ActionListener {
     
 
     private void initGame() {
-
+    	
+    	backsound.loop();
         pacsleft = 3;
         score = 0;
         initLevel();
@@ -701,6 +710,7 @@ public class Board extends JPanel implements ActionListener {
             if((leveldata[i] & 64) != 0 ){			// Get Every Location for poping Ghost and have the number of Poping
             	entryGhostX[nbrpopghost] = i % nrofblocks ;
             	entryGhostY[nbrpopghost] = i / nrofblocks ;
+            	
             	nbrpopghost++;
             }            
         }
@@ -713,17 +723,20 @@ public class Board extends JPanel implements ActionListener {
         int locpop = 0;
         int type = 0 ;
         
+
+        
         // Pop the Ghost
         ghostlist.removeAll(ghostlist);
         for (i = 0; i < nrofghosts; i++) {
        	
         	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         	
-            locpop ++;
             type ++;
+            locpop ++ ;
         	
             if(type >= 4){ type = 0;}
             if(locpop>=nbrpopghost){ locpop = 0;} 
+            System.out.println(locpop);
                        
         }
         // TODO new Ghost
@@ -828,6 +841,8 @@ public class Board extends JPanel implements ActionListener {
         pacman2right = new ImageIcon(this.getClass().getResource("/right1.png")).getImage();
         pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
         pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
+        
+        //lava = new ImageIcon(this.getClass().getResource("/Lava.png")).getImage();
     
         // LOAD PACWOMAN (TODO)
 
@@ -999,6 +1014,7 @@ public class Board extends JPanel implements ActionListener {
         repaint();
     }
     
+    //TODO play Sound
     public static void addlife(){
     	pacsleft = pacsleft+1;	
     	if (pacsleft>= 10){
