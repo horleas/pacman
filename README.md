@@ -75,7 +75,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 21 July : 
 + Add PhaseChaserGhost Class ( extends Ghost) which this ghost chase the player through wall
-+ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall ( bug )
++ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall
 + Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall
 
 TODO :
@@ -93,6 +93,8 @@ TODO :
 + Add Moving Trap on a specific pattern
 + Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
++ Add Death Animation
++ add reward one special Ghost
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
