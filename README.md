@@ -86,6 +86,7 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add finishing line "PacWoman"
 + Add Map ( Finishing line) map tuto finishing line
 + Add Trap (Lava) who kill pacman ( Tile Mapping)
++ Add better Lava Sprite
 + Modify Entree point for map (remove from tile mapping to map param)
 + Add Class Sound ( Play Background music loop (pacman intro) and add soundplayer for sound ( death)
 
@@ -100,7 +101,6 @@ TODO :
 + Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
 + Add Death Animation
-+ Add better Lava Sprite
  
 Add Sound :
 + Gain life
