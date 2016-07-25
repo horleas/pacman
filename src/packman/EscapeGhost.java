@@ -1,7 +1,8 @@
 package packman;
 
 public class EscapeGhost extends Ghost {
-
+	private int distescape = 4*blocksize ;
+	
 	public EscapeGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
 		
@@ -18,31 +19,59 @@ public class EscapeGhost extends Ghost {
 		int targetx = Board.getPacmanx();
 		int targety = Board.getPacmany();
 		
-		
+
 		if (getPosX() % blocksize == 0 && getPosY() % blocksize == 0) {
-			if ((tile & 1) == 0 && getGhostdx() != 1 && targetx >= getPosX() ) {
-				possibilityx[count] = -1;
-				possibilityy[count] = 0;
-	            count++;
-	        }
-	
-	        if ((tile & 2) == 0 && getGhostdy() != 1 && targety >= getPosY()) {
-				possibilityx[count] = 0;
-				possibilityy[count] = -1;
-	            count++;
-	        }
-	
-	        if ((tile & 4) == 0 && getGhostdx() != -1 && targetx <= getPosX() ) {
-				possibilityx[count] = 1;
-				possibilityy[count] = 0;
-	            count++;
-	        }
-	
-	        if ((tile & 8) == 0 && getGhostdy() != -1 && targety <= getPosY()) {
-				possibilityx[count] = 0;
-				possibilityy[count] = 1;
-	            count++;
-	        }
+			//System.out.println(targetx-getPosX());
+			if( (targetx-getPosX()< distescape && getPosX() - targetx < distescape ) && (getPosY()-targety <distescape  &&  targety - getPosY() <distescape) ){
+				if ((tile & 1) == 0 && getGhostdx() != 1 && targetx >= getPosX() ) {
+					possibilityx[count] = -1;
+					possibilityy[count] = 0;
+		            count++;
+		        }
+		
+		        if ((tile & 2) == 0 && getGhostdy() != 1 && targety >= getPosY()) {
+					possibilityx[count] = 0;
+					possibilityy[count] = -1;
+		            count++;
+		        }
+		
+		        if ((tile & 4) == 0 && getGhostdx() != -1 && targetx <= getPosX() ) {
+					possibilityx[count] = 1;
+					possibilityy[count] = 0;
+		            count++;
+		        }
+		
+		        if ((tile & 8) == 0 && getGhostdy() != -1 && targety <= getPosY()) {
+					possibilityx[count] = 0;
+					possibilityy[count] = 1;
+		            count++;
+		        }
+			}else {
+				if ((tile & 1) == 0 && getGhostdx() != 1 && targetx < getPosX() ) {
+					possibilityx[count] = -1;
+					possibilityy[count] = 0;
+		            count++;
+		        }
+		
+		        if ((tile & 2) == 0 && getGhostdy() != 1 && targety < getPosY()) {
+					possibilityx[count] = 0;
+					possibilityy[count] = -1;
+		            count++;
+		        }
+		
+		        if ((tile & 4) == 0 && getGhostdx() != -1 && targetx > getPosX() ) {
+					possibilityx[count] = 1;
+					possibilityy[count] = 0;
+		            count++;
+		        }
+		
+		        if ((tile & 8) == 0 && getGhostdy() != -1 && targety > getPosY()) {
+					possibilityx[count] = 0;
+					possibilityy[count] = 1;
+		            count++;
+		        }
+				
+			}
 	        
 	        if (count == 0) {
 	

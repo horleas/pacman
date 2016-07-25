@@ -131,6 +131,12 @@ public class Ghost {
 		if(getPosY()<0){setPosY(14*blocksize);}
 		if(getPosY()>14*blocksize){setPosY(0*blocksize);}
 		
+		/*
+		if(getGhostdx()<0){System.out.println("go left");}
+		if(getGhostdx()>0){System.out.println("go right");}
+		if(getGhostdy()<0){System.out.println("go up");}
+		if(getGhostdy()>0){System.out.println("go down");}
+		*/
 	}
 
 	

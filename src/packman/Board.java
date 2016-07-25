@@ -742,7 +742,9 @@ public class Board extends JPanel implements ActionListener {
         //ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
-        ghostlist.add(new BlockGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new BlockGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new PhaseChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        ghostlist.add(new PhaseEscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
 
         pacmanx = entryPacmanX * blocksize;
         pacmany = entryPacmanY * blocksize;

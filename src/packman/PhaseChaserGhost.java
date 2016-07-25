@@ -4,25 +4,23 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class ChaserGhost extends Ghost {
+public class PhaseChaserGhost extends Ghost {
 	
-	private Image up1=new ImageIcon(this.getClass().getResource("/chaserup1.png")).getImage();
-	private Image up2=new ImageIcon(this.getClass().getResource("/chaserup2.png")).getImage();
-	private Image down1=new ImageIcon(this.getClass().getResource("/chaserdown1.png")).getImage();
-	private Image down2=new ImageIcon(this.getClass().getResource("/chaserdown2.png")).getImage();
-	private Image right1= new ImageIcon(this.getClass().getResource("/chaserright1.png")).getImage();
-	private Image right2= new ImageIcon(this.getClass().getResource("/chaserright2.png")).getImage();
-	private Image left1 = new ImageIcon(this.getClass().getResource("/chaserleft1.png")).getImage();
-	private Image left2 = new ImageIcon(this.getClass().getResource("/chaserleft2.png")).getImage();
+	private Image up1=new ImageIcon(this.getClass().getResource("/phasechaserup1.png")).getImage();
+	private Image up2=new ImageIcon(this.getClass().getResource("/phasechaserup2.png")).getImage();
+	private Image down1=new ImageIcon(this.getClass().getResource("/phasechaserdown1.png")).getImage();
+	private Image down2=new ImageIcon(this.getClass().getResource("/phasechaserdown2.png")).getImage();
+	private Image right1= new ImageIcon(this.getClass().getResource("/phasechaserright1.png")).getImage();
+	private Image right2= new ImageIcon(this.getClass().getResource("/phasechaserright2.png")).getImage();
+	private Image left1 = new ImageIcon(this.getClass().getResource("/phasechaserleft1.png")).getImage();
+	private Image left2 = new ImageIcon(this.getClass().getResource("/phasechaserleft2.png")).getImage();
 
-	public ChaserGhost(int pposX, int pposY, int type) {
+	public PhaseChaserGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
 		
 		 ghostspeed = validspeeds[2];
-		
-		
-
 	}
+	
 	
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
@@ -35,25 +33,26 @@ public class ChaserGhost extends Ghost {
 		
 		if (getPosX() % blocksize == 0 && getPosY() % blocksize == 0) {
 			//Chase mode
-			if ((tile & 1) == 0 && getGhostdx() != 1 && targetx < getPosX() ) {
+			System.out.println("Chase Mode");
+			if ( getGhostdx() != 1 && (targetx < getPosX() || (targetx - getPosX() > 14 * blocksize -targetx + getPosX()) ) ) {	//if target is on left or target is on the right and warp across the map is faster  
 				possibilityx[count] = -1;
 				possibilityy[count] = 0;
 	            count++;
 	        }
 	
-	        if ((tile & 2) == 0 && getGhostdy() != 1 && targety < getPosY()) {
+	        if ( getGhostdy() != 1 && (targety < getPosY() || (targety - getPosY() > 14 * blocksize -targety + getPosY()) ) ) {
 				possibilityx[count] = 0;
 				possibilityy[count] = -1;
 	            count++;
 	        }
 	
-	        if ((tile & 4) == 0 && getGhostdx() != -1 && targetx > getPosX() ) {
+	        if ( getGhostdx() != -1 && (targetx > getPosX() || (getPosX() - targetx > 14 * blocksize - getPosX() + targetx ) ) ) {
 				possibilityx[count] = 1;
 				possibilityy[count] = 0;
 	            count++;
 	        }
 	
-	        if ((tile & 8) == 0 && getGhostdy() != -1 && targety > getPosY()) {
+	        if ( getGhostdy() != -1 && (targety > getPosY() || (getPosY() - targety > 14 * blocksize - getPosY() + targety ) ) ) {
 				possibilityx[count] = 0;
 				possibilityy[count] = 1;
 	            count++;
@@ -98,7 +97,7 @@ public class ChaserGhost extends Ghost {
 				else if(getGhostdy()==1){this.img = down2 ;}
 				else if(getGhostdx()==1){this.img = right2 ;}
 				else if(getGhostdx()==-1){this.img = left2 ;}
-				else if(getGhostdx()==0 && getGhostdy()==0 ){this.img = down1 ;}
+				else if(getGhostdx()==0 && getGhostdy()==0 ){this.img = down2 ;}
 							
 			}
 		}else{
