@@ -1,7 +1,12 @@
 package packman;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 public class PhaseEscapeGhost extends Ghost  {
 	private int distescape = 3*blocksize ;
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage() ;
 	
 	public PhaseEscapeGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -28,7 +33,7 @@ public class PhaseEscapeGhost extends Ghost  {
 					||(getPosX() < targetx + distescape -14*blocksize ||    getPosX() > targetx - distescape + 14*blocksize )
 					||(getPosY() < targety + distescape -14*blocksize ||    getPosY() > targety - distescape + 14*blocksize) ){
 				//Escape mode
-				System.out.println("Escape Mode");
+				//System.out.println("Escape Mode");
 				if (( targetx >= getPosX() || getPosX() > 14*blocksize - distescape + targetx) ) {
 					if(!( getPosX() > targetx - distescape + 14*blocksize )){
 						possibilityx[count] = -1;
@@ -63,7 +68,7 @@ public class PhaseEscapeGhost extends Ghost  {
 		        }
 			}else {
 				//Chase mode
-				System.out.println("Chase Mode");
+				//System.out.println("Chase Mode");
 				if ( getGhostdx() != 1 && (targetx < getPosX() || (targetx - getPosX() > 14 * blocksize -targetx + getPosX()) ) ) {
 					possibilityx[count] = -1;
 					possibilityy[count] = 0;
@@ -114,6 +119,13 @@ public class PhaseEscapeGhost extends Ghost  {
         
 		}
 		
+	}
+	
+	public Image getReward(){
+		
+		Board.addDash(5);
+		Board.addlife();
+		return imgreward ;
 	}
 	
 	

@@ -1,9 +1,14 @@
 package packman;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 public class BlockGhost extends Ghost {
 	private int targetx = 0;
 	private int targety = 0;
 	private int distblock = 2 * blocksize ;
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/bonuspts300.png")).getImage() ;
 
 	public BlockGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -75,6 +80,12 @@ public class BlockGhost extends Ghost {
         
 		}
 		
+	}
+	
+	public Image getReward(){
+		
+		Board.updateScore(300);
+		return imgreward ;
 	}
 	
 	private void setTarget(){

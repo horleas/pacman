@@ -14,6 +14,7 @@ public class PhaseChaserGhost extends Ghost {
 	private Image right2= new ImageIcon(this.getClass().getResource("/phasechaserright2.png")).getImage();
 	private Image left1 = new ImageIcon(this.getClass().getResource("/phasechaserleft1.png")).getImage();
 	private Image left2 = new ImageIcon(this.getClass().getResource("/phasechaserleft2.png")).getImage();
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage() ;
 
 	public PhaseChaserGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -82,6 +83,13 @@ public class PhaseChaserGhost extends Ghost {
         
 		}
 		
+	}
+	
+	public Image getReward(){
+		
+		Board.updateScore(300);
+		Board.addDash(5);
+		return imgreward ;
 	}
 	
 	public void setImg(Image img) {

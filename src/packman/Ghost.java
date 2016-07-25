@@ -2,6 +2,8 @@ package packman;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 public class Ghost {
 	
  protected int posX,posY;
@@ -17,6 +19,10 @@ public class Ghost {
  protected int blocksize;
  protected int ghostwaittobealive;
  protected int tmp = 0;
+ protected static int nbreaten = 0 ;
+ private Image ghosteat200, ghosteat400, ghosteat800, ghosteat1600;
+ 
+ 
  
 	
 	
@@ -31,6 +37,13 @@ public class Ghost {
 		setGhostdy(0);
 		
 		ghostwaittobealive=0;
+		
+        //LOAD GHOST EAT POINT
+    	
+    	ghosteat200 = new ImageIcon(this.getClass().getResource("/ghosteat200.png")).getImage();
+    	ghosteat400 = new ImageIcon(this.getClass().getResource("/ghosteat400.png")).getImage();
+    	ghosteat800 = new ImageIcon(this.getClass().getResource("/ghosteat800.png")).getImage();
+    	ghosteat1600 = new ImageIcon(this.getClass().getResource("/ghosteat1600.png")).getImage();
 		
 		blocksize = Board.getBlockSize();
 		
@@ -166,6 +179,32 @@ public class Ghost {
 		else{System.out.println("probleme with direction");
 		return 5;}
 		
+	}
+	
+	public Image getReward(){
+		
+		nbreaten += 1  ;
+		System.out.println(nbreaten);
+		switch(nbreaten){
+		case 1 :
+			Board.updateScore(200);
+    		return ghosteat200;
+		case 2 :
+			Board.updateScore(400);
+			return ghosteat400;
+		case 3 :
+			Board.updateScore(400);
+			return ghosteat800;
+		case 4 :
+			Board.updateScore(1600);
+    		nbreaten = 0;
+    		return ghosteat1600;
+		default :
+			nbreaten = 0;
+			break;            		
+		}
+				
+		return ghosteat200;
 	}
 
 	

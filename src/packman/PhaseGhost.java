@@ -14,6 +14,7 @@ public class PhaseGhost extends Ghost {
 	private Image right2= new ImageIcon(this.getClass().getResource("/phaseright2.png")).getImage();
 	private Image left1 = new ImageIcon(this.getClass().getResource("/phaseleft1.png")).getImage();
 	private Image left2 = new ImageIcon(this.getClass().getResource("/phaseleft2.png")).getImage();
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage() ;
 
 	public PhaseGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -56,14 +57,15 @@ public class PhaseGhost extends Ghost {
 	
 	            if (count > 3) {
 	                count = 3;
-	            }
-	
+	            }	
 	            setGhostdx(possibilityx[count]);
-	            setGhostdy(possibilityy[count]); 
-	        
-        
-		}
-		
+	            setGhostdy(possibilityy[count]); 	               
+		}		
+	}
+	
+	public Image getReward(){
+		Board.addDash(5);
+		return imgreward ;
 	}
 	
 	public void setImg(Image img) {

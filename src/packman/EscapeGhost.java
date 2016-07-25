@@ -1,7 +1,12 @@
 package packman;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 public class EscapeGhost extends Ghost {
 	private int distescape = 4*blocksize ;
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage() ;
 	
 	public EscapeGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -97,6 +102,12 @@ public class EscapeGhost extends Ghost {
         
 		}
 		
+	}
+	
+	public Image getReward(){
+		
+		Board.addlife();
+		return imgreward ;
 	}
 	
 	

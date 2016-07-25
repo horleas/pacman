@@ -28,6 +28,7 @@ public class Board extends JPanel implements ActionListener {
 
     private Image ii;
     private final Color dotcolor = new Color(192, 192, 0);
+    private final Color trapcolor = new Color(255, 0, 0);
     private Color mazecolor;
 
     private boolean ingame = false;
@@ -49,7 +50,8 @@ public class Board extends JPanel implements ActionListener {
     private int entryGhostY[]=new int[nrofblocks] ;
     private int tmpstateghost;
     
-    private int pacsleft, score; 
+    private static int pacsleft;
+	private static int score; 
     private ArrayList<Ghost> ghostlist;
     private int nbrpopghost;
 
@@ -59,9 +61,6 @@ public class Board extends JPanel implements ActionListener {
 	private Image ghost , ghostred , ghostpink, ghostturquoise, ghostyellow;
     private Image ghostdeadup, ghostdeadleft, ghostdeaddown, ghostdeadright;
     private Image ghostweakblue1,ghostweakblue2,ghostweakwhite1,ghostweakwhite2;
-    
-    private Image ghosteat200, ghosteat400, ghosteat800, ghosteat1600;
-    private int nbreaten ;
     
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
@@ -73,7 +72,7 @@ public class Board extends JPanel implements ActionListener {
 	private static int pacmandy;
     private int reqdx, reqdy, viewdx, viewdy;
     private int entryPacmanX, entryPacmanY;
-    private int jumpcount = 0;
+    private static int jumpcount = 0;
 	private int lengthjump = 1;
     
     private int numlevel;
@@ -129,8 +128,7 @@ public class Board extends JPanel implements ActionListener {
         ghostlist = new ArrayList<Ghost>();
               
         tmpstateghost = 0 ;
-        nbreaten = 0;
-        numlevel = 15;
+        numlevel = 1;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -218,7 +216,7 @@ public class Board extends JPanel implements ActionListener {
 
         while (i < nrofblocks * nrofblocks && finished) {
 
-            if ((screendata[i] & 48) != 0) {
+            if ((screendata[i] & 16) != 0) {
                 finished = false;
             }
 
@@ -226,29 +224,25 @@ public class Board extends JPanel implements ActionListener {
         }
 
         if (finished) {
-        	lengthjump = 1;
-        	currentbonusfixelist.removeAll(currentbonusfixelist);
-        	ghostlist.removeAll(ghostlist);
-        	bonuslist.removeAll(bonuslist);
-            numlevel ++ ;
-            initLevel();
-        	/*        	
-            score += 50;
-            if (nrofghosts < maxghosts) {
-                nrofghosts++;
-            }
-
-            if (currentspeed < maxspeed) {
-                currentspeed++;
-            }
-            */
-
+        	nextLevel();
         }
+    }
+    
+    private void nextLevel(){
+    	lengthjump = 1;
+    	currentbonusfixelist.removeAll(currentbonusfixelist);
+    	ghostlist.removeAll(ghostlist);
+    	bonuslist.removeAll(bonuslist);
+        numlevel ++ ;
+        initLevel();
     }
 
     private void death() {
 
         pacsleft--;
+        
+        //timer.stop();
+       // drawBonuscore(g2d);
 
         if (pacsleft == 0) {
             ingame = false;
@@ -273,30 +267,8 @@ public class Board extends JPanel implements ActionListener {
             	
             	if(currentghost.getState()=="weak"){
             		currentghost.setState("dead");
-            		nbreaten += 1  ;
-            		System.out.println(nbreaten);
-            		switch(nbreaten){
-            		case 1 :
-                		eaten = ghosteat200;
-                		score += 200; 
-                		break;
-            		case 2 :
-                		eaten = ghosteat400;
-                		score += 400;
-                		break;
-            		case 3 :
-                		eaten = ghosteat800;
-                		score += 800;
-                		break;
-            		case 4 :
-                		eaten = ghosteat1600;
-                		score += 1600;
-                		nbreaten = 0;
-                		break;            		
-            		default :
-            			nbreaten = 0;
-            			break;            		
-            		}
+            		
+            		eaten = currentghost.getReward();
             		eateninX=currentghost.getPosX()/blocksize;
             		eateninY=currentghost.getPosY()/blocksize;
             		drawBonuscore(g2d);
@@ -388,7 +360,7 @@ public class Board extends JPanel implements ActionListener {
                 			
                 			else if(bonus.getName()=="jumprefill"){
                 				System.out.println("+5 dash");
-                				jumpcount += 5;
+                				addDash(5);
                 				}
                 			
                 			else if(bonus.getName()=="jumpupgrade"){
@@ -442,6 +414,9 @@ public class Board extends JPanel implements ActionListener {
                 }
                 
             }
+            if ((ch & 32) != 0) {
+            	dying = true ;				// kill by Lava
+            }
 
             if (reqdx != 0 || reqdy != 0) {
                 if (!((reqdx == -1 && reqdy == 0 && (ch & 1) != 0)
@@ -467,6 +442,7 @@ public class Board extends JPanel implements ActionListener {
         
         if(!currentbonusfixelist.isEmpty()){					// Eat Fix Bonus
         	boolean modif = false;
+        	boolean finish = false ;
         	for(BonusCreator bonus : currentbonusfixelist){
         	
         		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
@@ -476,7 +452,7 @@ public class Board extends JPanel implements ActionListener {
         				}
         			else if(bonus.getName()=="jumprefill"){
         				System.out.println("+5 dash");
-        				jumpcount += 5;
+        				addDash(5);
         				}
         			else if(bonus.getName()=="jumpupgrade"){
         				lengthjump = lengthjump+1;
@@ -491,7 +467,7 @@ public class Board extends JPanel implements ActionListener {
             					lengthjump=1;
             				}
         				System.out.println("Dash Downgraded : "+ lengthjump);
-        				}
+        				}	
         			else if(bonus.getName()=="ghosteater"){
         				System.out.println("you can eat ghost");
                         for(Ghost currentghost : ghostlist){
@@ -500,17 +476,27 @@ public class Board extends JPanel implements ActionListener {
                         	}
                         }
     				}
+        			else if(bonus.getName()=="finishline"){	// to avoid java.util.ConcurrentModificationException for reset         				
+        				finish = true ;						//the current bonus list while working on it, move the call to nextLevel ouside the loop 
+        				}
+        			
         			bon = bonus;
         			modif = true;
         		}
             }
         	
-        	if(modif)
+        	if(modif){
         		eatenbonuscore = true;
 	        	eateninX = bon.getPosX();
 	        	eateninY = bon.getPosY();
 	        	eaten = bon.getImgScore();
-	        	currentbonusfixelist.remove(bon);
+	        	if(!currentbonusfixelist.isEmpty()){
+	        		currentbonusfixelist.remove(bon);
+	        	}
+        	}
+        	if(finish){
+        		nextLevel();
+        	}
         	
         }
         	
@@ -643,6 +629,11 @@ public class Board extends JPanel implements ActionListener {
                     g2d.setColor(dotcolor);
                     g2d.fillRect(x + 11, y + 11, 2, 2);
                 }
+                
+                if ((screendata[i] & 32) != 0) { 
+                    g2d.setColor(trapcolor);
+                    g2d.fillRect(x , y ,  blocksize ,  blocksize );
+                }
 
                 i++;
             }
@@ -658,7 +649,7 @@ public class Board extends JPanel implements ActionListener {
     private void drawBonusFixe(Graphics2D g2d) {
     	
     	for(BonusCreator bonus : currentbonusfixelist){
-        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
+        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize +5 ,  bonus.getPosY()*blocksize + 3, this);
         }
 
     }
@@ -694,11 +685,12 @@ public class Board extends JPanel implements ActionListener {
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
         lengthjump = 1;
-        nbreaten = 0;
         leveldata = currentlevel.getMap();
         nrofghosts = currentlevel.getNbrGhost();
         namelevel = currentlevel.getName();
-        jumpcount += currentlevel.getDashlevel();
+        entryPacmanX = currentlevel.getEntryPointX();
+        entryPacmanY = currentlevel.getEntryPointY();
+        addDash(currentlevel.getDashlevel());
         currentbonusfixelist = currentlevel.getBonusfixelist();
         
         boobonusexist = false ;
@@ -706,11 +698,7 @@ public class Board extends JPanel implements ActionListener {
         
         for (i = 0; i < nrofblocks * nrofblocks; i++) {
             screendata[i] = leveldata[i];
-            if((leveldata[i] & 32) != 0 ){
-            	entryPacmanX = i % nrofblocks ;
-            	entryPacmanY = i / nrofblocks ;
-            }
-            else if((leveldata[i] & 64) != 0 ){			// Get Every Location for poping Ghost and have the number of Poping
+            if((leveldata[i] & 64) != 0 ){			// Get Every Location for poping Ghost and have the number of Poping
             	entryGhostX[nbrpopghost] = i % nrofblocks ;
             	entryGhostY[nbrpopghost] = i / nrofblocks ;
             	nbrpopghost++;
@@ -744,7 +732,7 @@ public class Board extends JPanel implements ActionListener {
         //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new BlockGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new PhaseChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
-        ghostlist.add(new PhaseEscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new PhaseEscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
 
         pacmanx = entryPacmanX * blocksize;
         pacmany = entryPacmanY * blocksize;
@@ -840,14 +828,7 @@ public class Board extends JPanel implements ActionListener {
         pacman2right = new ImageIcon(this.getClass().getResource("/right1.png")).getImage();
         pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
         pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
-        
-        //LOAD GHOST EAT POINT
-    	
-    	ghosteat200 = new ImageIcon(this.getClass().getResource("/ghosteat200.png")).getImage();
-    	ghosteat400 = new ImageIcon(this.getClass().getResource("/ghosteat400.png")).getImage();
-    	ghosteat800 = new ImageIcon(this.getClass().getResource("/ghosteat800.png")).getImage();
-    	ghosteat1600 = new ImageIcon(this.getClass().getResource("/ghosteat1600.png")).getImage();
-        
+    
         // LOAD PACWOMAN (TODO)
 
     }
@@ -949,13 +930,16 @@ public class Board extends JPanel implements ActionListener {
                 }else if (key == KeyEvent.VK_R) {							//Restart Level
                 	initGame();
                 } 
-                else if (key == KeyEvent.VK_DOLLAR ) {							//Next Level Cheat
-                	numlevel++;
+                else if (key == KeyEvent.VK_O ) {							//Next Level Cheat
+                	nextLevel();
+                }
+                else if (key == KeyEvent.VK_I ) {							//Previous Level Cheat
+                	numlevel--;
                     initLevel();
                 }
                 else if (key == KeyEvent.VK_Y ) {							//Next Level Cheat
                 	addlife();
-                	jumpcount = jumpcount+ 10;
+                	addDash(10);
                 } 
                 
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
@@ -1015,12 +999,16 @@ public class Board extends JPanel implements ActionListener {
         repaint();
     }
     
-    public void addlife(){
+    public static void addlife(){
     	pacsleft = pacsleft+1;	
     	if (pacsleft>= 10){
     		pacsleft = 10 ;
     	}
 
+    }
+    
+    public static void addDash(int newdash){
+    	jumpcount = jumpcount + newdash;
     }
     
     private void addBonus() {
@@ -1087,7 +1075,9 @@ public class Board extends JPanel implements ActionListener {
     	return pacmandy;
     }
     
-    
+    public static void updateScore(int newpts){
+    	score = score + newpts ;
+    }
     
     
     private void initColorBoard(){

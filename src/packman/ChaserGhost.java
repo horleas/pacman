@@ -14,6 +14,8 @@ public class ChaserGhost extends Ghost {
 	private Image right2= new ImageIcon(this.getClass().getResource("/chaserright2.png")).getImage();
 	private Image left1 = new ImageIcon(this.getClass().getResource("/chaserleft1.png")).getImage();
 	private Image left2 = new ImageIcon(this.getClass().getResource("/chaserleft2.png")).getImage();
+	private Image imgreward = new ImageIcon(this.getClass().getResource("/bonuspts300.png")).getImage() ;
+
 
 	public ChaserGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
@@ -84,6 +86,14 @@ public class ChaserGhost extends Ghost {
 		}
 		
 	}
+	
+	public Image getReward(){
+		
+		Board.updateScore(300);
+		return imgreward ;
+	}
+	
+	
 	
 	public void setImg(Image img) {
 		if(getState()=="alive"){

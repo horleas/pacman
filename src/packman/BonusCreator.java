@@ -82,7 +82,6 @@ public class BonusCreator {
 	}
 
 	public void setType(int typebonus) {
-		//if(upgradedashmax && typebonus == 6){typebonus=5; }
 		switch(typebonus){
 		case 1 :
 			 this.img = new ImageIcon(this.getClass().getResource("/bonus2.png")).getImage();
@@ -132,6 +131,12 @@ public class BonusCreator {
 			 this.img = new ImageIcon(this.getClass().getResource("/dashupgrade.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/upgradedashstring.png")).getImage();
 			 this.setName("jumpupgrade");
+			 break;
+			 
+		case 10 :
+			 this.img = new ImageIcon(this.getClass().getResource("/finishline.png")).getImage();
+			 this.imgscore = new ImageIcon(this.getClass().getResource("/finishline.png")).getImage();
+			 this.setName("finishline");
 			 break;
 			
 			 
