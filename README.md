@@ -100,7 +100,6 @@ TODO :
 + Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
 + Add Death Animation
-+ add reward one special Ghost
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
