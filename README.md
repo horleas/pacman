@@ -75,24 +75,31 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 
 21 July : 
 + Add PhaseChaserGhost Class ( extends Ghost) which this ghost chase the player through wall
-+ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall ( bug )
-+ Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall
++ Add PhaseEscapeGhost Class ( extends Ghost) which this ghost escape even the player through wall ( bug)
+ 
+25 July :
++ Add Hotkey to go to previous level on I
++ Modify Hotkey to go to next level on O
++ Correct bug with deplacement of PhaseEscape Ghost
++ (Add PhaseBlockGhost Class ( extends Ghost) which this ghost block the player through wall)
++ Add Reward depending on the Ghost eated
++ Add finishing line "PacWoman"
++ Add Map ( Finishing line) map tuto finishing line
++ Add Trap (Lava) who kill pacman
 
 TODO :
 + Add Pathfinding depending on the map for special Ghost
 + Add Map(Warping puzzle etc)
-+ Add finishing line (PacWoman ? )
 + Possibility to have different size of Map
 + Add Map All Tutorial
 + Add Score Serialization
 + Add Music
-+ Improve swap Color board (Menu)
 + Add Portail/Warper into map
-+ Modify Comportement of Ghost
-+ Add Trap insta-kill
 + Add Moving Trap on a specific pattern
 + Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
++ Add Death Animation
++ Add better Lava Sprite
 
 Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
@@ -104,6 +111,7 @@ Add Menu Screen:
 + Tutorial Map access
 + Add Score Panel
 + Add Rules Panel
++ Improve swap Color board (Menu)
 
 (2 Player ?) 
 (implement Controler XBOX360 ?)
