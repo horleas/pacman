@@ -90,6 +90,9 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Modify Entree point for map (remove from tile mapping to map param)
 + Add Class Sound ( Play Background music loop (pacman intro) and add soundplayer for sound ( death)
 
+26 July :
++ Find Sound for the Game
+
 TODO :
 + Add Pathfinding depending on the map for special Ghost
 + Add Map(Warping puzzle etc)
