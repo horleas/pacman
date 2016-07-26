@@ -126,6 +126,7 @@ public class BlockGhost extends Ghost {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void reducedist(){
 		distblock -= blocksize;		
 	}

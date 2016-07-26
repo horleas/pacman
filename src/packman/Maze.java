@@ -219,7 +219,7 @@ public class Maze {
 	         5, 69, 31,  5, 10, 10, 14, 79, 31,  1,  0,  0,  4,  5,  5,
 	         5,  9, 10, 12,  3,  2,  2,  2,  2,  0,  0,  0,  4,  5,  5,
 	         1,  2,  6,  7,  1,  0,  0,  8,  8,  8,  0,  0,  4, 13,  5,				// Must add a refill dash in 2nd case
-	         1,  0,  4,  5,  1,  0,  4,  3, 90,  6,  1,  0,  4, 79,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long
+	         1,  0,  4,  5,  1,  0,  4,  3, 90,  6,  1,  0,  4, 47,  5,				// Block a Ghost in a tile to prove you can dash 2 tile long
 	         1,  0,  4,  5,  1,  0,  4,  5, 15,  5,  1,  0,  4,  7,  5,
 	         1,  0, 12, 13,  9,  0,  4,  9, 10, 12,  1,  0,  4,  5,  5,
 	         1,  4,  3, 10,  6,  9, 12,  5,  7,  5,  9,  8, 12,  5,  5,
@@ -318,7 +318,7 @@ public class Maze {
 		 		 
     	case 6 : this.map = Jumptuto;
 		 		 this.name = "Press Space to Dash";
-		 		 this.nbrGhost = 6;
+		 		 this.nbrGhost = 5;
 		 		 this.dashlevel=5;
     	 		 this.setEntryPointX(3);
     	 		 this.setEntryPointY(2);

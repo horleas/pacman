@@ -28,7 +28,6 @@ public class Board extends JPanel implements ActionListener {
 
     private Image ii;
     private final Color dotcolor = new Color(192, 192, 0);
-    private final Color trapcolor = new Color(255, 0, 0);
     private Color mazecolor;
 
     private boolean ingame = false;
@@ -108,7 +107,7 @@ public class Board extends JPanel implements ActionListener {
     private BonusCreator bonscore ;
 	private BonusCreator bon;
 	
-	private Sound backsound;
+	//private Sound backsound;
 
     public Board() {
 
@@ -125,7 +124,7 @@ public class Board extends JPanel implements ActionListener {
 
     private void initVariables() {
 
-    	backsound = new Sound("pacmanintro.wav");
+    	//backsound = new Sound("pacmanintro.wav");
     	
         screendata = new short[nrofblocks * nrofblocks];
         mazecolor = green;
@@ -271,6 +270,7 @@ public class Board extends JPanel implements ActionListener {
             	
             	if(currentghost.getState()=="weak"){
             		currentghost.setState("dead");
+            		Sound.play("pacman_eatghost.wav");
             		
             		eaten = currentghost.getReward();
             		eateninX=currentghost.getPosX()/blocksize;
@@ -346,6 +346,7 @@ public class Board extends JPanel implements ActionListener {
 
             if ((ch & 16) != 0) {
                 screendata[pos] = (short) (ch & 15);
+                Sound.play("pacman_chomp2.wav");
                 score++;
                 ptseatingbonus ++ ;
                 ptseatinglife ++;
@@ -357,7 +358,7 @@ public class Board extends JPanel implements ActionListener {
                 	for(BonusCreator bonus : bonuslist){
                 	
                 		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
-                			score += bonus.getBonus_score();
+                			
                 			if(bonus.getName()=="lifeup"){
                 				addlife();
                 				}
@@ -366,7 +367,20 @@ public class Board extends JPanel implements ActionListener {
                 				System.out.println("+5 dash");
                 				addDash(5);
                 				}
-                			
+                			else if(bonus.getName()=="ghosteater"){
+                				Sound.play("ghostbusterbonus.wav");
+                				System.out.println("you can eat ghost");
+                                for(Ghost currentghost : ghostlist){
+                                	if(currentghost.getState()=="alive"){
+                                		currentghost.setState("weak");
+                                	}
+                                }
+            				}
+                			else{
+                				score += bonus.getBonus_score();
+                				Sound.play("pacman_eatfruit.wav");
+                			}
+                			/*
                 			else if(bonus.getName()=="jumpupgrade"){
                 				lengthjump = lengthjump+1;
 	                				if(lengthjump>=2){
@@ -382,15 +396,8 @@ public class Board extends JPanel implements ActionListener {
 	                				}
                 				System.out.println("Dash Downgraded : "+ lengthjump);
                 				}
-                			else if(bonus.getName()=="ghosteater"){
-	                				System.out.println("you can eat ghost");
-	                                for(Ghost currentghost : ghostlist){
-	                                	if(currentghost.getState()=="alive"){
-	                                		currentghost.setState("weak");
-	                                	}
-	                                }
-                				}
-                			
+
+                			*/
                 			bon = bonus;
                 			modif = true;
                 		}
@@ -450,7 +457,6 @@ public class Board extends JPanel implements ActionListener {
         	for(BonusCreator bonus : currentbonusfixelist){
         	
         		if((bonus.getPosX()*blocksize ==  pacmanx ) &&  (bonus.getPosY()*blocksize==  pacmany )){
-        			score += bonus.getBonus_score();
         			if(bonus.getName()=="lifeup"){
         				addlife();
         				}
@@ -459,6 +465,7 @@ public class Board extends JPanel implements ActionListener {
         				addDash(5);
         				}
         			else if(bonus.getName()=="jumpupgrade"){
+        				Sound.play("dashsound2.wav");
         				lengthjump = lengthjump+1;
         				if(lengthjump>2){
         					lengthjump=2;
@@ -466,6 +473,7 @@ public class Board extends JPanel implements ActionListener {
         				System.out.println("Dash Upgraded : "+ lengthjump);
         				}
         			else if(bonus.getName()=="jumpdowngrade"){
+        				Sound.play("pacman_downgradedash.wav");
         				lengthjump = lengthjump-1;
             				if(lengthjump<1){
             					lengthjump=1;
@@ -473,6 +481,7 @@ public class Board extends JPanel implements ActionListener {
         				System.out.println("Dash Downgraded : "+ lengthjump);
         				}	
         			else if(bonus.getName()=="ghosteater"){
+        				Sound.play("ghostbusterbonus.wav");
         				System.out.println("you can eat ghost");
                         for(Ghost currentghost : ghostlist){
                         	if(currentghost.getState()=="alive"){
@@ -483,6 +492,10 @@ public class Board extends JPanel implements ActionListener {
         			else if(bonus.getName()=="finishline"){	// to avoid java.util.ConcurrentModificationException for reset         				
         				finish = true ;						//the current bonus list while working on it, move the call to nextLevel ouside the loop 
         				}
+        			else{
+        				score += bonus.getBonus_score();
+        				Sound.play("pacman_eatfruit.wav");
+        			}
         			
         			bon = bonus;
         			modif = true;
@@ -676,9 +689,8 @@ public class Board extends JPanel implements ActionListener {
     
     
 
-    private void initGame() {
-    	
-    	backsound.loop();
+    private void initGame() { 	
+    	//backsound.loop();
         pacsleft = 3;
         score = 0;
         initLevel();
@@ -690,6 +702,13 @@ public class Board extends JPanel implements ActionListener {
         int i;
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
+        
+    	if(numlevel == 1){
+    		Sound.play("pacman_beginning.wav");
+    	}
+    	else {
+    		Sound.play("pacman_intermission.wav");
+    	}
 
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
@@ -736,7 +755,6 @@ public class Board extends JPanel implements ActionListener {
         	
             if(type >= 4){ type = 0;}
             if(locpop>=nbrpopghost){ locpop = 0;} 
-            System.out.println(locpop);
                        
         }
         // TODO new Ghost
@@ -976,6 +994,7 @@ public class Board extends JPanel implements ActionListener {
                 		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
                 		}
                     jumpcount--;
+                    Sound.play("dashsound.wav");
                     System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
@@ -1014,8 +1033,8 @@ public class Board extends JPanel implements ActionListener {
         repaint();
     }
     
-    //TODO play Sound
     public static void addlife(){
+    	Sound.play("pacman_extrapac2.wav");
     	pacsleft = pacsleft+1;	
     	if (pacsleft>= 10){
     		pacsleft = 10 ;
@@ -1024,6 +1043,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     public static void addDash(int newdash){
+    	Sound.play("pacman_refilldash.wav");
     	jumpcount = jumpcount + newdash;
     }
     
