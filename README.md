@@ -110,23 +110,13 @@ Find Sound for the Game :
 
 
 TODO :
-+ Add Pathfinding depending on the map for special Ghost
+
 + Add Map(Warping puzzle etc)
-+ Possibility to have different size of Map
 + Add Map All Tutorial
 + Add Score Serialization
-+ Add Portail/Warper into map
 + Add Moving Trap on a specific pattern
-+ Slow Motion hotkey to aid the player
 + Add some Gauge for the dashcounter (and Slowmotion counter )
 + Add Death Animation
- 
-Add Sound :
-+ while ghost are weak
-
-Create Different Ghost with different habilities :
-+  Boss Ghost map Scrolling ?
-+  Ghost Mimic player ( 5 tile delay ? )
 
 Add Menu Screen:
 + Select mode Normal (Score)
@@ -135,8 +125,21 @@ Add Menu Screen:
 + Add Score Panel
 + Add Rules Panel
 + Improve swap Color board (Menu)
+ 
 
-(2 Player ?) 
-(implement Controler XBOX360 ?)
+Idea for improvement :
+
+Create Different Ghost with different habilities :
++  Boss Ghost map Scrolling ?
++  Ghost Mimic player ( 5 tile delay ? )
++  Add Pathfinding depending on the map for special Ghost
+
+
++ Slow Motion hotkey to aid the player
++ Possibility to have different size of Map
++ Add Portail/Warper into map
+
++ 2 Player ? 
++ implement Controler XBOX360 ?
 
 
