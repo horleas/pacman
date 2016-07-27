@@ -135,5 +135,9 @@ Idea for improvement :
 + 2 Player ? 
 + implement Controler XBOX360 ?
 + Choose player ( PacMan / PacWoman)
+
+Minor adjustement :
 + (player can dash during the death animation : remove / block)
++ Game is launch 2 times when begin of the game
++ GhostBusters can pop even if the map have no ghost
 
