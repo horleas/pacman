@@ -174,6 +174,25 @@ public class Maze {
 		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 		    };
 	 
+	 	//TODO new map
+		private final short lavaMaze1[] = {
+		        43, 42, 42, 42, 42, 42, 46, 23, 43, 42, 42, 42, 42, 42, 46,
+		        31, 19, 18, 26, 18, 26, 18, 24, 18, 26, 18, 26, 18, 22, 70,
+		        19, 28, 21, 47, 21, 19, 20, 16, 17, 22, 21, 47, 21, 25, 22,
+		        17, 18, 16, 26, 16, 24, 20, 23, 17, 24, 16, 26, 16, 18, 20,
+		        17, 28, 21, 23, 21, 23, 21, 85, 21, 23, 21, 23, 21, 25, 20,
+		        21, 27, 24, 28, 21, 25, 24, 24, 24, 28, 21, 25, 24, 30, 21,
+		        25, 26, 26, 26, 24, 26, 26, 26, 26, 26, 24, 26, 26, 26, 28,
+		        43, 42, 42, 42, 42, 42, 46, 15, 43, 42, 42, 42, 42, 42, 46,
+		        19, 26, 26, 26, 18, 18, 26, 26, 26, 18, 18, 26, 26, 26, 22,
+		        17, 26, 26, 22, 21, 25, 26, 82, 26, 28, 21, 19, 26, 26, 20,
+		        21, 19, 26, 24, 16, 26, 30, 29, 27, 26, 16, 24, 26, 22, 21,
+		        21, 25, 26, 22, 21, 35, 34, 34, 34, 38, 21, 19, 26, 28, 21,
+		        21, 19, 30, 21, 21, 33, 32, 40, 32, 36, 21, 21, 27, 22, 21,
+		        21, 25, 26, 28, 21, 33, 36, 16, 33, 36, 21, 25, 26, 28, 21,
+		        25, 26, 90, 26, 28, 41, 40, 42, 40, 44, 25, 26, 90, 26, 28,
+		    };
+	 
 		private final short Finishline[] = {
 		         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
 		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
@@ -362,6 +381,27 @@ public class Maze {
     			 this.bonusfixelist.add(new BonusCreator(3,10,15));
     			 this.bonusfixelist.add(new BonusCreator(2,7,5));
     			 break ;	
+    			 
+    			 //TODO new Map
+    	case 10 : this.map = lavaMaze1 ;
+		 		  this.name = "Lava Maze";
+				  this.nbrGhost = 5 ;
+				  this.dashlevel= 2 ;
+				  this.bonusfixelist.add(new BonusCreator( 7,13,10));
+				  this.bonusfixelist.add(new BonusCreator( 3, 4, 5));
+				  this.bonusfixelist.add(new BonusCreator(11, 4, 5));
+				  this.bonusfixelist.add(new BonusCreator( 7,10, 5));
+				  this.bonusfixelist.add(new BonusCreator( 5, 4, 2));
+				  this.bonusfixelist.add(new BonusCreator( 9, 4, 2));
+				  this.bonusfixelist.add(new BonusCreator( 7, 7, 6));
+				  this.bonusfixelist.add(new BonusCreator(12,12, 9));
+				  this.bonusfixelist.add(new BonusCreator( 2,12, 4));
+				  this.bonusfixelist.add(new BonusCreator(14, 1, 4));
+				  this.bonusfixelist.add(new BonusCreator( 7, 2, 3));
+				  this.setEntryPointX(0);
+				  this.setEntryPointY(1);
+    		
+    			break ;
     			 
     	default : this.map = test;
 		 		  this.name = "Test";

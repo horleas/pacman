@@ -135,7 +135,7 @@ public class Board extends JPanel implements ActionListener {
         ghostlist = new ArrayList<Ghost>();
               
         tmpstateghost = 0 ;
-        numlevel = 1;
+        numlevel = 10;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -517,9 +517,10 @@ public class Board extends JPanel implements ActionListener {
         }
         	
         
-        pacmanx = pacmanx + pacmanspeed * pacmandx;				//Move throw map
+        pacmanx = pacmanx + pacmanspeed * pacmandx;				//Move through map
 		if(pacmanx<0){pacmanx = 14*blocksize;}
 		if(pacmanx>14*blocksize){pacmanx = 0*blocksize;}
+		
         pacmany = pacmany + pacmanspeed * pacmandy;
 		if(pacmany<0){pacmany = 14*blocksize;}
 		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
@@ -1004,27 +1005,42 @@ public class Board extends JPanel implements ActionListener {
                 	addDash(10);
                 } 
                 
+                //TODO
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
                 	if(jumpcount>0){
-                	if(reqdx<0){
-                		pacmanx = pacmanx - blocksize*lengthjump;
-                		if(pacmanx<0){pacmanx = 14*blocksize;}
-                		}
-                	if(reqdx>0){
-                		pacmanx = pacmanx + blocksize*lengthjump;
-                		if(pacmanx>14*blocksize){pacmanx = 0;}
-                		}
-                	if(reqdy<0){
-                		pacmany = pacmany - blocksize*lengthjump;
-                		if(pacmany<0){pacmany = 14*blocksize;}
-                		}
-                	if(reqdy>0){
-                		pacmany = pacmany + blocksize*lengthjump;
-                		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
-                		}
-                    jumpcount--;
-                    Sound.play("dashsound.wav");
-                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
+	                	if(reqdx<0){
+	                		//pacmanx = pacmanx - blocksize*lengthjump;
+	                		if(pacmanx - blocksize*lengthjump <0){
+	                			pacmanx = 14*blocksize + (pacmanx - blocksize*(lengthjump-1));}           
+	                		else{
+	                		pacmanx = pacmanx - blocksize*lengthjump;
+	                		}
+	                	}
+	                	if(reqdx>0){               		
+	                		if(pacmanx + blocksize*lengthjump >14*blocksize){
+	                			pacmanx = 0 + (pacmanx + blocksize*(lengthjump-1) - 14*blocksize) ;
+	                		}else{
+	                			pacmanx = pacmanx + blocksize*lengthjump;
+	                		}               		
+	                	}                	
+	                	if(reqdy<0){
+	                		
+	                		if(pacmany - blocksize*lengthjump <0){
+	                			pacmany = 14*blocksize + (pacmany - blocksize*(lengthjump-1));}           
+	                		else{
+	                			pacmany = pacmany - blocksize*lengthjump;
+	                		}
+	                	}
+	                	if(reqdy>0){
+	                		if(pacmany + blocksize*lengthjump >14*blocksize){
+	                			pacmany = 0 + (pacmany + blocksize*(lengthjump-1) - 14*blocksize) ;
+	                		}else{
+	                			pacmany = pacmany + blocksize*lengthjump;
+	                		}
+	                	}
+	                    jumpcount--;
+	                    Sound.play("dashsound.wav");
+	                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     ingame = false;

@@ -103,7 +103,7 @@ public class BonusCreator {
 			 break;
 			 
 		case 4 :
-			 this.img = new ImageIcon(this.getClass().getResource("/lifeup.png")).getImage();
+			 this.img = new ImageIcon(this.getClass().getResource("/lifeup2.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage();
 			 this.setName("lifeup");
 			 break;
