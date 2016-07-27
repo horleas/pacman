@@ -108,6 +108,9 @@ Find Sound for the Game :
 + When weak ghost are near to come back to life, they switch between white and blue color and emit a warning sound
 + when dead ghost are near to come back to life, they emit a warning sound
 + Add Death Animation (correspond to the sound length)
++ When dash through one side of the map to another, the player is replaced a the correct position ( if dash is 2 block away and the player is next to the wall, then he will appears at the 2nd block a the other side of the map )
++ Modify the lifeup Image to be coherent with the rest of the level
++ Add Map LavaMaze
 
 TODO :
 
@@ -135,4 +138,9 @@ Idea for improvement :
 + implement Controler XBOX360 ?
 + Choose player ( PacMan / PacWoman)
 
+Minor adjustement :
++ (player can dash during the death animation : remove / block)
++ Game is launch 2 times when begin of the game
++ GhostBusters can pop even if the map have no ghost
++ put transparent in all the Images 
 
