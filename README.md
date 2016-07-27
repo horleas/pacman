@@ -91,7 +91,18 @@ http://zetcode.com/tutorials/javagamestutorial/pacman/
 + Add Class Sound ( Play Background music loop (pacman intro) and add soundplayer for sound ( death)
 
 26 July :
-+ Find Sound for the Game
+Find Sound for the Game :
++ Gain life 
++ Intro and next mission level music
++ eat a point 
++ eat a bonus 
++ eat a normal ghost 
++ use dash
++ upgrade dash
++ downgrade dash
++ refill dash
++ eat ghostbuster bonus
++ Pacaman death
 
 TODO :
 + Add Pathfinding depending on the map for special Ghost
@@ -106,12 +117,6 @@ TODO :
 + Add Death Animation
  
 Add Sound :
-+ Gain life
-+ End level
-+ eat a point
-+ eat a bonus
-+ eat a ghost ( + special ghost)
-+ use dash
 + while ghost are weak
 
 Create Different Ghost with different habilities :
