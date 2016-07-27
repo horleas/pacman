@@ -21,6 +21,9 @@ public class Ghost {
  protected int tmp = 0;
  protected static int nbreaten = 0 ;
  private Image ghosteat200, ghosteat400, ghosteat800, ghosteat1600;
+ private boolean alreadysound = false ;
+ private int ghostweakdelay = 200 ;
+ private int ghostdeaddelay = 1000 ;
  
  
  
@@ -157,16 +160,38 @@ public class Ghost {
     //Revive Ghost
 	    if(getState()=="weak"){
 	    	ghostwaittobealive ++ ;
-	    	if(ghostwaittobealive%200 == 0){
+	    	if(ghostwaittobealive%ghostweakdelay == 0){
 	    		setState("alive");
+	    		ghostwaittobealive = 0;
+	    		alreadysound = false ;
 	    	}
 	    }
 	    
-	    if(getState()=="dead"){
+	    if(getState()=="dead"){	    	
 	    	ghostwaittobealive ++ ;
-	    	if(ghostwaittobealive%1000 == 0)
+	    	if(ghostwaittobealive%ghostdeaddelay == 0){
 	    		setState("alive");
+	    		ghostwaittobealive = 0;
+	    		alreadysound = false ;
+	    	}
 	    }
+	    
+	    if(getState()=="dead" && ghostwaittobealive > (ghostdeaddelay-50) && !alreadysound){
+	    	Sound.play("warning.wav");
+	    	alreadysound = true ;
+	    }else if(getState()=="weak" && ghostwaittobealive > (ghostweakdelay-50) && !alreadysound){
+	    	Sound.play("warning.wav");
+	    	alreadysound = true ;
+	    } 
+	}
+	
+	public int weakState(){
+		if(ghostwaittobealive > 150){
+			return 4 ;
+		}
+		else{
+			return 2 ;
+		}
 	}
 	
 	public int getDirection(){
@@ -253,10 +278,13 @@ public class Ghost {
 	public void setState(String state) {
 		if(state == "alive" || state == "weak" || state == "dead"){
 			this.state = state;
+			alreadysound = false ;
 		}
 		else{System.out.println("State not existing");}
 
 	}
+	
+	
 
 
 

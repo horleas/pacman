@@ -64,6 +64,7 @@ public class Board extends JPanel implements ActionListener {
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
+    private Image pacdeath[] ;
 
     private static int pacmanx;
 	private static int pacmany;
@@ -73,6 +74,8 @@ public class Board extends JPanel implements ActionListener {
     private int entryPacmanX, entryPacmanY;
     private static int jumpcount = 0;
 	private int lengthjump = 1;
+	private boolean deathanim= false ;
+	private int deathdelay = 0;
     
     private int numlevel;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
@@ -169,7 +172,9 @@ public class Board extends JPanel implements ActionListener {
         if (dying) {
             death();
 
-        } else {
+        } else if(deathanim){		           
+            	drawDeathAnim( g2d) ;
+        } else{
 
 
             movePacman();
@@ -242,16 +247,10 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void death() {
-
-        pacsleft--;
-        
-        Sound.play("pacmandeath.wav");
-
-        if (pacsleft == 0) {
-            ingame = false;
-        }
-        
-        continueLevel();
+    	Sound.play("pacmandeath.wav");
+    	pacsleft--;
+    	dying = false ;
+        deathanim = true ;
     }
 
     private void moveGhosts(Graphics2D g2d) {
@@ -287,7 +286,7 @@ public class Board extends JPanel implements ActionListener {
             }
             
             else if(currentghost.getState()=="weak"){
-	    		switch(currentghost.getPosframe()%4){
+	    		switch(currentghost.getPosframe()% currentghost.weakState()){
 	    		case 0 :
 	    			currentghost.setImg(ghostweakblue1);
 	    			break;
@@ -687,6 +686,20 @@ public class Board extends JPanel implements ActionListener {
         
     }
     
+    private void drawDeathAnim(Graphics2D g2d) {
+    	deathdelay++;
+    	if (deathdelay <= 20){
+	        	g2d.drawImage(pacdeath[deathdelay/2], pacmanx, pacmany, this);
+    	}else{
+    		deathdelay=0;
+    		deathanim  = false ;   		
+            if (pacsleft == 0) {
+                ingame = false;
+            }            
+            continueLevel();
+    	}        
+    }
+    
     
 
     private void initGame() { 	
@@ -757,7 +770,7 @@ public class Board extends JPanel implements ActionListener {
             if(locpop>=nbrpopghost){ locpop = 0;} 
                        
         }
-        // TODO new Ghost
+        // TODOn new Ghost
         //ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
@@ -860,9 +873,21 @@ public class Board extends JPanel implements ActionListener {
         pacman3right = new ImageIcon(this.getClass().getResource("/right2.png")).getImage();
         pacman4right = new ImageIcon(this.getClass().getResource("/right3.png")).getImage();
         
-        //lava = new ImageIcon(this.getClass().getResource("/Lava.png")).getImage();
-    
-        // LOAD PACWOMAN (TODO)
+        //LOAD DEATH ANIM PACMAN
+        pacdeath = new Image [11];
+        
+        pacdeath[0] = new ImageIcon(this.getClass().getResource("/death1.png")).getImage();
+        pacdeath[1] = new ImageIcon(this.getClass().getResource("/death2.png")).getImage();
+        pacdeath[2] = new ImageIcon(this.getClass().getResource("/death3.png")).getImage();
+        pacdeath[3] = new ImageIcon(this.getClass().getResource("/death4.png")).getImage();
+        pacdeath[4] = new ImageIcon(this.getClass().getResource("/death5.png")).getImage();
+        pacdeath[5] = new ImageIcon(this.getClass().getResource("/death6.png")).getImage();
+        pacdeath[6] = new ImageIcon(this.getClass().getResource("/death7.png")).getImage();
+        pacdeath[7] = new ImageIcon(this.getClass().getResource("/death8.png")).getImage();
+        pacdeath[8] = new ImageIcon(this.getClass().getResource("/death9.png")).getImage();
+        pacdeath[9] = new ImageIcon(this.getClass().getResource("/death10.png")).getImage();
+        pacdeath[10] = new ImageIcon(this.getClass().getResource("/death11.png")).getImage();
+        
 
     }
 
@@ -893,7 +918,6 @@ public class Board extends JPanel implements ActionListener {
         	drawBonuscore(g2d);
         }
         
-
         if (ingame) {
             playGame(g2d);
         } else {
@@ -969,6 +993,11 @@ public class Board extends JPanel implements ActionListener {
                 else if (key == KeyEvent.VK_I ) {							//Previous Level Cheat
                 	numlevel--;
                     initLevel();
+                }
+                else if (key == KeyEvent.VK_U ) {							//Pacman Death
+                	dying = true ;
+                	death();
+                	
                 }
                 else if (key == KeyEvent.VK_Y ) {							//Next Level Cheat
                 	addlife();
