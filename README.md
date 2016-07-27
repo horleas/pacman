@@ -107,16 +107,14 @@ Find Sound for the Game :
 27 July :
 + When weak ghost are near to come back to life, they switch between white and blue color and emit a warning sound
 + when dead ghost are near to come back to life, they emit a warning sound
-
++ Add Death Animation (correspond to the sound length)
 
 TODO :
 
 + Add Map(Warping puzzle etc)
-+ Add Map All Tutorial
 + Add Score Serialization
 + Add Moving Trap on a specific pattern
-+ Add some Gauge for the dashcounter (and Slowmotion counter )
-+ Add Death Animation
++ Add some Gauge for the dashcounter
 
 Add Menu Screen:
 + Select mode Normal (Score)
@@ -126,20 +124,15 @@ Add Menu Screen:
 + Add Rules Panel
 + Improve swap Color board (Menu)
  
-
 Idea for improvement :
-
-Create Different Ghost with different habilities :
 +  Boss Ghost map Scrolling ?
 +  Ghost Mimic player ( 5 tile delay ? )
 +  Add Pathfinding depending on the map for special Ghost
-
-
-+ Slow Motion hotkey to aid the player
++ Slow Motion hotkey to aid the player (and Slowmotion Gauge )
 + Possibility to have different size of Map
 + Add Portail/Warper into map
-
 + 2 Player ? 
 + implement Controler XBOX360 ?
++ Choose player ( PacMan / PacWoman)
 
 
