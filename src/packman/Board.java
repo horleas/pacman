@@ -52,12 +52,13 @@ public class Board extends JPanel implements ActionListener {
     private static int pacsleft;
 	private static int score; 
     private ArrayList<Ghost> ghostlist;
+    private ArrayList<Ghost> ghostlisttmp ;
     private int nbrpopghost;
 
     
     private Image ghostimage[][][] ;
     @SuppressWarnings("unused")
-	private Image ghost , ghostred , ghostpink, ghostturquoise, ghostyellow;
+	private Image ghost , ghostred , ghostpink, ghostturquoise, ghostyellow , dashimg;
     private Image ghostdeadup, ghostdeadleft, ghostdeaddown, ghostdeadright;
     private Image ghostweakblue1,ghostweakblue2,ghostweakwhite1,ghostweakwhite2;
     
@@ -133,9 +134,10 @@ public class Board extends JPanel implements ActionListener {
         mazecolor = green;
         d = new Dimension(400, 400);
         ghostlist = new ArrayList<Ghost>();
+        ghostlisttmp = new ArrayList<Ghost>();
               
         tmpstateghost = 0 ;
-        numlevel = 10;
+        numlevel = 12;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -213,8 +215,27 @@ public class Board extends JPanel implements ActionListener {
         s = "Level "+ numlevel +" : " + namelevel;
         g.drawString(s, (scrsize / 2) - 50,16);
 
-        for (i = 0; i < pacsleft; i++) {
-            g.drawImage(pacman3left, i * 28 + 8, scrsize + 1, this);
+        if(pacsleft<=5){
+	        for (i = 0; i < pacsleft; i++) {
+	            g.drawImage(pacman3left, i * 28 + 8, scrsize + 1, this);
+	        }
+        }else{
+        	g.drawImage(pacman3left,8, scrsize + 1, this);
+        	g.drawString("x " + pacsleft,28 + 8, scrsize + 14);
+        }
+        
+        if(jumpcount <=0){
+        	g.drawImage(dashimg,168, scrsize + 1, this);
+        	g.setColor(Color.red);
+        	g.drawLine(168, scrsize + 1, 180, scrsize + 15);
+        	g.drawLine(168, scrsize + 15, 180, scrsize + 1);
+        }else if(jumpcount<=4){
+	        for (i = 0; i < jumpcount; i++) {
+	            g.drawImage(dashimg,160 + i * 28 + 8, scrsize + 1, this);
+	        }
+        }else{
+        	g.drawImage(dashimg, 160, scrsize + 1, this);
+        	g.drawString("x " + jumpcount,160 + 28 + 8, scrsize + 14);
         }
     }
 
@@ -241,6 +262,7 @@ public class Board extends JPanel implements ActionListener {
     	lengthjump = 1;
     	currentbonusfixelist.removeAll(currentbonusfixelist);
     	ghostlist.removeAll(ghostlist);
+    	ghostlisttmp.removeAll(ghostlist);
     	bonuslist.removeAll(bonuslist);
         numlevel ++ ;
         initLevel();
@@ -623,6 +645,12 @@ public class Board extends JPanel implements ActionListener {
 
                 g2d.setColor(mazecolor);
                 g2d.setStroke(new BasicStroke(2));
+                
+                if ((screendata[i] & 32) != 0) { 		//draw the lava under the wall 
+                	
+                	g2d.drawImage(lava, x, y, this);
+                }
+                
 
                 if ((screendata[i] & 1) != 0) { 
                     g2d.drawLine(x, y, x, y + blocksize - 1);
@@ -647,14 +675,7 @@ public class Board extends JPanel implements ActionListener {
                     g2d.fillRect(x + 11, y + 11, 2, 2);
                 }
                 
-                if ((screendata[i] & 32) != 0) { 
-                	
-                	g2d.drawImage(lava, x, y, this);
-                	/*
-                    g2d.setColor(trapcolor);
-                    g2d.fillRect(x , y ,  blocksize ,  blocksize );
-                    */
-                }
+
 
                 i++;
             }
@@ -705,6 +726,7 @@ public class Board extends JPanel implements ActionListener {
 
     private void initGame() { 	
     	//backsound.loop();
+    	jumpcount = 0;
         pacsleft = 3;
         score = 0;
         initLevel();
@@ -734,6 +756,7 @@ public class Board extends JPanel implements ActionListener {
         entryPacmanY = currentlevel.getEntryPointY();
         addDash(currentlevel.getDashlevel());
         currentbonusfixelist = currentlevel.getBonusfixelist();
+        ghostlisttmp = currentlevel.getSpecialghostlist();
         
         boobonusexist = false ;
         bonuslist.removeAll(bonuslist);
@@ -758,8 +781,14 @@ public class Board extends JPanel implements ActionListener {
         
 
         
-        // Pop the Ghost
+        // Pop the Special Ghost
         ghostlist.removeAll(ghostlist);
+        getSpecialghostlist();
+        for(Ghost tmpghost : ghostlisttmp){			
+        	ghostlist.add(tmpghost);
+        }
+        
+        //Pop normal Ghost
         for (i = 0; i < nrofghosts; i++) {
        	
         	ghostlist.add(new Ghost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
@@ -891,7 +920,9 @@ public class Board extends JPanel implements ActionListener {
         pacdeath[8] = new ImageIcon(this.getClass().getResource("/death9.png")).getImage();
         pacdeath[9] = new ImageIcon(this.getClass().getResource("/death10.png")).getImage();
         pacdeath[10] = new ImageIcon(this.getClass().getResource("/death11.png")).getImage();
+
         
+        dashimg = new ImageIcon(this.getClass().getResource("/dash.png")).getImage();
 
     }
 
@@ -1009,40 +1040,45 @@ public class Board extends JPanel implements ActionListener {
                 } 
                 
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
-                	if(jumpcount>0){
-	                	if(reqdx<0){
-	                		//pacmanx = pacmanx - blocksize*lengthjump;
-	                		if(pacmanx - blocksize*lengthjump <0){
-	                			pacmanx = 14*blocksize + (pacmanx - blocksize*(lengthjump-1));}           
-	                		else{
-	                		pacmanx = pacmanx - blocksize*lengthjump;
-	                		}
+                	if(jumpcount>=0 && !dying && !deathanim){
+                		if(jumpcount==0){
+                			Sound.play("false1.wav");
+                		}
+                		else{
+		                	if(reqdx<0){
+		                		//pacmanx = pacmanx - blocksize*lengthjump;
+		                		if(pacmanx - blocksize*lengthjump <0){
+		                			pacmanx = 14*blocksize + (pacmanx - blocksize*(lengthjump-1));}           
+		                		else{
+		                		pacmanx = pacmanx - blocksize*lengthjump;
+		                		}
+		                	}
+		                	if(reqdx>0){               		
+		                		if(pacmanx + blocksize*lengthjump >14*blocksize){
+		                			pacmanx = 0 + (pacmanx + blocksize*(lengthjump-1) - 14*blocksize) ;
+		                		}else{
+		                			pacmanx = pacmanx + blocksize*lengthjump;
+		                		}               		
+		                	}                	
+		                	if(reqdy<0){
+		                		
+		                		if(pacmany - blocksize*lengthjump <0){
+		                			pacmany = 14*blocksize + (pacmany - blocksize*(lengthjump-1));}           
+		                		else{
+		                			pacmany = pacmany - blocksize*lengthjump;
+		                		}
+		                	}
+		                	if(reqdy>0){
+		                		if(pacmany + blocksize*lengthjump >14*blocksize){
+		                			pacmany = 0 + (pacmany + blocksize*(lengthjump-1) - 14*blocksize) ;
+		                		}else{
+		                			pacmany = pacmany + blocksize*lengthjump;
+		                		}
+		                	}
+		                    jumpcount--;
+		                    Sound.play("dashsound.wav");
+		                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
 	                	}
-	                	if(reqdx>0){               		
-	                		if(pacmanx + blocksize*lengthjump >14*blocksize){
-	                			pacmanx = 0 + (pacmanx + blocksize*(lengthjump-1) - 14*blocksize) ;
-	                		}else{
-	                			pacmanx = pacmanx + blocksize*lengthjump;
-	                		}               		
-	                	}                	
-	                	if(reqdy<0){
-	                		
-	                		if(pacmany - blocksize*lengthjump <0){
-	                			pacmany = 14*blocksize + (pacmany - blocksize*(lengthjump-1));}           
-	                		else{
-	                			pacmany = pacmany - blocksize*lengthjump;
-	                		}
-	                	}
-	                	if(reqdy>0){
-	                		if(pacmany + blocksize*lengthjump >14*blocksize){
-	                			pacmany = 0 + (pacmany + blocksize*(lengthjump-1) - 14*blocksize) ;
-	                		}else{
-	                			pacmany = pacmany + blocksize*lengthjump;
-	                		}
-	                	}
-	                    jumpcount--;
-	                    Sound.play("dashsound.wav");
-	                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     ingame = false;
@@ -1179,6 +1215,11 @@ public class Board extends JPanel implements ActionListener {
 
         
         numcolor=0;
+    }
+    
+    private void getSpecialghostlist(){
+        Maze currentlevel = new Maze(numlevel);
+        ghostlisttmp = currentlevel.getSpecialghostlist();       
     }
     
 }

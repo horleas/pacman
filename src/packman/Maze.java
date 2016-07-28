@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Maze {
 
-    //private final int blocksize = 24;
+    private final int blocksize = 24;
     private final int nrofblocks = 15;
 	
 	private int numlevel = 30;
@@ -14,6 +14,7 @@ public class Maze {
     private int dashlevel = 0;
 	private ArrayList<BonusCreator> bonusfixelist = new ArrayList<BonusCreator>() ;
 	private int entryPointX =0 , entryPointY = 0;
+	private ArrayList<Ghost> specialghostlist = new ArrayList<Ghost>();
     
 	/* 1 = Left Border
 	 * 2 = Top Border
@@ -138,8 +139,8 @@ public class Maze {
 		    };
 	 
 	 private final short test[] = {
-		        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,				// Player Entry in [1 : 1]
+		        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,  5, 18, 22,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 13, 16, 20,				// Player Entry in [1 : 1]
 		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
 		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
 		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -148,11 +149,11 @@ public class Maze {
 		        17, 16, 16, 16, 16, 16, 31, 16, 16, 16, 16, 16, 16, 16, 20,
 		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
 		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-		        17, 16, 16, 16, 16, 16, 16, 16,  8, 16, 16, 16, 16, 16, 20,
-		        17, 16, 16, 16, 16, 16, 16,  4, 47,  1, 16, 16, 16, 16, 20,
-		        17, 16, 16, 16, 16, 16, 16, 16,  2, 16, 16, 16, 16, 80, 20,
-		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-		        25, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
+		        10, 14, 16, 16, 16, 16, 16, 16, 24, 16, 16, 16, 11, 10, 10,
+		        17, 16, 16, 16, 16, 16, 16, 20, 47, 17, 16, 16, 16, 16, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 18, 16, 80, 16, 16, 15, 20,
+		        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,  7, 16, 20,
+		        25, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,  5, 24, 28
 		    };
 	 
 	 @SuppressWarnings("unused")
@@ -174,7 +175,7 @@ public class Maze {
 		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 		    };
 	 
-	 	//TODO new map
+
 		private final short lavaMaze1[] = {
 		        43, 42, 42, 42, 42, 42, 46, 23, 43, 42, 42, 42, 42, 42, 46,
 		        31, 19, 18, 26, 18, 26, 18, 24, 18, 26, 18, 26, 18, 22, 70,
@@ -210,6 +211,26 @@ public class Maze {
 		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
 		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
 		    };
+		
+		 private final short LavaCircuit[] = {
+		        32, 32, 32, 32, 23, 32, 32, 32, 32, 32,  7, 32, 32, 32, 32,
+		        32, 75, 74, 74, 26, 26, 26, 26, 26, 26, 26, 26, 26, 22, 32,
+		        32, 37, 32, 32, 32, 32, 32, 13, 32, 32, 32, 32, 32, 21, 32,
+		        32, 37, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 21, 32,
+		        32, 21, 32, 15, 32, 32, 32, 32, 32, 32, 32, 32, 11, 21, 32,
+		        32, 21, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 21, 32,
+		        32, 25, 26, 22, 32, 32, 32, 32, 32, 32, 32, 32, 32, 21, 32,
+		        32, 32, 32, 21, 32, 15, 32, 15, 32, 15, 32, 32, 19, 28, 32,
+		        32, 19, 26, 28, 32, 32, 32, 32, 32, 32, 32, 32, 21, 32, 32,
+		        32, 21, 32, 32, 32, 32, 32, 32, 32, 15, 32, 15, 21,  7, 32,
+		        32, 25, 22, 32, 32, 15, 32, 32, 32, 32, 32, 32, 25, 20, 32,
+		        32, 32, 21, 32, 32, 32, 32, 32, 19, 26, 22, 32, 32, 21, 32,
+		        32, 19, 24, 22, 32, 19, 22, 32, 21, 32, 25, 26, 26, 20, 32,
+		        32, 13, 32, 25, 26, 28, 37, 32, 21, 32, 32, 32, 32, 13, 32,
+		        32, 32, 32, 32, 32, 32, 25, 26, 28, 32, 32, 32, 32, 32, 32
+		    };
+		
+		
 	 
 	 private final short TutoTroughMap[] = {
 	         3,  2,  2,  2,  2,  2,  6, 21,  3,  2,  2,  2,  2,  2,  6,
@@ -248,7 +269,7 @@ public class Maze {
 	    };
 	 
 		private final short Linerunner[] = {
-		        71, 87, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 87, 71,
+		         7, 23,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7, 23,  7,
 		         5,  5,  5,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5,  5, 21,
 		         5,  5, 21,  5,  5,  5,  5,  5,  5, 21,  5,  5,  5,  5,  5,
 		        21,  5,  5, 21,  5,  5, 21,  5,  5,  5,  5,  5,  5,  5,  5,
@@ -362,10 +383,14 @@ public class Maze {
     			 
     	case 8 : this.map = Linerunner;
 		 		 this.name = "Line Runner";
-		 		 this.nbrGhost = nrofblocks;
+		 		 this.nbrGhost = 0;
 		 		 this.dashlevel=3;
     	 		 this.setEntryPointX(8);
     	 		 this.setEntryPointY(14);
+		 		 for(int bo=0;bo<nrofblocks;bo++){
+		 			this.specialghostlist.add(new LivingArmor(bo*blocksize,0*blocksize,1));
+		 		 }
+    	 		 
 		 		 for(int bo=0;bo<nrofblocks;bo++){
 		 			 this.bonusfixelist.add(new BonusCreator(bo,14,5));
 		 		 }
@@ -382,7 +407,7 @@ public class Maze {
     			 this.bonusfixelist.add(new BonusCreator(2,7,5));
     			 break ;	
     			 
-    			 //TODO new Map
+    			
     	case 10 : this.map = lavaMaze1 ;
 		 		  this.name = "Lava Maze";
 				  this.nbrGhost = 5 ;
@@ -399,9 +424,29 @@ public class Maze {
 				  this.bonusfixelist.add(new BonusCreator(14, 1, 4));
 				  this.bonusfixelist.add(new BonusCreator( 7, 2, 3));
 				  this.setEntryPointX(0);
-				  this.setEntryPointY(1);
-    		
-    			break ;
+				  this.setEntryPointY(1);   		
+    			  break ;
+    			
+    	case 11 : this.map = LavaCircuit ;
+				  this.name = "Lava Circuit";
+				  this.nbrGhost = 3 ;
+				  this.dashlevel= 5 ;
+				  this.bonusfixelist.add(new BonusCreator(  3,  4, 10));
+				  this.bonusfixelist.add(new BonusCreator(  7,  2,  5));				  
+				  this.bonusfixelist.add(new BonusCreator( 12,  4,  5));
+				  this.bonusfixelist.add(new BonusCreator( 13,  9,  5));
+				  this.bonusfixelist.add(new BonusCreator( 10,  0,  4));
+				  this.bonusfixelist.add(new BonusCreator(  1, 13,  4));
+				  this.bonusfixelist.add(new BonusCreator(  5, 10,  7));
+				  this.bonusfixelist.add(new BonusCreator( 13, 13,  9));
+				  this.bonusfixelist.add(new BonusCreator( 11,  9,  1));
+				  this.bonusfixelist.add(new BonusCreator(  9,  9,  1));
+				  this.bonusfixelist.add(new BonusCreator(  9,  7,  2));
+				  this.bonusfixelist.add(new BonusCreator(  7,  7,  2));
+				  this.bonusfixelist.add(new BonusCreator(  5,  7,  3));
+				  this.setEntryPointX(4);
+				  this.setEntryPointY(0);	
+				  break ;
     			 
     	default : this.map = test;
 		 		  this.name = "Test";
@@ -410,6 +455,9 @@ public class Maze {
 	    	 	  this.setEntryPointX(1);
 	    	 	  this.setEntryPointY(1);
 				  this.bonusfixelist.add(new BonusCreator(5,5,6));
+				  this.specialghostlist.add(new LivingArmor(12*blocksize,0*blocksize,1));
+				  this.specialghostlist.add(new LivingArmor(12*blocksize,10*blocksize,0));
+				  this.specialghostlist.add(new LivingArmor(13*blocksize,12*blocksize,0));
 		 		  break ;
     		
     		
@@ -455,6 +503,14 @@ public class Maze {
 
 	public void setEntryPointY(int entryPointY) {
 		this.entryPointY = entryPointY;
+	}
+
+	public ArrayList<Ghost> getSpecialghostlist() {
+		return specialghostlist;
+	}
+
+	public void setSpecialghostlist(ArrayList<Ghost> specialghostlist) {
+		this.specialghostlist = specialghostlist;
 	}
 	
 }
