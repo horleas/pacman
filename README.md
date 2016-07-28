@@ -112,11 +112,14 @@ Find Sound for the Game :
 + Modify the lifeup Image to be coherent with the rest of the level
 + Add Map LavaMaze
 
+28 July : 
++ Add Moving Trap on a specific pattern ( Living Armor extends Ghost but goes on straight line for a round trip and are immortal)
+
+
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
-+ Add Moving Trap on a specific pattern
 + Add some Gauge for the dashcounter
 
 Add Menu Screen:
