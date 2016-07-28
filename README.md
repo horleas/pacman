@@ -114,6 +114,7 @@ Find Sound for the Game :
 
 28 July : 
 + Add Moving Trap on a specific pattern ( Living Armor extends Ghost but goes on straight line for a round trip and are immortal)
++ Add Map Lava Circuit 
 
 
 TODO :
@@ -121,6 +122,7 @@ TODO :
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
 + Add some Gauge for the dashcounter
++ Add easy way to put special ghost inside map ( special location )
 
 Add Menu Screen:
 + Select mode Normal (Score)
