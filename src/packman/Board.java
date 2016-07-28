@@ -771,13 +771,16 @@ public class Board extends JPanel implements ActionListener {
             if(locpop>=nbrpopghost){ locpop = 0;} 
                        
         }
-        // TODOn new Ghost
+        // TODO new Ghost
         //ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new BlockGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new PhaseChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new PhaseEscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
+        //ghostlist.add(new LivingArmor(4* blocksize,4* blocksize, 0));
+        //ghostlist.add(new LivingArmor(12* blocksize,12* blocksize, 1));
+        
 
         pacmanx = entryPacmanX * blocksize;
         pacmany = entryPacmanY * blocksize;
@@ -1005,7 +1008,6 @@ public class Board extends JPanel implements ActionListener {
                 	addDash(10);
                 } 
                 
-                //TODO
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
                 	if(jumpcount>0){
 	                	if(reqdx<0){
