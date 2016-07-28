@@ -117,14 +117,14 @@ Find Sound for the Game :
 + Add Map Lava Circuit 
 + Player can't dash during the death animation
 + Add easy way to put special ghost inside map
++ Add basic visual for the dashcounter
++ Add Sound when dash counter is empty
 
 
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
-+ Add some Gauge for the dashcounter
-
 
 Add Menu Screen:
 + Select mode Normal (Score)
@@ -146,7 +146,6 @@ Idea for improvement :
 + Choose player ( PacMan / PacWoman)
 
 Minor adjustement :
-
 + Game is launch 2 times when begin of the game
 + GhostBusters can pop even if the map have no ghost
 + put transparent in all the Images 
