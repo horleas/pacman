@@ -2,25 +2,30 @@ package packman;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Menu extends JPanel{
 	
-	private JLabel Pacmantitle = new JLabel("PACMAN");
-	private JLabel Pacmanundertitle = new JLabel("Remixed by Horleas");
+	private JLabel pacmanTitle = new JLabel("PACMAN");
+	private JLabel pacmanUnderTitle = new JLabel("Remixed by Horleas");
 	
-	private PacButton newGame = new PacButton("New Game");
-	private PacButton selectLevel = new PacButton("Select the Level");
-	private PacButton seletTuto = new PacButton("Select Tutorial Map");
-	private PacButton exit = new PacButton("EXIT");
-	private PacButton rules = new PacButton("Rules");
-	private PacButton score = new PacButton("HighScore");
-	private PacButton personaliser = new PacButton("Personalise your Board");
+	private PacButton newGame = new PacButton("New Game" , Color.cyan);
+	private PacButton selectLevel = new PacButton("Select Level",Color.green);
+	private PacButton selectTuto = new PacButton("Select Tutorial",Color.green);
+	private PacButton exit = new PacButton("EXIT",Color.red);
+	private PacButton rules = new PacButton("Rules",Color.green);
+	private PacButton score = new PacButton("HighScore",Color.green);
+	private PacButton personaliser = new PacButton("Options",Color.green);
 	private Dimension dimWin = new Dimension(380,420);
 	
 	public Menu (){
@@ -28,15 +33,34 @@ public class Menu extends JPanel{
 		this.setPreferredSize(dimWin);
 		this.setSize(380, 420);
 		this.setBackground(Color.BLACK);
+		this.setLayout(new GridBagLayout());
 		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(4,4,4,4);
+		
+		
+		gbc.gridx=0;
+		gbc.gridy=0;
+		
+		URL urlimage = this.getClass().getResource("/livingarmordown1.png");
+		JLabel img = new JLabel(new ImageIcon(urlimage));
+		this.add(img, gbc);
+		
+		
+		gbc.gridx=0;
+		gbc.gridy=1;		
+		FontPacman.setMyFont(pacmanTitle, 24, Color.YELLOW);
+		this.add(pacmanTitle,gbc);
 
-		FontPacman.setMyFont(Pacmantitle, 24, Color.YELLOW);
-		this.add(Pacmantitle);
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.gridx=0;
+		gbc.gridy=2;
+		FontPacman.setMyFont(pacmanUnderTitle, 10, Color.orange);
+		this.add(pacmanUnderTitle,gbc);
 		
-		FontPacman.setMyFont(Pacmanundertitle, 10, Color.orange);
-		this.add(Pacmanundertitle);
-		
-		FontPacman.setMyFont(newGame, 12, Color.BLUE);
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.gridx=0;
+		gbc.gridy=3;
 		newGame.addActionListener(new ActionListener(){
 
 			@Override
@@ -46,14 +70,15 @@ public class Menu extends JPanel{
 			}
 		
 		});
-		this.add(newGame);
+		this.add(newGame,gbc);
 		
 		
+		gbc.gridx=0;
+		gbc.gridy=4;
+		this.add(selectTuto,gbc);
 		
-		FontPacman.setMyFont(seletTuto, 12, Color.green);
-		this.add(seletTuto);
-		FontPacman.setMyFont(selectLevel, 12, Color.green);
-		
+		gbc.gridx=0;
+		gbc.gridy=5;	
 		selectLevel.addActionListener(new ActionListener(){
 
 			@Override
@@ -64,15 +89,22 @@ public class Menu extends JPanel{
 		
 		});
 		
-		this.add(selectLevel);
-		FontPacman.setMyFont(score, 12, Color.green);
-		this.add(score);
-		FontPacman.setMyFont(rules, 12, Color.green);
-		this.add(rules);
-		FontPacman.setMyFont(personaliser, 12, Color.green);
-		this.add(personaliser);
+		this.add(selectLevel,gbc);
 		
-		FontPacman.setMyFont(exit, 12, Color.red);
+		gbc.gridx=0;
+		gbc.gridy=6;
+		this.add(score,gbc);
+		
+		gbc.gridx=0;
+		gbc.gridy=7;
+		this.add(rules,gbc);
+		
+		gbc.gridx=0;
+		gbc.gridy=8;
+		this.add(personaliser,gbc);
+		
+		gbc.gridx=0;
+		gbc.gridy=9;
 		exit.addActionListener(new ActionListener(){
 
 			@Override
@@ -82,7 +114,8 @@ public class Menu extends JPanel{
 			}
 			
 		});
-		this.add(exit);
+		this.add(exit,gbc);
+		
 		
 	}
 	

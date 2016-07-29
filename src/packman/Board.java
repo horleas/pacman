@@ -763,12 +763,14 @@ public class Board extends JPanel implements ActionListener {
         nbrpopghost = 0 ;
         ptseatingbonus = 0;
         
-    	if(numlevel == 1){
-    		Sound.play("pacman_beginning.wav");
-    	}
-    	else {
-    		//Sound.play("pacman_intermission.wav");
-    	}
+        if(ingame){
+	    	if(numlevel == 1){
+	    		Sound.play("pacman_beginning.wav");
+	    	}
+	    	else {
+	    		Sound.play("pacman_intermission.wav");
+	    	}
+        }
 
         Maze currentlevel = new Maze(numlevel);
         System.out.println(currentlevel.getName());
@@ -1101,7 +1103,7 @@ public class Board extends JPanel implements ActionListener {
 		                	}
 		                    jumpcount--;
 		                    Sound.play("dashsound.wav");
-		                    System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
+		                    //System.out.println("Jump : "+ jumpcount + " \t lengthjump :"+ lengthjump);
 	                	}
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
