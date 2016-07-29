@@ -1248,8 +1248,5 @@ public class Board extends JPanel implements ActionListener {
         ghostlisttmp = currentlevel.getSpecialghostlist();       
     }
     
-    public JPanel getPanel(){
-    	return this;
-    }
     
 }

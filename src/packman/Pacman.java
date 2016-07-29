@@ -45,11 +45,25 @@ public class Pacman extends JFrame {
     	cl.show(content, "Board");
     } 
     
+    public  void loadlevel(int level){
+    	//System.out.println("the level is : "+ level);
+    	Board board = new Board(level);
+    	content.add(board, "loader");
+    	cl.show(content, "loader");
+    } 
+    
     public  void select(){
     	
-    	Board board = new Board(4);
-    	content.add(board, "Board");
-    	cl.show(content, "Board");
+    	SelectLevel selectLevel = new SelectLevel();
+    	content.add(selectLevel, "SelectLevel");
+    	cl.show(content, "SelectLevel");
+    } 
+    
+    public  void menu(){
+    	
+    	Menu menu = new Menu();
+    	content.add(menu, "Menu");
+    	cl.show(content, "Menu");
     } 
     
     public static Pacman getFrame(){

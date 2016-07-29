@@ -1,6 +1,9 @@
 package packman;
 
+import java.awt.Image;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 public class Maze {
 
@@ -15,6 +18,9 @@ public class Maze {
 	private ArrayList<BonusCreator> bonusfixelist = new ArrayList<BonusCreator>() ;
 	private int entryPointX =0 , entryPointY = 0;
 	private ArrayList<Ghost> specialghostlist = new ArrayList<Ghost>();
+	@SuppressWarnings("unused")
+	private Image imglevel ;
+	private int levelmax = 12 ;
     
 	/* 1 = Left Border
 	 * 2 = Top Border
@@ -310,6 +316,7 @@ public class Maze {
 	}
 
 	public void setMap(int pnumlevel) {
+		getImglevel(pnumlevel);
     	switch(pnumlevel){
     	case 1 : this.map = leveldata1;
     	 		 this.name = "From tutorial";
@@ -512,6 +519,17 @@ public class Maze {
 
 	public void setSpecialghostlist(ArrayList<Ghost> specialghostlist) {
 		this.specialghostlist = specialghostlist;
+	}
+
+	public Image getImglevel(int pnumlevel) {
+		if(pnumlevel >=levelmax || pnumlevel <=0){
+			return new ImageIcon(this.getClass().getResource("/test.png")).getImage() ;
+		}
+		return new ImageIcon(this.getClass().getResource("/level"+pnumlevel+".png")).getImage() ;
+	}
+
+	public void setImglevel(Image imglevel) {
+		this.imglevel = imglevel;
 	}
 	
 }

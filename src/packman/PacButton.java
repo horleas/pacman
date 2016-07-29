@@ -25,6 +25,19 @@ public class PacButton extends JButton implements MouseListener{
 		this.setFocusable(false);
 		this.setPreferredSize(new Dimension(200, 30));
 	}
+	
+	public PacButton(String str, Color color, int length, int height){
+		super(str);
+		this.setBackground(background);
+		this.setForeground(color);
+		writing = color;
+		FontPacman.setMyFont(this, 12, color);
+		this.addMouseListener(this);
+		//this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green, 2),BorderFactory.createLineBorder(background,5)));
+		this.setBorderPainted(false);
+		this.setFocusable(false);
+		this.setPreferredSize(new Dimension(length, height));
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

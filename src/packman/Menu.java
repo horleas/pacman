@@ -41,22 +41,23 @@ public class Menu extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=0;
+		FontPacman.setMyFont(pacmanTitle, 24, Color.YELLOW);
+		this.add(pacmanTitle,gbc);		
+
 		
-		URL urlimage = this.getClass().getResource("/livingarmordown1.png");
+		gbc.gridx=0;
+		gbc.gridy=1;
+		gbc.anchor = GridBagConstraints.EAST;
+		FontPacman.setMyFont(pacmanUnderTitle, 10, Color.orange);
+		this.add(pacmanUnderTitle,gbc);
+
+
+		gbc.gridx=0;
+		gbc.gridy=2;
+		URL urlimage = this.getClass().getResource("/menuimg.png");
 		JLabel img = new JLabel(new ImageIcon(urlimage));
 		this.add(img, gbc);
 		
-		
-		gbc.gridx=0;
-		gbc.gridy=1;		
-		FontPacman.setMyFont(pacmanTitle, 24, Color.YELLOW);
-		this.add(pacmanTitle,gbc);
-
-		gbc.anchor = GridBagConstraints.EAST;
-		gbc.gridx=0;
-		gbc.gridy=2;
-		FontPacman.setMyFont(pacmanUnderTitle, 10, Color.orange);
-		this.add(pacmanUnderTitle,gbc);
 		
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.gridx=0;
@@ -75,6 +76,7 @@ public class Menu extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=4;
+		selectTuto.setEnabled(false);
 		this.add(selectTuto,gbc);
 		
 		gbc.gridx=0;
