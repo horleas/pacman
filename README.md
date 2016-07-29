@@ -127,7 +127,10 @@ Find Sound for the Game :
 + Add personal JButton
 + Game is launch 1 times to show the level then when the player press 's', the game begin
 
-
+30 July :
++ Add New game
++ Select mode Normal (Score)
++ All image are transparent now
 
 TODO :
 
@@ -135,7 +138,7 @@ TODO :
 + Add Score Serialization
 
 Add Menu Screen:
-+ Select mode Normal (Score)
+
 + Mode Time Attack ( implement visuals Timer)
 + Tutorial Map access
 + Add Score Panel
@@ -156,5 +159,5 @@ Idea for improvement :
 Minor adjustement :
 
 + GhostBusters can pop even if the map have no ghost
-+ put transparent in all the Images 
+
 
