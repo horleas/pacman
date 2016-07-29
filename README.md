@@ -120,6 +120,13 @@ Find Sound for the Game :
 + Add basic visual for the dashcounter
 + Add Sound when dash counter is empty
 
+29 July :
++ Add Menu Screen
++ Add Font for text
++ put the Main outside of the JFrame class
++ Add personal JButton
+
+
 
 TODO :
 
