@@ -120,6 +120,14 @@ Find Sound for the Game :
 + Add basic visual for the dashcounter
 + Add Sound when dash counter is empty
 
+29 July :
++ Add Menu Screen
++ Add Font for text
++ put the Main outside of the JFrame class
++ Add personal JButton
++ Game is launch 1 times to show the level then when the player press 's', the game begin
+
+
 
 TODO :
 
@@ -146,7 +154,7 @@ Idea for improvement :
 + Choose player ( PacMan / PacWoman)
 
 Minor adjustement :
-+ Game is launch 2 times when begin of the game
+
 + GhostBusters can pop even if the map have no ghost
 + put transparent in all the Images 
 
