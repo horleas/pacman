@@ -336,6 +336,7 @@ public class Maze {
     			 this.dashlevel=2;
     	 		 this.setEntryPointX(1);
     	 		 this.setEntryPointY(1);
+    	 		 this.specialghostlist.add(new ChaserGhost(10*blocksize,10*blocksize,0));
 				break ;	
     	
     	case 4 : this.map = leveldata4;

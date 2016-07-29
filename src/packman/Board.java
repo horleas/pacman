@@ -18,7 +18,10 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 @SuppressWarnings("serial")
 public class Board extends JPanel implements ActionListener {
@@ -78,7 +81,7 @@ public class Board extends JPanel implements ActionListener {
 	private boolean deathanim= false ;
 	private int deathdelay = 0;
     
-    private int numlevel;
+    private int numlevel = 1;
     private short leveldata[] = new short [nrofblocks*nrofblocks];
     private Image lava = new ImageIcon(this.getClass().getResource("/Lava.png")).getImage(); ;
     private String namelevel;
@@ -111,11 +114,32 @@ public class Board extends JPanel implements ActionListener {
     private BonusCreator bonscore ;
 	private BonusCreator bon;
 	
-	//private Sound backsound;
 
-    public Board() {
+    public Board(int level) {
 
+    	this.addAncestorListener(new AncestorListener() {
+            @Override
+            public void ancestorRemoved(AncestorEvent pEvent) {
+            }
+
+            @Override
+            public void ancestorMoved(AncestorEvent pEvent) {
+            }
+
+            @Override
+            public void ancestorAdded(AncestorEvent pEvent) {
+                // TextField is added to its parent => request focus in Event Dispatch Thread
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        requestFocusInWindow();
+                    }
+                });
+            }
+        });
+    	
         loadImages();
+        this.numlevel = level ;
         initVariables();
         
         addKeyListener(new TAdapter());
@@ -137,7 +161,7 @@ public class Board extends JPanel implements ActionListener {
         ghostlisttmp = new ArrayList<Ghost>();
               
         tmpstateghost = 0 ;
-        numlevel = 12;
+        //numlevel = 12;
         
         currentbonusfixelist = new ArrayList<BonusCreator>();
         bonuslist = new ArrayList<BonusCreator>();
@@ -743,7 +767,7 @@ public class Board extends JPanel implements ActionListener {
     		Sound.play("pacman_beginning.wav");
     	}
     	else {
-    		Sound.play("pacman_intermission.wav");
+    		//Sound.play("pacman_intermission.wav");
     	}
 
         Maze currentlevel = new Maze(numlevel);
@@ -1220,6 +1244,10 @@ public class Board extends JPanel implements ActionListener {
     private void getSpecialghostlist(){
         Maze currentlevel = new Maze(numlevel);
         ghostlisttmp = currentlevel.getSpecialghostlist();       
+    }
+    
+    public JPanel getPanel(){
+    	return this;
     }
     
 }
