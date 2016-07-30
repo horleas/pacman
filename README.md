@@ -127,19 +127,26 @@ Find Sound for the Game :
 + Add personal JButton
 + Game is launch 1 times to show the level then when the player press 's', the game begin
 
+30 July :
++ Add New game
++ Add Select level 
++ All image are transparent now
++ Add Rules Panel (Common Rules, Controls)
+
+31 July :
++ Add Bestiary to the Rules panel + Image
 
 
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
++ Add Bonusshow
++ when Escape is pressed ingame : propose to go back to the main menu
 
 Add Menu Screen:
-+ Select mode Normal (Score)
-+ Mode Time Attack ( implement visuals Timer)
-+ Tutorial Map access
+
 + Add Score Panel
-+ Add Rules Panel
 + Improve swap Color board (Menu)
  
 Idea for improvement :
@@ -151,10 +158,13 @@ Idea for improvement :
 + Add Portail/Warper into map
 + 2 Player ? 
 + implement Controler XBOX360 ?
++ personalize hotkey
 + Choose player ( PacMan / PacWoman)
++ Mode Time Attack ( implement visuals Timer)
++ Tutorial Map access
 
 Minor adjustement :
 
 + GhostBusters can pop even if the map have no ghost
-+ put transparent in all the Images 
+
 
