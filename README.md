@@ -129,7 +129,7 @@ Find Sound for the Game :
 
 30 July :
 + Add New game
-+ Select mode Normal (Score)
++ Add Select level 
 + All image are transparent now
 + Add Rules Panel (Common Rules, Controls)
 
@@ -137,15 +137,12 @@ TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
-+ Add Bestary
++ Add Bestiary
 + Add Bonusshow
 
 Add Menu Screen:
 
-+ Mode Time Attack ( implement visuals Timer)
-+ Tutorial Map access
 + Add Score Panel
-
 + Improve swap Color board (Menu)
  
 Idea for improvement :
@@ -157,7 +154,10 @@ Idea for improvement :
 + Add Portail/Warper into map
 + 2 Player ? 
 + implement Controler XBOX360 ?
++ personalize hotkey
 + Choose player ( PacMan / PacWoman)
++ Mode Time Attack ( implement visuals Timer)
++ Tutorial Map access
 
 Minor adjustement :
 
