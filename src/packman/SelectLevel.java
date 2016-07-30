@@ -17,9 +17,10 @@ public class SelectLevel extends JPanel{
 	private PacButton load = new PacButton ("Load Level" , Color.YELLOW);
 	private JLabel intro = new JLabel("Select Your Level !");
 	private int level = 1;
+	private int maxlevel = 12 ;
 	private String nameLevel ;
 	private PacButton previous = new PacButton ( "<=" ,Color.red , 60 , 60 );
-	private PacButton next = new PacButton ( "=>" ,Color.blue ,60 , 60 );
+	private PacButton next = new PacButton ( "=>" ,Color.cyan ,60 , 60 );
 	private JLabel name ;
 	private JLabel img ;
 	
@@ -118,13 +119,14 @@ public class SelectLevel extends JPanel{
 
 		nameLevel = infoname.getName();
 		name = new JLabel(nameLevel);
+		name.setText(name.getText()+" ("+level+"/"+maxlevel+")");
 		FontPacman.setMyFont(name, 14, Color.green);
 		//name.setHorizontalAlignment(getWidth()/2);
 		content.add(name, BorderLayout.NORTH);
 		
-		if(level >= 12 || level <= 0){
-			if(level <= 0){previous.setEnabled(false);}
-			if(level >= 12){next.setEnabled(false);}
+		if(level >= maxlevel || level <= 0){
+			if(level <= 1){previous.setEnabled(false);}
+			if(level >= maxlevel){next.setEnabled(false);}
 			URL urlimage = this.getClass().getResource("/test.png");
 			img = new JLabel(new ImageIcon(urlimage));
 		}

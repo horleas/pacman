@@ -66,6 +66,13 @@ public class Pacman extends JFrame {
     	cl.show(content, "Menu");
     } 
     
+    public  void rules(){
+    	
+    	Rules rules = new Rules();
+    	content.add(rules, "Rules");
+    	cl.show(content, "Rules");
+    } 
+    
     public static Pacman getFrame(){
     	return pacWin;
     }

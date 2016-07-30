@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class Menu extends JPanel{
 	
 	private JLabel pacmanTitle = new JLabel("PACMAN");
-	private JLabel pacmanUnderTitle = new JLabel("Remixed by Horleas");
+	private JLabel pacmanUnderTitle = new JLabel("         Remixed by Horleas");
 	
 	private PacButton newGame = new PacButton("New Game" , Color.cyan);
 	private PacButton selectLevel = new PacButton("Select Level",Color.green);
@@ -95,14 +95,25 @@ public class Menu extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=6;
+		score.setEnabled(false);
 		this.add(score,gbc);
 		
 		gbc.gridx=0;
 		gbc.gridy=7;
+		rules.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		
+				Pacman.getFrame().rules();				
+			}
+		
+		});
 		this.add(rules,gbc);
 		
 		gbc.gridx=0;
 		gbc.gridy=8;
+		personaliser.setEnabled(false);
 		this.add(personaliser,gbc);
 		
 		gbc.gridx=0;
