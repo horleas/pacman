@@ -131,18 +131,21 @@ Find Sound for the Game :
 + Add New game
 + Select mode Normal (Score)
 + All image are transparent now
++ Add Rules Panel (Common Rules, Controls)
 
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
++ Add Bestary
++ Add Bonusshow
 
 Add Menu Screen:
 
 + Mode Time Attack ( implement visuals Timer)
 + Tutorial Map access
 + Add Score Panel
-+ Add Rules Panel
+
 + Improve swap Color board (Menu)
  
 Idea for improvement :
