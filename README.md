@@ -133,11 +133,14 @@ Find Sound for the Game :
 + All image are transparent now
 + Add Rules Panel (Common Rules, Controls)
 
+31 July :
++ Add Bestiary to the Rules panel + Image
+
+
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
-+ Add Bestiary
 + Add Bonusshow
 + when Escape is pressed ingame : propose to go back to the main menu
 
