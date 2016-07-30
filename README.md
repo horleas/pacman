@@ -139,6 +139,7 @@ TODO :
 + Add Score Serialization
 + Add Bestiary
 + Add Bonusshow
++ when Escape is pressed ingame : propose to go back to the main menu
 
 Add Menu Screen:
 
