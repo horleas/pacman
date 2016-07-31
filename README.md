@@ -137,6 +137,9 @@ Find Sound for the Game :
 + Add Bestiary to the Rules panel + Image
 + Show bonus on the Rules
 + On the Menu, Options panel will let the player choose the color he want for the board game 
+ 
+01 August :
+Add comment to the project
 
 
 TODO :
