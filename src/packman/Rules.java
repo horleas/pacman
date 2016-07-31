@@ -20,6 +20,7 @@ public class Rules extends JPanel{
 	private BasicRules br = new BasicRules();
 	private Controls ct = new Controls();
 	private Bestiary bestiary = new Bestiary();
+	private BonusShow bonshow = new BonusShow();
 
 	
 	private JPanel content = new JPanel();
@@ -45,7 +46,7 @@ public class Rules extends JPanel{
 	    onglet.add("Basic Rules", br);
 	    onglet.add("Controls", ct);
 	    onglet.add("Bestiary", bestiary);
-	    onglet.add("Bonus", new BasicRules());
+	    onglet.add("Bonus", bonshow);
 	    
 
 	    

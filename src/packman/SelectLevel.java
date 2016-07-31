@@ -123,9 +123,9 @@ public class SelectLevel extends JPanel{
 		FontPacman.setMyFont(name, 14, Color.green);
 		//name.setHorizontalAlignment(getWidth()/2);
 		content.add(name, BorderLayout.NORTH);
+		if(level <= 1){previous.setEnabled(false);}
 		
 		if(level >= maxlevel || level <= 0){
-			if(level <= 1){previous.setEnabled(false);}
 			if(level >= maxlevel){next.setEnabled(false);}
 			URL urlimage = this.getClass().getResource("/test.png");
 			img = new JLabel(new ImageIcon(urlimage));

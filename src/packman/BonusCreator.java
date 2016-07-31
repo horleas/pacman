@@ -12,6 +12,8 @@ public class BonusCreator {
 	private int PosY;
 	private String name;
 	private int type;
+	private int totalbonus = 11;
+	private String describe ;
 	
 	
 	public BonusCreator(){
@@ -88,30 +90,38 @@ public class BonusCreator {
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts20.png")).getImage();
 			 this.bonus_score = 20;	
 			 this.setName("bonus_score" + bonus_score);
+			 this.setDescribe(" Strawberry fields forever (50pts)");
+			 
 			 break;
 		case 2 :
 			 this.img = new ImageIcon(this.getClass().getResource("/bonus3.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts50.png")).getImage();
 			 this.bonus_score = 50;	
+			 this.setDescribe(" Fire melon, Earth Melon, Air Melon ...(100pts)");
 			 this.setName("bonus_score" + bonus_score);
+			
 			 break;
 		case 3 :
 			 this.img = new ImageIcon(this.getClass().getResource("/bonus1.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts100.png")).getImage();
 			 this.bonus_score = 100;
 			 this.setName("bonus_score" + bonus_score);
+			 this.setDescribe("Cherry blossoms, color and scent fall with them ...(200pts)");
 			 break;
 			 
 		case 4 :
 			 this.img = new ImageIcon(this.getClass().getResource("/lifeup2.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage();
 			 this.setName("lifeup");
+			 this.setDescribe("Even a cat envies you ! Add a life ( max : 10)");
+			
 			 break;
 			 
 		case 5 :
 			 this.img = new ImageIcon(this.getClass().getResource("/dash.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage();
 			 this.setName("jumprefill");
+			 this.setDescribe(" You have the ability to dash through wall and more.");
 			 break;
 		
 			 //(TODO) Verify there is ghost in the level for random pop
@@ -119,24 +129,28 @@ public class BonusCreator {
 			 this.img = new ImageIcon(this.getClass().getResource("/ghostbusters.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/ghosteater.png")).getImage();
 			 this.setName("ghosteater");
+			 this.setDescribe(" Who you gonna call ? (You can eat the ghost now)");
 			 break;
 			 
 		case 8 :
 			 this.img = new ImageIcon(this.getClass().getResource("/dashdecrease.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/decreasedashstring.png")).getImage();
 			 this.setName("jumpdowngrade");
+			 this.setDescribe(" Reduce your dash");
 			 break;
 			 
 		case 9 :
 			 this.img = new ImageIcon(this.getClass().getResource("/dashupgrade.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/upgradedashstring.png")).getImage();
 			 this.setName("jumpupgrade");
+			 this.setDescribe(" Improve your dash");
 			 break;
 			 
 		case 10 :
 			 this.img = new ImageIcon(this.getClass().getResource("/finishline.png")).getImage();
 			 this.imgscore = new ImageIcon(this.getClass().getResource("/finishline.png")).getImage();
 			 this.setName("finishline");
+			 this.setDescribe("Save her and go to the next level !");
 			 break;
 			
 			 
@@ -144,9 +158,25 @@ public class BonusCreator {
 			this.img = new ImageIcon(this.getClass().getResource("/bonus4.png")).getImage();
 			this.imgscore = new ImageIcon(this.getClass().getResource("/bonuspts500.png")).getImage();
 			this.bonus_score = 500;	
-
 			 this.setName("bonus_score" + bonus_score);
+			 this.setDescribe(" Eat an apple a day, keeps the ghost away (500pts)");
 			break;
 		}
+	}
+
+	public int getTotalbonus() {
+		return totalbonus;
+	}
+
+	public void setTotalbonus(int totalbonus) {
+		this.totalbonus = totalbonus;
+	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
 	}
 }
