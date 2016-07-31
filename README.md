@@ -136,19 +136,16 @@ Find Sound for the Game :
 31 July :
 + Add Bestiary to the Rules panel + Image
 + Show bonus on the Rules
++ On the Menu, Options panel will let the player choose the color he want for the board game 
 
 
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
++ Add Score Panel
 + when Escape is pressed ingame : propose to go back to the main menu
 
-Add Menu Screen:
-
-+ Add Score Panel
-+ Improve swap Color board (Menu)
- 
 Idea for improvement :
 +  Boss Ghost map Scrolling ?
 +  Ghost Mimic player ( 5 tile delay ? )
