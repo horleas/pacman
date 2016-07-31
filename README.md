@@ -135,13 +135,13 @@ Find Sound for the Game :
 
 31 July :
 + Add Bestiary to the Rules panel + Image
++ Show bonus on the Rules
 
 
 TODO :
 
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
-+ Add Bonusshow
 + when Escape is pressed ingame : propose to go back to the main menu
 
 Add Menu Screen:
