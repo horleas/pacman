@@ -155,7 +155,8 @@ public class Board extends JPanel implements ActionListener {
     	//backsound = new Sound("pacmanintro.wav");
     	
         screendata = new short[nrofblocks * nrofblocks];
-        mazecolor = green;
+        Options color = new Options();
+        mazecolor = color.getColorboard();
         d = new Dimension(400, 400);
         ghostlist = new ArrayList<Ghost>();
         ghostlisttmp = new ArrayList<Ghost>();

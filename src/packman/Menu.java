@@ -113,8 +113,17 @@ public class Menu extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=8;
-		personaliser.setEnabled(false);
+		personaliser.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		
+				Pacman.getFrame().options();				
+			}
+		
+		});
 		this.add(personaliser,gbc);
+		
 		
 		gbc.gridx=0;
 		gbc.gridy=9;
