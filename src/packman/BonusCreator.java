@@ -16,24 +16,22 @@ public class BonusCreator {
 	private String describe ;
 	
 	
+	/*
+	 * create a random bonus ( called when pacman eat 50 pacgums)
+	 */
 	public BonusCreator(){
 		
 		setBonus();
 		
 	}
 	
+	/*
+	 * create a specific bonus ( with position and type of bonus
+	 */
 	public BonusCreator(int posX, int posY ,int type){
 		
 		setBonus(posX, posY,type);
 		
-	}
-
-	public Image getImg() {
-		return this.img;
-	}
-	
-	public Image getImgScore() {
-		return this.imgscore;
 	}
 
 	public void setBonus() {
@@ -50,6 +48,15 @@ public class BonusCreator {
 		this.setPosY(posY);
 
 	}
+
+	public Image getImg() {
+		return this.img;
+	}
+	
+	public Image getImgScore() {
+		return this.imgscore;
+	}
+
 
 	public int getBonus_score() {
 		return this.bonus_score;
@@ -83,6 +90,12 @@ public class BonusCreator {
 		return type;
 	}
 
+	/*
+	 * the typebonus parametre define the bonus with a img, the imgscore is the explanation of the bonus
+	 * a bonus_score to add to score
+	 * and a little description for the panel rules 
+	 * and a name to be easily recognize in the board checking when eating bonus
+	 */
 	public void setType(int typebonus) {
 		switch(typebonus){
 		case 1 :

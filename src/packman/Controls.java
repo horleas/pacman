@@ -13,7 +13,9 @@ public class Controls extends JPanel{
 	
 	private JTextArea rules = new JTextArea();
 
-	
+	/*
+	 * Panels to show all the controls
+	 */
 	public Controls(){
 		this.setBackground(Color.BLACK);
 		this.setLayout(new BorderLayout());

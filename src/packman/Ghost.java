@@ -28,7 +28,14 @@ public class Ghost {
  
  
 	
-	
+	/*
+	 * Main class for the ghost
+	 * need position and direction
+	 * state (alive/weak/dead)
+	 * type is for the color (red/turquoise/yellow/pink)
+	 * some delay to repop of the ghost
+	 * and a random speed
+	 */
 	public Ghost(int pposX, int pposY, int type){
 		
 		setPosX(pposX);
@@ -61,7 +68,14 @@ public class Ghost {
 	}
 	
 	
-	
+	/*
+	 * when ghost turn to move in the Board, movement is called which is constitute in 4 parts
+	 * possible move is override for special ghost because it hold the algorithm to choose the direction to move
+	 * move ghost (can pass from one side to another)
+	 * check if the ghost is in weak or dead state, delay until revive
+	 * and after, updtae the sprite to choose
+	 * 
+	 */
 	public void movement(){
 		possibleMovement();
 		moveGhost();
@@ -70,7 +84,10 @@ public class Ghost {
 		
 	}
 
-
+	/*
+	 * each 8 frame , the sprite will be update 
+	 */
+	
 	protected void updateframe() {
 		tmp++;
 		if(tmp%8==0){
@@ -79,7 +96,15 @@ public class Ghost {
 	}
 
 
-
+/*
+ * possiblemovement will check each direction of the tile where the ghost is
+ * to check if the path is free to go or if there is a wall in front
+ * if possible , the direction will be added to a random lottery which will be chosen after all the 4 directions
+ * has been tried.
+ * check if the direction is not opposite from the last choice to maintain the direction if the ghost is in a corridor
+ * if there is no direction in the lottery, the ghost will go back
+ * if the ghost is trap inside 4 wall he will stop moving
+ */
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
@@ -138,6 +163,10 @@ public class Ghost {
 		
 	}
 	
+	/*
+	 * deplaced the ghost (warp through map)
+	 * and some print to know where the ghost is going
+	 */
 	protected void moveGhost() {
 
         setPosX(getPosX() + (getGhostdx() * getGhostspeed()) );	
@@ -155,7 +184,10 @@ public class Ghost {
 		*/
 	}
 
-	
+	/*
+	 * when the ghost is eaten, a delay begin for when he will go back to "life"
+	 * warning when there is only 50 frame from going back to life
+	 */
 	public void checkRevive(){
     //Revive Ghost
 	    if(getState()=="weak"){
@@ -185,6 +217,9 @@ public class Ghost {
 	    } 
 	}
 	
+	/*
+	 * when there is still 50 frame from coming back to life, the ghost will alterne from blue weak and white weak
+	 */
 	public int weakState(){
 		if(ghostwaittobealive > 150){
 			return 4 ;
@@ -194,6 +229,9 @@ public class Ghost {
 		}
 	}
 	
+	/*
+	 * get direction for the sprite selection 
+	 */
 	public int getDirection(){
 		
 		if(getGhostdy()==-1){return 0 ;}
@@ -206,6 +244,11 @@ public class Ghost {
 		
 	}
 	
+	/*
+	 * when the ghost is eaten, the player will get some pts depending
+	 * of the number of ghost eaten in the current level
+	 * (or the time to a ghost to come back to life)
+	 */
 	public Image getReward(){
 		
 		nbreaten += 1  ;

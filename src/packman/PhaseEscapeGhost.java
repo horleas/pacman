@@ -4,6 +4,12 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/*
+ * mixed between a phase ghost with an escape ghost
+ * the ghost will try to stay at 3 block away of the player even throught wall and side of the map
+ * like the escape ghost, the phase escape is in weak or dead state
+ */
+
 public class PhaseEscapeGhost extends Ghost  {
 	private int distescape = 3*blocksize ;
 	private Image imgreward = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage() ;
@@ -121,6 +127,10 @@ public class PhaseEscapeGhost extends Ghost  {
 		
 	}
 	
+	/*
+	 * 1 life from escape
+	 * 5 dash from phase
+	 */
 	public Image getReward(){
 		
 		Board.addDash(5);

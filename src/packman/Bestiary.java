@@ -15,6 +15,14 @@ import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class Bestiary extends JPanel{
+	/*
+	 * Bestiary present the differents opponents Pacman will find on his journey
+	 * the central panel is the image of the ghost
+	 * the north panel contains his name
+	 * the south panel contains some informations about the ghost
+	 * And on the West and East , previous and next PacButton let the player to pass 
+	 * to another ghost and refresh the panel with the correct information 
+	 */
 	
 private Color background = Color.BLACK;
 private PacButton previous = new PacButton ( "<=" ,Color.red , 60 , 60 );
@@ -31,6 +39,9 @@ private JPanel contentimg = new JPanel();
 		this.setBackground(background);
 		this.setLayout(new BorderLayout());
 		
+		/*
+		 * load the previous ghost 
+		 */
 		this.add(previous, BorderLayout.WEST);
 		previous.addActionListener(new ActionListener(){
 
@@ -47,6 +58,9 @@ private JPanel contentimg = new JPanel();
 			
 		});
 		
+		/*
+		 * load the next ghost 
+		 */
 		this.add(next, BorderLayout.EAST);
 		next.addActionListener(new ActionListener(){
 
@@ -83,6 +97,10 @@ private JPanel contentimg = new JPanel();
 
 	}
 	
+	/*
+	 * get the info of the ghost by the number in parameter
+	 * and Enable or disable the next and previous button depending on the current ghost looked
+	 */
 	public void getGhostInfo(int numghost){
 		
 		if(numghost<=1){

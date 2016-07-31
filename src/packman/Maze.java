@@ -5,6 +5,15 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+/*
+ * Maze contains the different level created
+ * a Maze is a map 15*15 tile with each tile is 24 pixels by 24 pixels
+ * with some dash given to the player
+ * some bonus to placed and specialghost
+ * with a name and an image to show on the menu select
+ * the number of ghost in the maze and the entry point of pacman
+ * 
+ */
 public class Maze {
 
     private final int blocksize = 24;
@@ -292,12 +301,14 @@ public class Maze {
 		        13, 13, 13, 29, 13, 13, 13, 13, 29, 13, 29, 13, 13, 13, 13,				// Player Entry in [9 : 14]
 		    };
 	
-	
+	/*
+	 * load the maze with the number given by the parameter
+	 */
 	public Maze(int pnumlevel){
 
 		this.numlevel = pnumlevel;
 		this.setMap(numlevel);		
-		System.out.println("Level "+ this.numlevel + " : " + this.name + "\t with "+ this .nbrGhost+" ghosts");
+		//System.out.println("Level "+ this.numlevel + " : " + this.name + "\t with "+ this .nbrGhost+" ghosts");
 		
 		
 	}
@@ -315,6 +326,9 @@ public class Maze {
 		return this.name;
 	}
 
+	/*
+	 * initialize the map 
+	 */
 	public void setMap(int pnumlevel) {
 		getImglevel(pnumlevel);
     	switch(pnumlevel){
@@ -521,6 +535,10 @@ public class Maze {
 		this.specialghostlist = specialghostlist;
 	}
 
+	/*
+	 * load the image for the level but if the level don't exist
+	 * put the test image
+	 */
 	public Image getImglevel(int pnumlevel) {
 		if(pnumlevel >=levelmax || pnumlevel <=0){
 			return new ImageIcon(this.getClass().getResource("/test.png")).getImage() ;

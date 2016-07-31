@@ -12,7 +12,11 @@ import javax.swing.JTextArea;
 @SuppressWarnings("serial")
 public class BasicRules extends JPanel{
 	
-
+	/*
+	 * BasicRules is a Jpanel with a JTextArea to explain the rules of the game pacman
+	 * to create a good padding between the JTextArea and the intro message, we use a createEmptyBorder
+	 */
+	
 	private JLabel intro = new JLabel("Pacman remixed : ");
 	private JTextArea rules = new JTextArea();
 

@@ -1,7 +1,9 @@
 package packman;
 
 import java.awt.EventQueue;
-
+/*
+ * Main function
+ */
 public class Main {
     public static void main(String[] args) {
 

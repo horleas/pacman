@@ -25,7 +25,10 @@ public class Rules extends JPanel{
 	
 	private JPanel content = new JPanel();
 
-	
+	/*
+	 * Rules is a panel hosting basic rules / controls / Bestiary and Bonus to show in tab
+	 * there is the button to go back on the menu
+	 */
 	public Rules(){
 		this.setBackground(Color.BLACK);
 		this.setLayout(new BorderLayout());

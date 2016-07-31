@@ -29,6 +29,18 @@ public class Menu extends JPanel{
 	private Dimension dimWin = new Dimension(380,420);
 	
 	public Menu (){
+		/*
+		 * menu panel to choose between :
+		 * new game
+		 * select level
+		 * select tutorial is not implemented yet
+		 * Highscore is not implemented yet
+		 * Rules
+		 * Options
+		 * Exit Bouton
+		 * 
+		 * use a gridbaglayout and Insets to put some padding
+		 */
 		
 		this.setPreferredSize(dimWin);
 		this.setSize(380, 420);

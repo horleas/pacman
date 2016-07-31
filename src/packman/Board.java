@@ -24,6 +24,21 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 @SuppressWarnings("serial")
+/*
+ * Board is the class where the whole game is managed
+ * parts of the code come from the tutorial : 
+ * http://zetcode.com/tutorials/javagamestutorial/pacman/
+ * and some ideas or use of code is fom the learning site tutorial :
+ * https://openclassrooms.com/courses/apprenez-a-programmer-en-java/
+ * 
+ * It contains :
+ * The Maze drawing, the creation of the ghost and the call to move them
+ * the call to create Bonus
+ * the movement of Pacman
+ * the keyboard entry
+ * Load all the image for Pacman and some for the ghost
+ * 
+ */
 public class Board extends JPanel implements ActionListener {
 
     private Dimension d;
@@ -95,6 +110,7 @@ public class Board extends JPanel implements ActionListener {
     private Color orange = new Color(205, 100, 5);
     private Color green = new Color(5, 100, 5);
     private Color flashygreen = new Color(0, 255, 0);
+    private Options color ;
     private int numcolor;
     
     private boolean boodrawbon = false;
@@ -114,9 +130,15 @@ public class Board extends JPanel implements ActionListener {
     private BonusCreator bonscore ;
 	private BonusCreator bon;
 	
-
+/*
+ * will load the level given by paramete
+ */
     public Board(int level) {
 
+    	/*
+    	 * this part of code was given by Camille who found it on a website to
+    	 * got the focus on the current windows when the game is load from the menu
+    	 */
     	this.addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorRemoved(AncestorEvent pEvent) {
@@ -138,6 +160,11 @@ public class Board extends JPanel implements ActionListener {
             }
         });
     	
+    	/*
+    	 * Prepare the board with loading all the image needed
+    	 * and creating variables 
+    	 */
+    	
         loadImages();
         this.numlevel = level ;
         initVariables();
@@ -149,13 +176,18 @@ public class Board extends JPanel implements ActionListener {
         setBackground(Color.black);
         setDoubleBuffered(true);
     }
-
+/*
+ * crate the array needed to contains :
+ * the maze data
+ * the ghost list
+ * the bonus list
+ * get the color of the board set by the player in options
+ * set the timer used to refresh the game ( 40ms = 25 frame/second)
+ */
     private void initVariables() {
-
-    	//backsound = new Sound("pacmanintro.wav");
     	
         screendata = new short[nrofblocks * nrofblocks];
-        Options color = new Options();
+        color = new Options();
         mazecolor = color.getColorboard();
         d = new Dimension(400, 400);
         ghostlist = new ArrayList<Ghost>();
@@ -180,6 +212,11 @@ public class Board extends JPanel implements ActionListener {
         initGame();
     }
 
+    /*
+     * Code taken from the tutorial : 
+     * http://zetcode.com/tutorials/javagamestutorial/pacman/
+     * to create a delay depending on the frame (so the number of time this functions is called) to anim pacman
+     */
     private void doAnim() {
 
         pacanimcount--;
@@ -194,6 +231,10 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * playgame will either make the game run or lauch the death and death animation
+     */
+    
     private void playGame(Graphics2D g2d) {
 
         if (dying) {
@@ -211,6 +252,12 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * Used to wait the player to be ready to lauch the game
+     * show a small screen to inform the player to press s to begin the game
+     * Code taken from the tutorial : 
+     * http://zetcode.com/tutorials/javagamestutorial/pacman/
+     */
     private void showIntroScreen(Graphics2D g2d) {
 
         g2d.setColor(new Color(0, 32, 48));
@@ -227,6 +274,18 @@ public class Board extends JPanel implements ActionListener {
         g2d.drawString(s, (scrsize - metr.stringWidth(s)) / 2, scrsize / 2);
     }
 
+    /*
+     * Used to show on the screen :
+     * Number of life of the player
+     * Number of dahs of the player
+     * The current score of the player
+     * 
+     * to avoid to draw image of life over the dash image, the max drawing of life image is 5 and then a counter is draw next to it
+     * the same is used for the dash meter
+     * 
+     * drawscore is partly taken from (for the score part):
+     * http://zetcode.com/tutorials/javagamestutorial/pacman/
+     */
     private void drawScore(Graphics2D g) {
 
         int i;
@@ -264,6 +323,10 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * checkMaze will check the maze if their is some pacgum left to eat or if the bonus finished line has been touch.
+     * if this level is finished , then it will load the next one
+     */
     private void checkMaze() {
 
         short i = 0;
@@ -283,6 +346,10 @@ public class Board extends JPanel implements ActionListener {
         }
     }
     
+    /*
+     * Will remove all element from the bonus/ghost list
+     * and will init the next level
+     */
     private void nextLevel(){
     	lengthjump = 1;
     	currentbonusfixelist.removeAll(currentbonusfixelist);
@@ -293,6 +360,9 @@ public class Board extends JPanel implements ActionListener {
         initLevel();
     }
 
+    /*
+     * when Pacman died, the sound pacmandeath is played 1 times, a life is removed ( pacsleft) and the deathanim is authorazied in the draw section
+     */
     private void death() {
     	Sound.play("pacmandeath.wav");
     	pacsleft--;
@@ -300,6 +370,20 @@ public class Board extends JPanel implements ActionListener {
         deathanim = true ;
     }
 
+    /*
+     * Move ghost is fraction in 3 step :
+     * first, all the ghost are called to move depending of their own priority
+     * and after, will check if their is a collision between the sprite of the ghost and pacman
+     * if there is a collision , the result will depend of the state of the ghost: 
+     * Ghost is alive , then pacman will died
+     * if ghost is in weak state, he will died and go on the dead state,
+     * get the place of the kill, get the reward of the ghost
+     * and draw the bonus point you get by killing the ghost
+     * if ghost is dead, nothing is done
+     * then, the image of the ghost will be update ( alive / weak / dead)
+     * for normal ghost, images are kept in an array with imagearray( the color of the ghost / the direction of the ghost / the frame position of the ghost)
+     * and then draw the ghost
+     */
     private void moveGhosts(Graphics2D g2d) {
 
         for(Ghost currentghost : ghostlist){
@@ -370,10 +454,32 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * draw the ghost with the position on the corresponding image
+     */
     private void drawGhost2(Graphics2D g2d, int x, int y, Image ghost) {
         g2d.drawImage(ghost, x, y, this);
     }
     
+    /*
+     * movepacman is partialy taken from :
+     * http://zetcode.com/tutorials/javagamestutorial/pacman/
+     * 
+     * Take the input of the player for the direction of pacman
+     * check for the place of pacman in the tile
+     * if in the center of the tile, tile will be check to see if there is a pacgum to eat (screendata[pos] = (short) (ch & 15)
+     * and increase the score and the pop of bonus /life
+     * and check if there is a bonus a this tile 
+     * if bonus, check the name to know what to do
+     * draw the bonus reward and then remove it from the list of bonus
+     * check if there is a bonus to add to the game ( every 50 pacgum eaten)
+     * of a life to add (every 100 pacgum eaten)
+     * check the tile to know if there is a lava, if yes, pacman died
+     * check if the direction of pacman is possible with the map (wall)
+     * then if possible, move pacman from previous position + speed+direction
+     * once the position is found, check if it is inside the map, if not, teleport the player at the other side of the map
+     * 
+     */
     private void movePacman() {
 
         int pos;
@@ -426,24 +532,6 @@ public class Board extends JPanel implements ActionListener {
                 				score += bonus.getBonus_score();
                 				Sound.play("pacman_eatfruit.wav");
                 			}
-                			/*
-                			else if(bonus.getName()=="jumpupgrade"){
-                				lengthjump = lengthjump+1;
-	                				if(lengthjump>=2){
-	                					lengthjump=2;
-	                				}
-                				System.out.println("Dash Upgraded : "+ lengthjump);
-                				}
-                			
-                			else if(bonus.getName()=="jumpdowngrade"){
-                				lengthjump = lengthjump-1;
-	                				if(lengthjump<=1){
-	                					lengthjump=1;
-	                				}
-                				System.out.println("Dash Downgraded : "+ lengthjump);
-                				}
-
-                			*/
                 			bon = bonus;
                 			modif = true;
                 		}
@@ -573,7 +661,13 @@ public class Board extends JPanel implements ActionListener {
 		if(pacmany>14*blocksize){pacmany = 0*blocksize;}
     }
 
-
+/*
+ * drawpacman depend of the variable of direction,  and the sprite to used (  from doAnim) 
+ * 
+ * movepacman is partialy taken from :
+ * http://zetcode.com/tutorials/javagamestutorial/pacman/
+ * 
+ */
 
 	private void drawPacman(Graphics2D g2d) {
 
@@ -660,6 +754,15 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * take the data of the level and draw the maze depending of the data
+     * 16 = pacgum at the center of the tile
+     * 32 = draw image lava
+     * 1 = draw a wall on the left of the tile
+     * 2 = draw a wall on the top of the tile
+     * 4 = draw a wall on the right of the tile
+     * 8 = draw a wall on the botton of the tile
+     */
     private void drawMaze(Graphics2D g2d) {
 
         short i = 0;
@@ -707,12 +810,18 @@ public class Board extends JPanel implements ActionListener {
         }
     }
     
+    /*
+     * draw the bonus created by eating pacgum
+     */
     private void drawBonus(Graphics2D g2d) {
         for(BonusCreator bonus : bonuslist){
         	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
         }
     }
     
+    /*
+     * draw the bonus from the map
+     */
     private void drawBonusFixe(Graphics2D g2d) {
     	
     	for(BonusCreator bonus : currentbonusfixelist){
@@ -721,6 +830,9 @@ public class Board extends JPanel implements ActionListener {
 
     }
     
+    /*
+     * draw an image with a vertical scrolling for 15 pixels on the top of the bonus /ghost eaten position
+     */
     private void drawBonuscore(Graphics2D g2d) {
     	eatendelay++;
     	
@@ -733,6 +845,9 @@ public class Board extends JPanel implements ActionListener {
         
     }
     
+    /*
+     * draw the death animation of pacman
+     */
     private void drawDeathAnim(Graphics2D g2d) {
     	deathdelay++;
     	if (deathdelay <= 20){
@@ -748,7 +863,9 @@ public class Board extends JPanel implements ActionListener {
     }
     
     
-
+/*
+ * Initialize the game ( 3 life , no jump, 0 score ) and init the level
+ */
     private void initGame() { 	
     	//backsound.loop();
     	jumpcount = 0;
@@ -758,6 +875,15 @@ public class Board extends JPanel implements ActionListener {
         currentspeed = 3;
     }
 
+    /*
+     * init variable for the level and play sound
+     * Load the level  and get all the info :
+     * bonuslist
+     * ghostlist
+     * nbr of ghost
+     * entry point of pacman
+     * get the pop location of ghost (64 on the map data)
+     */
     private void initLevel() {
 
         int i;
@@ -774,7 +900,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         Maze currentlevel = new Maze(numlevel);
-        System.out.println(currentlevel.getName());
+        //System.out.println(currentlevel.getName());
         lengthjump = 1;
         leveldata = currentlevel.getMap();
         nrofghosts = currentlevel.getNbrGhost();
@@ -800,6 +926,11 @@ public class Board extends JPanel implements ActionListener {
         continueLevel();
     }
 
+    /*
+     * when the level is load, or pacman die and repop , continuelevel is called
+     * reset the ghost list and make them pop again (special ghost and normal ghost)
+     * initialized pacman
+     */
     private void continueLevel() {
 
         short i;
@@ -827,7 +958,7 @@ public class Board extends JPanel implements ActionListener {
             if(locpop>=nbrpopghost){ locpop = 0;} 
                        
         }
-        // TODO new Ghost
+        // ghost to test
         //ghostlist.add(new PhaseGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new ChaserGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
         //ghostlist.add(new EscapeGhost(entryGhostX[locpop]* blocksize,entryGhostY[locpop]* blocksize, type));
@@ -849,6 +980,16 @@ public class Board extends JPanel implements ActionListener {
         dying = false;
     }
 
+    /*
+     * called at the creation of the board
+     * load all the image needed :
+     * Pacman image
+     * Pacman death animation
+     * Ghost alive image ( in an array to simplify the call)
+     * ghost weak image 
+     * ghost dead image
+     * 
+     */
     private void loadImages() {
     	
     	ghostimage=new Image [4][4][2];
@@ -960,6 +1101,14 @@ public class Board extends JPanel implements ActionListener {
         doDrawing(g);
     }
 
+    /*
+     * 
+     * called at each frame to draw everything :
+     * drawMaze
+     * drawScore
+     * draw bonus
+     *  and call play game
+     */
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -991,6 +1140,27 @@ public class Board extends JPanel implements ActionListener {
         g2d.dispose();
     }
 
+    /*
+     * Get the key pressed by the player :
+     * 
+     * arrow to move
+     * space to dash
+     * T for changing state of all ghost
+     * C for changing colorboard
+     * R reset the game
+     * O : previous level
+     * I : next level
+     * U : suicide
+     * P : pause the game
+     * Y : add 10 dash and add 1 life
+     * S : start the game
+     * escape : show intro screen
+     * 
+     * 
+     * TAdapter is partialy taken from :
+     * http://zetcode.com/tutorials/javagamestutorial/pacman/
+     * 
+     */
     class TAdapter extends KeyAdapter {
 
         @Override
@@ -1067,14 +1237,14 @@ public class Board extends JPanel implements ActionListener {
                 } 
                 
                 else if (key == KeyEvent.VK_SPACE) {						// warping dash jump
-                	if(jumpcount>=0 && !dying && !deathanim){
+                	if(jumpcount>=0 && !dying && !deathanim){				// you can dash only if you are alive
                 		if(jumpcount==0){
                 			Sound.play("false1.wav");
                 		}
                 		else{
-		                	if(reqdx<0){
+		                	if(reqdx<0){									//if your dash is too long and teleport you out of the map,
 		                		//pacmanx = pacmanx - blocksize*lengthjump;
-		                		if(pacmanx - blocksize*lengthjump <0){
+		                		if(pacmanx - blocksize*lengthjump <0){		// the player is placed at the lasting distance at the other side of the map
 		                			pacmanx = 14*blocksize + (pacmanx - blocksize*(lengthjump-1));}           
 		                		else{
 		                		pacmanx = pacmanx - blocksize*lengthjump;
@@ -1123,7 +1293,9 @@ public class Board extends JPanel implements ActionListener {
                 }
             }
         }
-
+        /*
+         * when arrow are released set the dx and dy direction to 0 to keep the player going on the right direction without the key pressed 
+         */
         @Override
         public void keyReleased(KeyEvent e) {
 
@@ -1137,12 +1309,18 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * repaint the panel at each frame
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
         repaint();
     }
     
+    /*
+     * add 1 life and play the sound associate 
+     */
     public static void addlife(){
     	Sound.play("pacman_extrapac2.wav");
     	pacsleft = pacsleft+1;	
@@ -1152,11 +1330,23 @@ public class Board extends JPanel implements ActionListener {
 
     }
     
+    /*
+     * add dash by the amout given in parameter)
+     * and play sound for the refill
+     */
     public static void addDash(int newdash){
     	Sound.play("pacman_refilldash.wav");
     	jumpcount = jumpcount + newdash;
     }
     
+    /*
+     * add a bonus to the map
+     * the only place a bonus can be added (by eating 50 pacgum) is on a pacgum not eaten yet and no bonus on the tile
+     * to assure this place is a valid place
+     * the bonus is semi-random ( see BonusCreator class )
+     * 
+     * in some case, their is no place left so their is 20 try to place the bonus
+     */
     private void addBonus() {
 		bonscore = new BonusCreator();
 		boodrawbon = true;
@@ -1195,6 +1385,9 @@ public class Board extends JPanel implements ActionListener {
 		}	
 	}
     
+    /*
+     * some static fonction to get information held in this class
+     */
     static int gettileinfo(int x, int y){    
     	
         int pos = x / blocksize + nrofblocks * (int) (y / blocksize);        
@@ -1221,14 +1414,21 @@ public class Board extends JPanel implements ActionListener {
     	return pacmandy;
     }
     
+    /*
+     * update the score (for big amount life bonus eaten)
+     */
     public static void updateScore(int newpts){
     	score = score + newpts ;
     }
     
-    
+    /*
+     * functions to change the color of the map
+     */
     private void initColorBoard(){
         swapColorList = new ArrayList<Color>();
         
+        
+        swapColorList.add(color.getColorboard());
         swapColorList.add(green);
         swapColorList.add(orange);
         swapColorList.add(flashygreen);
@@ -1244,6 +1444,9 @@ public class Board extends JPanel implements ActionListener {
         numcolor=0;
     }
     
+    /*
+     * reload the position of the ghost
+     */
     private void getSpecialghostlist(){
         Maze currentlevel = new Maze(numlevel);
         ghostlisttmp = currentlevel.getSpecialghostlist();       

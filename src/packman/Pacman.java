@@ -17,6 +17,10 @@ public class Pacman extends JFrame {
         
         initUI();
     }
+    /*
+     * Set the JFrame options
+     * give panel to show with CardLayout
+     */
     
     private void initUI() {
     	        

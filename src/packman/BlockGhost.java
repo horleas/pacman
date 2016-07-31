@@ -4,6 +4,18 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/*
+ * Block Ghost is a special ghost who have 2 comportement :
+ * he have a target depending on your movement
+ * If you are moving, he will try to go 3 block in front of you
+ * if you stop moving, he will try to go directly on you
+ * he will reset his target only when he has complete the last one ( so to be 3 block in front of your previous position)
+ * this class of ghost is for the moment not so usefull because the pathfinding is not implemented.
+ * The speed of this ghost is 4 which is similar to pacman speed
+ * 
+ * Block extends Ghost and will just modify the possible movement and the getreward, add the settarget
+ * possibility to add other image and to used the function reducedist which reduce the distance between the player and the target 
+ */
 public class BlockGhost extends Ghost {
 	private int targetx = 0;
 	private int targety = 0;
@@ -17,7 +29,14 @@ public class BlockGhost extends Ghost {
 		 setTarget();
 	}	
 	
-	
+	/*
+	 * if the ghost is on the target, he will set the new target
+	 * else he will choose between the 4 directions
+	 * first step is to get all the direction which help the ghost to go to the target
+	 * second step is a random choice between the good direction
+	 * if the ghost is blocked inside a tile ( tile & 15 ) he will stop
+	 * if the ghost go on a dead end, he will go back 
+	 */
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
@@ -82,12 +101,24 @@ public class BlockGhost extends Ghost {
 		
 	}
 	
+	
+	/*
+	 * eat a block ghost will reward the player with 300 pts
+	 */
 	public Image getReward(){
 		
 		Board.updateScore(300);
 		return imgreward ;
 	}
 	
+	/*
+	 * if pacman don't move ( getPacmandx and getPacmandy , the target is the location of pacman)
+	 * else if pacman go on the right, target is on pacmanx , pacmany + distance of blocking
+	 * else if etc
+	 * 
+	 * if pacman is on the edge of the map, the calcul will put the target ouside of the map so in order to avoid this comportement
+	 * the target is set with the last position possible so near the edge
+	 */
 	private void setTarget(){
 		//if target don't move , go on it
 		if(Board.getPacmandx() == 0 && Board.getPacmandy() == 0 ) {

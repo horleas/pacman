@@ -18,7 +18,9 @@ public class BonusShow extends JPanel{
 	private JLabel imgbonus[];
 	private int totalbonus ;
 
-	
+	/*
+	 * panel to show every bonus in the game and put on the right a text area with the description of the bonus
+	 */
 	public BonusShow(){
 		this.setBackground(Color.BLACK);
 		this.setLayout(new GridBagLayout());

@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/*
+ * Escape ghost is a special ghost always in a weak state, slightly faster than the player ( so must be block in a corner of a map or dash on)
+ * He will try to stay at a 4 block distance of the player, if he is in the range of the player, he will try to escape
+ * but if he is too far, he will bait the player to chase him
+ */
 public class EscapeGhost extends Ghost {
 	private int distescape = 4*blocksize ;
 	private Image imgreward = new ImageIcon(this.getClass().getResource("/lifeupscore.png")).getImage() ;
@@ -15,7 +20,10 @@ public class EscapeGhost extends Ghost {
 		 setState("weak");
 	}	
 	
-	
+	/*
+	 * if the player is in range of 4 block , the ghost will escape 
+	 * else the ghost will bait the player
+	 */
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
@@ -104,13 +112,18 @@ public class EscapeGhost extends Ghost {
 		
 	}
 	
+	/*
+	 * the reward for killing this ghost is to add a life to the player
+	 */
 	public Image getReward(){
 		
 		Board.addlife();
 		return imgreward ;
 	}
 	
-	
+	/*
+	 * keep the ghost in a weak state ( or dead state if eaten)
+	 */
 	public void setState(String state) {
 		if(state == "alive" || state == "weak"){
 			this.state = "weak";

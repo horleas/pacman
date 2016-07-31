@@ -4,8 +4,14 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/*
+ * phase ghost is a ghost who will wander in the level through wall
+ */
 public class PhaseGhost extends Ghost {
 	
+	/*
+	 * load image of the ghost
+	 */
 	private Image up1=new ImageIcon(this.getClass().getResource("/phaseup1.png")).getImage();
 	private Image up2=new ImageIcon(this.getClass().getResource("/phaseup2.png")).getImage();
 	private Image down1=new ImageIcon(this.getClass().getResource("/phasedown1.png")).getImage();
@@ -16,6 +22,10 @@ public class PhaseGhost extends Ghost {
 	private Image left2 = new ImageIcon(this.getClass().getResource("/phaseleft2.png")).getImage();
 	private Image imgreward = new ImageIcon(this.getClass().getResource("/dashstring.png")).getImage() ;
 
+	
+	/*
+	 * reduce the speed of the ghost
+	 */
 	public PhaseGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
 		
@@ -63,6 +73,9 @@ public class PhaseGhost extends Ghost {
 		}		
 	}
 	
+	/*
+	 * the reward to kill the ghost is 5 dash
+	 */
 	public Image getReward(){
 		Board.addDash(5);
 		return imgreward ;

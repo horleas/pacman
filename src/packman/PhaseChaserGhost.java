@@ -6,6 +6,11 @@ import javax.swing.ImageIcon;
 
 public class PhaseChaserGhost extends Ghost {
 	
+	/*
+	 * mixed between a phase and chaser
+	 * the ghost will move through wall and try to go on the player
+	 * he will pass from one side to the other if the path is  shorter
+	 */
 	private Image up1=new ImageIcon(this.getClass().getResource("/phasechaserup1.png")).getImage();
 	private Image up2=new ImageIcon(this.getClass().getResource("/phasechaserup2.png")).getImage();
 	private Image down1=new ImageIcon(this.getClass().getResource("/phasechaserdown1.png")).getImage();
@@ -85,13 +90,18 @@ public class PhaseChaserGhost extends Ghost {
 		
 	}
 	
+	/*
+	 * 300 from chaser and 5 dash from phaser
+	 */
 	public Image getReward(){
 		
 		Board.updateScore(300);
 		Board.addDash(5);
 		return imgreward ;
 	}
-	
+	/*
+	 * load image of the ghost
+	 */
 	public void setImg(Image img) {
 		if(getState()=="alive"){
 			if(getPosframe()%2==0){

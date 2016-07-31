@@ -13,6 +13,12 @@ import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
 public class Options extends JPanel{
+	/*
+	 * This class let the player choose the color of the board in game
+	 * with 3 slider for the color RGB
+	 * In the Board, this class is called to get the color set by the player 
+	 * There is a button to go back to the menu
+	 */
 
 	private static int red = 5;
 	private static int green = 100;
@@ -52,6 +58,14 @@ public class Options extends JPanel{
 		});
 	}
 	
+	
+	/*
+	 *InitScroll init different slider. Because the color is in RGB and his caped a 255 on each value, the slider can go
+	 *from 0 to 255 with step of 1
+	 *The code is inspired by the one on
+	 *https://openclassrooms.com/courses/apprenez-a-programmer-en-java/conteneurs-sliders-et-barres-de-progression
+	 */
+	
 	public void InitScroll(JSlider slider){
 		slider.setMaximum(255);
 		slider.setMinimum(0);
@@ -89,17 +103,22 @@ public class Options extends JPanel{
 		
 	}
 	
+	/*
+	 * setcolor will set every component on the panel with the one choose by the player
+	 */
 	public void setcolor(){
 		writing = new Color(red,green,blue);
 		back.setForeground(writing);
-
 		slideRed.setForeground(writing);
 		slideBlue.setForeground(writing);
 		slideGreen.setForeground(writing);
 		FontPacman.setMyFont(choosecolor, 18, writing);
-		this.repaint();
 	}
 	
+	
+	/*
+	 * getcolor will return the color chosen by the player
+	 */
 	public Color getColorboard(){
 		
 		return writing ;

@@ -10,7 +10,10 @@ import javax.swing.JComponent;
 
 public class FontPacman {
 
-	
+	/*
+	 * Personal font taken on 
+	 * http://www.dafont.com/fr/04b-30.font
+	 */
 	public static void setMyFont(JComponent comp, int size, Color color){
 		
 		try{

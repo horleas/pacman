@@ -6,6 +6,9 @@ import javax.swing.ImageIcon;
 
 public class ChaserGhost extends Ghost {
 	
+	/*
+	 * all the image used for the living sprite of the chaser
+	 */
 	private Image up1=new ImageIcon(this.getClass().getResource("/chaserup1.png")).getImage();
 	private Image up2=new ImageIcon(this.getClass().getResource("/chaserup2.png")).getImage();
 	private Image down1=new ImageIcon(this.getClass().getResource("/chaserdown1.png")).getImage();
@@ -17,15 +20,19 @@ public class ChaserGhost extends Ghost {
 	private Image imgreward = new ImageIcon(this.getClass().getResource("/bonuspts300.png")).getImage() ;
 
 
+	/*
+	 * extends from ghost but reduce his speeds to be slower than the player
+	 */
 	public ChaserGhost(int pposX, int pposY, int type) {
 		super(pposX, pposY, type);
 		
 		 ghostspeed = validspeeds[2];
 		
-		
-
 	}
 	
+	/*
+	 * will take the direction where the player/target is
+	 */
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
@@ -87,6 +94,9 @@ public class ChaserGhost extends Ghost {
 		
 	}
 	
+	/*
+	 * reward is 300 point
+	 */
 	public Image getReward(){
 		
 		Board.updateScore(300);
@@ -94,7 +104,9 @@ public class ChaserGhost extends Ghost {
 	}
 	
 	
-	
+	/*
+	 * set the sprite for the living chaser 
+	 */
 	public void setImg(Image img) {
 		if(getState()=="alive"){
 			if(getPosframe()%2==0){

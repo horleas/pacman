@@ -4,7 +4,15 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/*
+ * Living armor is a special ghost who will make round trip
+ * he can't be killed
+ * have 2 direction ( horizontal or vertical) depend of the type ( 0 and 1) respectively
+ */
 public class LivingArmor extends Ghost{
+	/*
+	 * Load the sprite for the living armor
+	 */
 	private Image up1=new ImageIcon(this.getClass().getResource("/livingarmorup1.png")).getImage();
 	private Image up2=new ImageIcon(this.getClass().getResource("/livingarmorup2.png")).getImage();
 	private Image down1=new ImageIcon(this.getClass().getResource("/livingarmordown1.png")).getImage();
@@ -36,6 +44,10 @@ public class LivingArmor extends Ghost{
 
 	}
 	
+	/*
+	 * making round trip
+	 * or stay immobile if blocked
+	 */
 	protected void possibleMovement(){		
 		int tile = Board.gettileinfo(getPosX(),getPosY());		
 		int count = 0;
@@ -100,6 +112,9 @@ public class LivingArmor extends Ghost{
 		
 	}
 	
+	/*
+	 * set image for living armor
+	 */
 	public void setImg(Image img) {
 		if(getPosframe()%2==0){
 			if(getGhostdy()==-1){ this.img = up1 ;}

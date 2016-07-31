@@ -4,6 +4,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+/*
+ * Class given by Camille to play sound 
+ * 
+ * some sound used come from :
+ * 	Look at http://www.classicgaming.cc/classics/pac-man/sounds
+ */
 public class Sound{
 	
 	private Clip clip;
@@ -37,7 +43,7 @@ public class Sound{
 		clip.start();
 	}
 	
-	// Look at http://www.classicgaming.cc/classics/pac-man/sounds
+
 	public static synchronized void play(final String name){
 		
 		new Thread(new Runnable(){
