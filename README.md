@@ -137,6 +137,11 @@ Find Sound for the Game :
 + Add Bestiary to the Rules panel + Image
 + Show bonus on the Rules
 + On the Menu, Options panel will let the player choose the color he want for the board game 
+ 
+01 August :
++ Add comment to the project
++ When Escape is pressed ingame : propose to go back to the main menu or resume
++ When Pacman has no life left, Game Over screen is shown with the socre and the possibility to go back to the main menu or restart the current level
 
 
 TODO :
@@ -144,7 +149,6 @@ TODO :
 + Add Map(Warping puzzle etc)
 + Add Score Serialization
 + Add Score Panel
-+ when Escape is pressed ingame : propose to go back to the main menu
 
 Idea for improvement :
 +  Boss Ghost map Scrolling ?
