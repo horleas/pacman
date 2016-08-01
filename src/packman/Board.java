@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -105,6 +106,7 @@ public class Board extends JPanel implements ActionListener {
 	private int currentspeed = 3;
     private static short[] screendata;
     private Timer timer;
+    private boolean pausescreen = false ;
     
     private ArrayList<Color> swapColorList;			//Color(Red,Green,Blue)
     private Color orange = new Color(205, 100, 5);
@@ -129,6 +131,13 @@ public class Board extends JPanel implements ActionListener {
     
     private BonusCreator bonscore ;
 	private BonusCreator bon;
+	
+	private String backStr = "Return to the Menu";
+	private PacButton back ;
+	private String ResumeStr = "Resume";
+	private String restartGameStr = "Restart the Level";
+	private PacButton resume ;
+
 	
 /*
  * will load the level given by paramete
@@ -172,6 +181,53 @@ public class Board extends JPanel implements ActionListener {
         addKeyListener(new TAdapter());
 
         setFocusable(true);
+
+        this.setLayout(new GridLayout(0,1));
+        
+       back = new PacButton(" ", mazecolor);
+       resume = new PacButton(" ", mazecolor);
+
+        this.add(resume);
+		resume.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				resume.setEnabled(false);
+				resume.setVisible(false);
+				
+				back.setEnabled(false);
+				back.setVisible(false);
+				
+				if(pacsleft != 0){
+				ingame = true;
+				pausescreen = false ;
+				}
+				else{
+					initGame();					
+				}	
+			}
+			
+		});
+		
+		resume.setEnabled(false);
+		resume.setVisible(false);     
+        
+		this.add(back);
+		back.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+
+				Pacman.getFrame().menu();			
+				
+			}
+			
+		});
+		
+		back.setEnabled(false);
+		back.setVisible(false);
 
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -368,6 +424,14 @@ public class Board extends JPanel implements ActionListener {
     	pacsleft--;
     	dying = false ;
         deathanim = true ;
+        
+        if(pacsleft == 0){
+    		resume.setEnabled(true);
+    		resume.setVisible(true);
+        	
+    		back.setEnabled(true);
+    		back.setVisible(true);
+        }
     }
 
     /*
@@ -815,7 +879,7 @@ public class Board extends JPanel implements ActionListener {
      */
     private void drawBonus(Graphics2D g2d) {
         for(BonusCreator bonus : bonuslist){
-        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize,  bonus.getPosY()*blocksize, this);
+        	g2d.drawImage(bonus.getImg(), bonus.getPosX()*blocksize +5,  bonus.getPosY()*blocksize +5, this);
         }
     }
     
@@ -860,6 +924,44 @@ public class Board extends JPanel implements ActionListener {
             }            
             continueLevel();
     	}        
+    }
+    
+ 
+    /*
+     * Draw Pause screen with hidden button under the screen
+     * so resumeStr and backStr simulate the missing visible button
+     */
+    private void drawPauseScreen(Graphics2D g2d){
+    	g2d.setColor(new Color(200,200,200,200));
+    	g2d.fillRect(60, 60, 240, 240);
+    	g2d.setColor(mazecolor);
+    	g2d.drawRect(60, 60, 240, 240);
+    	
+    	//g2d.setFont(pacFont);
+    	g2d.drawString("If you quit, you will lose", (this.getWidth()/4), this.getHeight()/4);
+    	g2d.drawString("all your progress !", (this.getWidth()/4), (this.getHeight()/4 + 20));
+    	g2d.drawString(ResumeStr, (this.getWidth()/2 -40), this.getHeight()/2 - 40);
+    	g2d.drawString(backStr, (this.getWidth()/2 -80), this.getHeight()*3/4 -40);
+	
+    }
+   
+   /*
+    * Draw a game over screen with your score.
+    * Top button is to restart the game a this level
+    * Bottom button is to go back to the menu
+    */
+    private void drawGameOverScreen(Graphics2D g2d){
+    	g2d.setColor(new Color(200,200,200,200));
+    	g2d.fillRect(60, 60, 240, 240);
+    	g2d.setColor(mazecolor);
+    	g2d.drawRect(60, 60, 240, 240);
+    	
+    	//g2d.setFont(pacFont);
+    	g2d.drawString("You died", (this.getWidth()/4), this.getHeight()/4);
+    	g2d.drawString("Your score is :" + score + "!", (this.getWidth()/4), (this.getHeight()/4 + 20));
+    	g2d.drawString(restartGameStr, (this.getWidth()/2 -80), this.getHeight()/2 - 40);
+    	g2d.drawString(backStr, (this.getWidth()/2 -80), this.getHeight()*3/4 -40);
+	
     }
     
     
@@ -1129,9 +1231,15 @@ public class Board extends JPanel implements ActionListener {
         	drawBonuscore(g2d);
         }
         
+        //TODO implement pause screen and loose screen
         if (ingame) {
             playGame(g2d);
-        } else {
+        }else if (!ingame && pacsleft ==0){        	
+        	drawGameOverScreen(g2d);
+        }else if(!ingame && pausescreen){
+        	drawPauseScreen(g2d);
+        }
+        else {
             showIntroScreen(g2d);
         }
 
@@ -1154,7 +1262,7 @@ public class Board extends JPanel implements ActionListener {
      * P : pause the game
      * Y : add 10 dash and add 1 life
      * S : start the game
-     * escape : show intro screen
+     * escape : show intro screen // pause screen
      * 
      * 
      * TAdapter is partialy taken from :
@@ -1279,6 +1387,15 @@ public class Board extends JPanel implements ActionListener {
                 	}
                 }else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     ingame = false;
+                    pausescreen = true ;
+                    
+
+            		resume.setEnabled(true);
+            		resume.setVisible(true);
+                	
+            		back.setEnabled(true);
+            		back.setVisible(true);
+                    
                 } else if (key == KeyEvent.VK_P) {
                     if (timer.isRunning()) {
                         timer.stop();

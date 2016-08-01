@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 
 public class FontPacman {
 
+	private static Font myfont ;
 	/*
 	 * Personal font taken on 
 	 * http://www.dafont.com/fr/04b-30.font
@@ -18,7 +19,7 @@ public class FontPacman {
 		
 		try{
 			InputStream is = comp.getClass().getResourceAsStream("/PacmanFont.ttf" );
-			Font myfont = Font.createFont(Font.TRUETYPE_FONT, is);
+			myfont = Font.createFont(Font.TRUETYPE_FONT, is);
 			comp.setFont(myfont.deriveFont(Font.PLAIN, size));
 			comp.setForeground(color);
 			
@@ -28,6 +29,10 @@ public class FontPacman {
 			
 		}
 		
-		
 	}
+	
+	public static Font getPacFont(){
+		return myfont ;
+	}
+
 }
