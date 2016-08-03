@@ -300,6 +300,24 @@ public class Maze {
 		         5,  5,  5,  5,  5, 21,  5,  5,  5, 21,  5,  5, 21,  5,  5,
 		        13, 13, 13, 29, 13, 13, 13, 13, 29, 13, 29, 13, 13, 13, 13,				// Player Entry in [9 : 14]
 		    };
+		
+		 private final short expomaze[] = {
+		         3,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  1,  0,  2,  0,  4,  0,  8,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  3,  0,  6,  0,  9,  0, 12,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  7,  0, 13,  0, 11,  0, 14,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0, 15,  0, 16,  0, 32,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
+		         1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 16,  4,
+		         9,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 12
+		    };
 	
 	/*
 	 * load the maze with the number given by the parameter
@@ -470,16 +488,16 @@ public class Maze {
 				  this.setEntryPointY(0);	
 				  break ;
     			 
-    	default : this.map = test;
+    	default : this.map = expomaze;
 		 		  this.name = "Test";
 		 		  this.nbrGhost = 0;
 		 		  this.dashlevel=5;
 	    	 	  this.setEntryPointX(1);
 	    	 	  this.setEntryPointY(1);
-				  this.bonusfixelist.add(new BonusCreator(5,5,6));
-				  this.specialghostlist.add(new LivingArmor(12*blocksize,0*blocksize,1));
-				  this.specialghostlist.add(new LivingArmor(12*blocksize,10*blocksize,0));
-				  this.specialghostlist.add(new LivingArmor(13*blocksize,12*blocksize,0));
+				  //this.bonusfixelist.add(new BonusCreator(5,5,6));
+				  //this.specialghostlist.add(new LivingArmor(12*blocksize,0*blocksize,1));
+				  //this.specialghostlist.add(new LivingArmor(12*blocksize,10*blocksize,0));
+				  //this.specialghostlist.add(new LivingArmor(13*blocksize,12*blocksize,0));
 		 		  break ;
     		
     		

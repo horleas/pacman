@@ -958,7 +958,7 @@ public class Board extends JPanel implements ActionListener {
     	
     	//g2d.setFont(pacFont);
     	g2d.drawString("You died", (this.getWidth()/4), this.getHeight()/4);
-    	g2d.drawString("Your score is :" + score + "!", (this.getWidth()/4), (this.getHeight()/4 + 20));
+    	g2d.drawString("Your score is : " + score + " !", (this.getWidth()/4), (this.getHeight()/4 + 20));
     	g2d.drawString(restartGameStr, (this.getWidth()/2 -80), this.getHeight()/2 - 40);
     	g2d.drawString(backStr, (this.getWidth()/2 -80), this.getHeight()*3/4 -40);
 	
